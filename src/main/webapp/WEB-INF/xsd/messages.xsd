@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:pos="http://localhost:8080/spring-ws/orders"
+	elementFormDefault="qualified"
+	targetNamespace="http://localhost:8080/spring-ws/orders">
+
+	<xs:element name="GetOrdersRequest">
+	</xs:element>
+    <xs:element name="GetOrdersResponse">
+        <xs:sequence>
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:sequence>
+    </xs:element>
+</xs:schema>
