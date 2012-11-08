@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    jaxb:version="2.1"
+    jaxb:extensionBindingPrefixes="inheritance"
+    elementFormDefault="qualified"
+    targetNamespace="http://localhost:8888/spring-ws/example">
+	
+
+	<xs:element name="ExampleRequest">
+	   <xs:complexType>
+	       <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.porttypes.Request</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>   
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="ExampleResponse">
+        <xs:complexType>
+        <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.porttypes.Response</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>  
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

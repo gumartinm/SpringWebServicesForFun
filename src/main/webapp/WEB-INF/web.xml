@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
 
-    <display-name>Archetype Created Web Application</display-name>
+    <display-name>Spring Web Services: example</display-name>
 
     <servlet>
         <servlet-name>spring-ws</servlet-name>
@@ -18,7 +18,7 @@
 
     <servlet-mapping>
         <servlet-name>spring-ws</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/spring-ws/*</url-pattern>
     </servlet-mapping>
     
 

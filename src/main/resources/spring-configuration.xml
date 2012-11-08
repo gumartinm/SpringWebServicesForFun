@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:sws="http://www.springframework.org/schema/web-services"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/web-services 
+  http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+  http://www.springframework.org/schema/context 
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <context:component-scan base-package="de.spring.webservices"/>
+
+    <sws:annotation-driven/>
+    
+    <sws:dynamic-wsdl id="example"
+            portTypeName="Examples"
+            locationUri="/spring-ws/example">
+        <sws:xsd location="classpath:xsd/examples.xsd"/>
+    </sws:dynamic-wsdl>
+    
+    <sws:interceptors>
+        <bean class="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
+            <property name="logRequest" value="true"/>
+            <property name="logResponse" value="true"/>
+        </bean>
+    </sws:interceptors>
+    
+    <bean id="validatingInterceptor" 
+        class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
+        <property name="schema" value="classpath:xsd/examples.xsd"/>
+        <property name="validateRequest" value="false"/>
+        <property name="validateResponse" value="true"/>
+    </bean>
+    
+    <bean id="exceptionResolver"
+        class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
+        <property name="defaultFault" value="SERVER"/>
+        <property name="exceptionMappings">
+            <value>
+                org.springframework.oxm.ValidationFailureException=CLIENT,Invalid request
+            </value>
+        </property>
+    </bean>
+    
+    <bean id="exampleBusiness" class="de.spring.webservices.business.BusinessExample">
+    </bean>
+    
+    <bean id="exampleEndPoint" class="de.spring.webservices.endpoints.ExampleEndPoint" >
+        <property name="example" ref="exampleBusiness" />  
+    </bean>
+    
+    
+    <!-- CLIENT  -->
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
+    </bean>
+    
+    <bean id="exampleClient" class="de.spring.webservices.client.ExampleClient">
+        <property name="webServiceTemplate" ref="webServiceTemplate"/>
+        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
+    </bean>
+    
+</beans>
