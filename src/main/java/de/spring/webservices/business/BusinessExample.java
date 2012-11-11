@@ -12,7 +12,7 @@ import de.spring.webservices.porttypes.PortType;
 public class BusinessExample implements PortType.RequestResponse<ExampleResponse, ExampleRequest> {
 
     @Override
-    public ExampleResponse requestResponse(ExampleRequest request) {
+    public ExampleResponse requestResponse(final ExampleRequest request) {
         final ExampleResponse response = new ObjectFactory().createExampleResponse();
         
         response.setData("SNAKE EYES AND " + request.getData());
