@@ -1,4 +1,4 @@
-package de.spring.webservices.tests;
+package de.spring.webservices.tests.server;
 
 import static org.springframework.ws.test.server.RequestCreators.withPayload;
 import static org.springframework.ws.test.server.ResponseMatchers.payload;

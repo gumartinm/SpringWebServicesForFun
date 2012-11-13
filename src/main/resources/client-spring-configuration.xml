@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:sws="http://www.springframework.org/schema/web-services"
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+        http://www.springframework.org/schema/web-services 
+        http://www.springframework.org/schema/web-services/web-services-2.0.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd">
+
+    <!-- 
+        This file is an example about how someone should write code in order to send and
+        receive data from the Web Services.
+    -->
+    
+     <context:component-scan base-package="de.spring.webservices"/>
+     
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
+
+
+    <oxm:jaxb2-marshaller id="marshaller" contextPath="localhost._8888.spring_ws.example"/>
+    
+    <!-- ¿Este validador funciona teniendo inheritance en el xsd? (inheritances es una cosa especial 
+        del JAXB2 que estoy usando para generar las clases desde el xsd)
+        El marshal lo estoy haciendo con JAXB2 (lo que no sé es que JAXB2 está realmente usando
+        pues me parece que hay varios en el classpath) y funciona, así que supongo que el
+        validador también :/ 
+        Lo que realmente tampoco sé es si hay alguna relación entre los validadores y JAXB2 :/ 
+        -->
+    <bean id="payloadValidatingInterceptor"
+        class="org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor">
+        <property name="schema" value="classpath:xsd/examples.xsd"/>
+        <property name="validateRequest" value="true"/>
+        <property name="validateResponse" value="true"/>
+    </bean>
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+        <property name="marshaller" ref="marshaller" />
+        <property name="unmarshaller" ref="marshaller" />
+        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
+        <property name="interceptors">
+        <list>
+            <ref bean="payloadValidatingInterceptor" />
+        </list>
+    </property>
+    </bean>
+    
+    <bean id="exampleClient" class="de.spring.webservices.client.ExampleClient">
+        <property name="webServiceTemplate" ref="webServiceTemplate"/>
+        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
+    </bean>
+    
+</beans>

@@ -4,15 +4,27 @@
   xmlns:context="http://www.springframework.org/schema/context"
   xmlns:sws="http://www.springframework.org/schema/web-services"
   xsi:schemaLocation="http://www.springframework.org/schema/beans 
-  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+  http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
   http://www.springframework.org/schema/web-services 
   http://www.springframework.org/schema/web-services/web-services-2.0.xsd
   http://www.springframework.org/schema/context 
-  http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+  http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
     <context:component-scan base-package="de.spring.webservices"/>
 
+    <!--
+        Aqui se podría especificar un unmarshaller (para la request) o un
+        marshaller (para la response) especifico. Por ejemplo Castor.
+        
+        Por la anotacion que uso para el EndPoint y porque tengo JAXB2 en el
+        classpath, creo que Spring lo que está haciendo es el equivalente ha si se 
+        escribiera lo siguiente:
+        
+        <oxm:jaxb2-marshaller id="marshaller" contextPath="de.spring.webservices.auto"/>
+        
+        <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
+     -->
     <sws:annotation-driven/>
     
     <sws:dynamic-wsdl id="example"
@@ -28,6 +40,14 @@
         </bean>
     </sws:interceptors>
     
+    <!-- 
+        ¿Este validador funciona teniendo inheritance en el xsd? (inheritances es una cosa especial 
+        del JAXB2 que estoy usando para generar las clases desde el xsd)
+        Parece que el unmarshal (que supongo que se hace con el JAXB2 que está en el classpath
+        debido al tipo de Endpoint que estoy usando, que por cierto no sé cual JAXB2 está cogiendo realmente) 
+        funciona, así que supongo el validador tambien :/
+        Lo que realmente tampoco sé es si hay alguna relación entre los validadores y JAXB2 :/
+        -->
     <bean id="validatingInterceptor" 
         class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
         <property name="schema" value="classpath:xsd/examples.xsd"/>
@@ -50,20 +70,6 @@
     
     <bean id="exampleEndPoint" class="de.spring.webservices.endpoints.ExampleEndPoint" >
         <property name="example" ref="exampleBusiness" />  
-    </bean>
-    
-    
-    <!-- CLIENT  -->
-    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory"/>
-
-    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
-        <constructor-arg ref="messageFactory"/>
-        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
-    </bean>
-    
-    <bean id="exampleClient" class="de.spring.webservices.client.ExampleClient">
-        <property name="webServiceTemplate" ref="webServiceTemplate"/>
-        <property name="defaultUri" value="http://localhost:8888/spring-ws/example"/>
     </bean>
     
 </beans>

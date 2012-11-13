@@ -8,7 +8,7 @@
 	   <xs:complexType>
 	       <xs:annotation>
                 <xs:appinfo>
-                    <inheritance:implements>de.spring.webservices.porttypes.Request</inheritance:implements>
+                    <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
                 </xs:appinfo>
             </xs:annotation>   
             <xs:all>
@@ -20,7 +20,7 @@
         <xs:complexType>
         <xs:annotation>
                 <xs:appinfo>
-                    <inheritance:implements>de.spring.webservices.porttypes.Response</inheritance:implements>
+                    <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
                 </xs:appinfo>
             </xs:annotation>  
             <xs:all>
