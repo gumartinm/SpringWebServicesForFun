@@ -28,8 +28,43 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="CustomBindingExampleRequest">
+	   <xs:complexType>
+	       <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>   
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="CustomBindingExampleResponse">
+        <xs:complexType>
+        <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>  
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="CustomBindingExampleResponse">
+    <wsdl:part element="tns:CustomBindingExampleResponse" name="CustomBindingExampleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CustomBindingExampleRequest">
+    <wsdl:part element="tns:CustomBindingExampleRequest" name="CustomBindingExampleRequest">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="ExampleRequest">
     <wsdl:part element="tns:ExampleRequest" name="ExampleRequest">
     </wsdl:part>
@@ -39,6 +74,12 @@
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="Examples">
+    <wsdl:operation name="CustomBindingExample">
+      <wsdl:input message="tns:CustomBindingExampleRequest" name="CustomBindingExampleRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:CustomBindingExampleResponse" name="CustomBindingExampleResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Example">
       <wsdl:input message="tns:ExampleRequest" name="ExampleRequest">
     </wsdl:input>
@@ -48,6 +89,15 @@
   </wsdl:portType>
   <wsdl:binding name="ExamplesSoap11" type="tns:Examples">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CustomBindingExample">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="CustomBindingExampleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CustomBindingExampleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="Example">
       <soap:operation soapAction=""/>
       <wsdl:input name="ExampleRequest">
@@ -60,7 +110,7 @@
   </wsdl:binding>
   <wsdl:service name="ExamplesService">
     <wsdl:port binding="tns:ExamplesSoap11" name="ExamplesSoap11">
-      <soap:address location="http://localhost:8888/spring-ws/example"/>
+      <soap:address location="http://127.0.0.1:8888/spring-ws/example"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

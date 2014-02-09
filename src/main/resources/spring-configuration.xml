@@ -26,7 +26,11 @@
         <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
      -->
     <sws:annotation-driven/>
-    
+
+    <!--
+        Spring makes the WSDL file for us from the XSD file.
+        Launch the Jetty server and download WSDL file from this URL: http://127.0.0.1:8888/spring-ws/example/example.wsdl
+    -->
     <sws:dynamic-wsdl id="example"
             portTypeName="Examples"
             locationUri="/spring-ws/example">
@@ -67,9 +71,14 @@
     
     <bean id="exampleBusiness" class="de.spring.webservices.business.BusinessExample">
     </bean>
+
+    <bean id="customBindingExampleBusiness" class="de.spring.webservices.business.CustomBindingBusinessExample">
+    </bean>
     
     <bean id="exampleEndPoint" class="de.spring.webservices.endpoints.ExampleEndPoint" >
         <property name="example" ref="exampleBusiness" />  
+        <property name="customBindingExample" ref="customBindingExampleBusiness" />
     </bean>
+
     
 </beans>

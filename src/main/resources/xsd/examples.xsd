@@ -34,4 +34,21 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="CustomBindingExampleRequest">
+	   <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="CustomBindingExampleResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
 </xs:schema>

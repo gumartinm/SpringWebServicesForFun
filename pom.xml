@@ -285,6 +285,7 @@
                                 <xsdOption>
                                     <extension>true</extension>
                                     <xsd>${project.xsd.schemas.source.path}/examples.xsd</xsd>
+                                    <bindingFile>${project.xsd.schemas.source.path}/custombinding.xjb</bindingFile>
                                     <packagename>${project.xsd.schemas.package.name}</packagename>
                                     <extensionArgs>
                                         <extraarg>-Xinheritance</extraarg>
@@ -323,7 +324,10 @@
                             <sourceRoot>${project.xsd.schemas.target.path}</sourceRoot>
                             <wsdlOptions>
                                 <wsdlOption>
+                                    <!--
                                     <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
+                                    -->
+                                    <wsdl>${project.wsdl.sources.path}/custombindingexample.wsdl</wsdl>
                                     <extraargs>
                                         <extraarg>-xjc-Xinheritance</extraarg>
                                     </extraargs>
