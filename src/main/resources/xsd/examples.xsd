@@ -4,8 +4,9 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
     jaxb:version="2.1"
-    jaxb:extensionBindingPrefixes="inheritance"
+    jaxb:extensionBindingPrefixes="inheritance annox"
     elementFormDefault="qualified"
     targetNamespace="http://localhost:8888/spring-ws/example">
 	
@@ -14,6 +15,7 @@
 	   <xs:complexType>
 	       <xs:annotation>
                 <xs:appinfo>
+                    <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate> 
                     <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
                 </xs:appinfo>
             </xs:annotation>   

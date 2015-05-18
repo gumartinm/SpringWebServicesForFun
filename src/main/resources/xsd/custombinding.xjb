@@ -3,8 +3,9 @@
 <jaxb:bindings xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
     jaxb:version="2.1"
-    jaxb:extensionBindingPrefixes="inheritance">
+    jaxb:extensionBindingPrefixes="inheritance annox">
     
     <!--
     Se procesa con Xpath si quieres meter expresiones regulares y cosas así en teoría dependes de Xpath
@@ -23,6 +24,7 @@
     <jaxb:bindings schemaLocation="examples.xsd"> 
         <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleRequest']/xsd:complexType">
                 <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+                <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
         </jaxb:bindings>
     </jaxb:bindings>
 
@@ -30,7 +32,11 @@
     <jaxb:bindings schemaLocation="examples.xsd"> 
         <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleResponse']/xsd:complexType">
                 <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+                <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
         </jaxb:bindings>
     </jaxb:bindings>
+
+    <!-- The same applies to annotate. If you do not want or you may not modify your xsd files you cand
+         modify instead this file with your custom binding :) -->
 
 </jaxb:bindings>
