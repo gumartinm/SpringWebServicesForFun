@@ -24,9 +24,9 @@
         <project.xsd.schemas.target.path>${basedir}/target/generated-sources/src/main/java</project.xsd.schemas.target.path>
         <project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
         <project.wsdl.sources.path>src/main/resources/wsdl</project.wsdl.sources.path>
-        <spring.ws.version>2.1.0.RELEASE</spring.ws.version>
+        <spring.ws.version>2.2.1.RELEASE</spring.ws.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>3.1.1.RELEASE</spring.version>
+        <spring.version>4.1.6.RELEASE</spring.version>
         <warTarget>${basedir}/target/jetty</warTarget>
     </properties>
 	
@@ -48,6 +48,20 @@
                 <version>${spring.ws.version}</version>
                 <scope>test</scope>                        
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Required by spring-ws-core -->
+            <dependency>
+                <groupId>wsdl4j</groupId>
+                <artifactId>wsdl4j</artifactId>
+                <version>1.6.3</version>
+            </dependency>
+
 			<dependency>
 				<groupId>org.jdom</groupId>
 				<artifactId>jdom</artifactId>
@@ -160,7 +174,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         
