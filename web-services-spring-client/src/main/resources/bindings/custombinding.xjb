@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<jaxb:bindings xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
+    jaxb:version="2.1"
+    jaxb:extensionBindingPrefixes="inheritance annox">
+    
+    <!--
+    Se procesa con Xpath si quieres meter expresiones regulares y cosas así en teoría dependes de Xpath
+    por ejemplo esto: @name=match[.] se supone que debería funcionar pero me dice que no puede
+    cambiar mas de un nodo a la vez. Puede que sea un bug de xjc que se carga las opciones de Xpath :/
+    <jaxb:bindings schemaLocation="examples.xsd"> 
+        <jaxb:bindings node="//xsd:element[@name='ExampleRequest']/xsd:complexType">
+                <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+        </jaxb:bindings>
+        <jaxb:bindings node="//xsd:element[@name='ExampleResponse']/xsd:complexType">
+                <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+        </jaxb:bindings>
+    </jaxb:bindings>
+    -->
+
+    <!--
+    <jaxb:bindings schemaLocation="../xsd/examples.xsd"> 
+        <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleRequest']/xsd:complexType">
+                <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+                <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
+
+    <jaxb:bindings schemaLocation="../xsd/examples.xsd"> 
+        <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleResponse']/xsd:complexType">
+                <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+                <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+    -->
+
+    <!-- The same applies to annotate. If you do not want or you may not modify your xsd files you can
+         modify instead this file with your custom binding :) -->
+
+</jaxb:bindings>

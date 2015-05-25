@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://gumartinm.name/spring-ws/example" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://gumartinm.name/spring-ws/example" targetNamespace="http://gumartinm.name/spring-ws/example">
+  <wsdl:types>
+    <xs:schema xmlns:annox="http://annox.dev.java.net" xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" jaxb:extensionBindingPrefixes="inheritance annox" jaxb:version="2.1" targetNamespace="http://gumartinm.name/spring-ws/example">
+	
+
+	<!-- Using inheritance and annox plugin -->
+	<xs:element name="ExampleRequest">
+	   <xs:complexType>
+	       <xs:annotation>
+                <xs:appinfo>
+                    <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate> 
+                    <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>   
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="ExampleResponse">
+        <xs:complexType>
+        <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>  
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
+	<!-- Using custombinding.xjb instead of inheritance plugin.
+		 Useful when you can not modify your xsd files because they are provided
+		 by another person or company
+	-->
+    <xs:element name="CustomBindingExampleRequest">
+	   <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="CustomBindingExampleResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CustomBindingExampleRequest">
+    <wsdl:part element="tns:CustomBindingExampleRequest" name="CustomBindingExampleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CustomBindingExampleResponse">
+    <wsdl:part element="tns:CustomBindingExampleResponse" name="CustomBindingExampleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ExampleRequest">
+    <wsdl:part element="tns:ExampleRequest" name="ExampleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ExampleResponse">
+    <wsdl:part element="tns:ExampleResponse" name="ExampleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Examples">
+    <wsdl:operation name="CustomBindingExample">
+      <wsdl:input message="tns:CustomBindingExampleRequest" name="CustomBindingExampleRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:CustomBindingExampleResponse" name="CustomBindingExampleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Example">
+      <wsdl:input message="tns:ExampleRequest" name="ExampleRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:ExampleResponse" name="ExampleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ExamplesSoap12" type="tns:Examples">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CustomBindingExample">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="CustomBindingExampleRequest">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="CustomBindingExampleResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Example">
+      <soap12:operation soapAction=""/>
+      <wsdl:input name="ExampleRequest">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ExampleResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ExamplesService">
+    <wsdl:port binding="tns:ExamplesSoap12" name="ExamplesSoap12">
+      <soap12:address location="http://localhost:8080/web-services-spring-server/spring-ws/example"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

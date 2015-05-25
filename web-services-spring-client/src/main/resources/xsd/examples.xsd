@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
+    jaxb:version="2.1"
+    jaxb:extensionBindingPrefixes="inheritance annox"
+    elementFormDefault="qualified"
+    targetNamespace="http://gumartinm.name/spring-ws/example">
+	
+
+	<!-- Using inheritance and annox plugin -->
+	<xs:element name="ExampleRequest">
+	   <xs:complexType>
+	       <xs:annotation>
+                <xs:appinfo>
+                    <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate> 
+                    <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>   
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="ExampleResponse">
+        <xs:complexType>
+        <xs:annotation>
+                <xs:appinfo>
+                    <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+                </xs:appinfo>
+            </xs:annotation>  
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
+	<!-- Using custombinding.xjb instead of inheritance plugin.
+		 Useful when you can not modify your xsd files because they are provided
+		 by another person or company
+	-->
+    <xs:element name="CustomBindingExampleRequest">
+	   <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+	</xs:element>
+    <xs:element name="CustomBindingExampleResponse">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="data" type="xs:string" />
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

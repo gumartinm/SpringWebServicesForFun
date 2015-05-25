@@ -1,0 +1,170 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>web-services-spring</artifactId>
+    <groupId>de.spring.webservices</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>web-services-spring-client</artifactId>
+  <name>web-services-spring-client</name>
+  <url>http://gumartinm.name</url>
+
+  <properties>
+    <project.wsdl.sources.path>src/main/resources/wsdl</project.wsdl.sources.path>
+    <project.wsdl.target.path>${basedir}/target/generated-sources/src/main/java</project.wsdl.target.path>
+    <project.bindings.path>src/main/resources/bindings</project.bindings.path> 
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-ws-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-xml</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.jdom</groupId>
+        <artifactId>jdom</artifactId>
+    </dependency>
+
+    <!-- Required by spring-ws-core -->
+    <dependency>
+        <groupId>wsdl4j</groupId>
+        <artifactId>wsdl4j</artifactId>
+    </dependency>
+
+    <!-- Required by jaxb2-basics as specified: 
+         http://confluence.highsource.org/display/J2B/Using+JAXB2+Basics+Plugins+with+CXF
+    -->
+    <dependency>
+      <groupId>org.jvnet.jaxb2_commons</groupId>
+      <artifactId>jaxb2-basics-runtime</artifactId>
+      <version>0.9.4</version>
+    </dependency>
+
+    <!-- Unitary and integration tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.ws</groupId>
+      <artifactId>spring-ws-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <resources>
+        <resource>
+            <directory>${basedir}/src/main/resources/</directory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </resource>
+    </resources>
+    <plugins>
+        <!-- Generate code from wsdl files:
+             We could use maven-jaxb2-plugin in order to generate Java classes from WSDL files but
+             this plugin seems more useful so, I keep using it. Besides, it is based on Apache CXF which
+             as well, uses jaxb.
+
+             See: http://cxf.apache.org/docs/maven-cxf-codegen-plugin-wsdl-to-java.html
+        -->
+        <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <id>generate-sources-from-wsdl</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>wsdl2java</goal>
+                    </goals>
+                    <configuration>
+                        <sourceRoot>${project.wsdl.target.path}</sourceRoot>
+                        <wsdlOptions>
+                            <wsdlOption>
+                                <!--
+                                <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
+                                -->
+                                <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
+                                <bindingFiles>
+                                    <bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>
+                                </bindingFiles>
+                                <extraargs>
+                                    <extraarg>-xjc-Xinheritance</extraarg>
+                                    <extraarg>-xjc-Xannotate</extraarg>
+                                    <extraarg>-verbose</extraarg>
+                                </extraargs>
+                            </wsdlOption>
+                        </wsdlOptions>
+                    </configuration>
+                 </execution>
+            </executions>
+            <dependencies>
+                 <!-- We make this plugin work with this jaxb2 version.
+                      This particular version let us generate inherited classes using
+                      the -Xinheritance argument.
+     
+                      DO NOT FORGET: We can use <inheritance:implements> in xsd files or by means 
+                      of custom bindings (see custombinding.xjb) This is useful when you may not modify
+                      xsd files because they are generated by other person or machine.
+                 -->
+                 <dependency>
+                     <groupId>org.jvnet.jaxb2_commons</groupId>
+                     <artifactId>jaxb2-basics</artifactId>
+                     <version>0.9.4</version>
+                 </dependency>
+
+                 <!-- We make this plugin work with this jaxb2 version.
+                      This particular version let us generate annotated classes using
+                      the -Xannotate argument.
+
+                      DO NOT FORGET: We can use <annox:annotate> in xsd files or by means 
+                      of custom bindings like I did with <inheritance:implements> (see custombinding.xjb)
+                      This is useful when you may not modify xsd files because they are generated
+                      by other person or machine.
+                 -->
+                 <dependency>
+                     <groupId>org.jvnet.jaxb2_commons</groupId>
+                     <artifactId>jaxb2-basics-annotate</artifactId>
+                     <version>1.0.1</version>
+                 </dependency>
+             </dependencies>
+        </plugin>
+        <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.wsdl.target.path}</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+          </plugin>
+    </plugins>
+  </build>
+</project>
+
