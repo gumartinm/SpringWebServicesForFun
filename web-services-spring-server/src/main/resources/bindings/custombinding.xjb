@@ -4,8 +4,9 @@
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
     xmlns:annox="http://annox.dev.java.net"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
     jaxb:version="2.1"
-    jaxb:extensionBindingPrefixes="inheritance annox">
+    jaxb:extensionBindingPrefixes="xjc inheritance annox">
     
     <!--
     Se procesa con Xpath si quieres meter expresiones regulares y cosas así en teoría dependes de Xpath
@@ -38,5 +39,11 @@
 
     <!-- The same applies to annotate. If you do not want or you may not modify your xsd files you can
          modify instead this file with your custom binding :) -->
+
+    <!-- Custom xs:dateTime adapter -->
+    <jaxb:globalBindings>
+       <xjc:javaType adapter="de.spring.webservices.binders.XSDateTimeCustomBinder"
+            name="java.util.Date" xmlType="xs:dateTime" />
+    </jaxb:globalBindings>
 
 </jaxb:bindings>
