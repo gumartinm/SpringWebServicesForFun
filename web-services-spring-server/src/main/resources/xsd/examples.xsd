@@ -45,6 +45,7 @@
 	   <xs:complexType>
             <xs:all>
                 <xs:element name="data" type="xs:string" />
+                <xs:element name="exampleDate" type="xs:dateTime" />
             </xs:all>
         </xs:complexType>
 	</xs:element>
@@ -52,6 +53,7 @@
         <xs:complexType>
             <xs:all>
                 <xs:element name="data" type="xs:string" />
+                <xs:element name="exampleDate" type="xs:dateTime" />
             </xs:all>
         </xs:complexType>
     </xs:element>
