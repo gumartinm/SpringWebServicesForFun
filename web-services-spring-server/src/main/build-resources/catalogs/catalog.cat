@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public|system|uri" xml:base="http://gumartinm.name" >
+
+    <!--
+        See: http://labs.bsb.com/2011/01/usage-of-an-xml-catalog-in-the-xmlbeans-cxf-integration/
+             http://cxf.apache.org/cxf-xjc-plugin.html 
+             https://jaxb.java.net/2.2.4/docs/catalog.html
+    -->
+
+    <uri name="http://gumartinm.name/spring-ws/parent/parent.xsd" uri="classpath:parent.xsd"/>
+
+    <rewriteURI uriStartString="http://gumartinm.name/spring-ws/parent/parent.xsd"
+                rewritePrefix="classpath:parent.xsd"/>
+
+    <rewriteSystem systemIdStartString="http://gumartinm.name/spring-ws/parent/parent.xsd" rewritePrefix="classpath:parent.xsd"/>
+ 
+</catalog>

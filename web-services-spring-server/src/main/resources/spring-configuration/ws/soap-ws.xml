@@ -41,7 +41,7 @@
         createSoap12Binding="true" createSoap11Binding="false"
         locationUri="/spring-ws/example"
         targetNamespace="http://gumartinm.name/spring-ws/example">
-        <sws:xsd location="classpath:xsd/examples.xsd"/>
+        <sws:xsd location="classpath:examples.xsd"/>
     </sws:dynamic-wsdl>
 
 
@@ -71,7 +71,7 @@
         -->
         <bean id="validatingInterceptor" 
             class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
-            <property name="schema" value="classpath:xsd/examples.xsd"/>
+            <property name="schema" value="classpath:examples.xsd"/>
             <property name="validateRequest" value="true"/>
             <property name="validateResponse" value="true"/>
         </bean>

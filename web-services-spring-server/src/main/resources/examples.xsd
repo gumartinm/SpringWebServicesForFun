@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:parent="http://gumartinm.name/spring-ws/parent"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
     xmlns:annox="http://annox.dev.java.net"
@@ -7,7 +8,12 @@
     jaxb:extensionBindingPrefixes="inheritance annox"
     elementFormDefault="qualified"
     targetNamespace="http://gumartinm.name/spring-ws/example">
-	
+
+    <!--
+        We are going to use catalog.cat in order to avoid downloading parent.xsd from remote server
+    -->
+    <xs:import namespace="http://gumartinm.name/spring-ws/parent" schemaLocation="http://gumartinm.name/spring-ws/parent/parent.xsd" />
+
 
 	<!-- Using inheritance and annox plugin -->
 	<xs:element name="ExampleRequest">
@@ -46,6 +52,7 @@
             <xs:all>
                 <xs:element name="data" type="xs:string" />
                 <xs:element name="exampleDate" type="xs:dateTime" />
+                <xs:element name="parentEnum" type="parent:parentEnumType" />
             </xs:all>
         </xs:complexType>
 	</xs:element>
@@ -54,6 +61,7 @@
             <xs:all>
                 <xs:element name="data" type="xs:string" />
                 <xs:element name="exampleDate" type="xs:dateTime" />
+                <xs:element name="parentEnum" type="parent:parentEnumType" />
             </xs:all>
         </xs:complexType>
     </xs:element>
