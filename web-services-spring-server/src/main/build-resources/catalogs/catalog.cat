@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public|system|uri" xml:base="http://gumartinm.name" >
 
+   <!--
+        An XML catalog will allow us to specify real locations for our imported XML schemas.
+        The XJC tool supports several different XML Catalog formats:  TR9401, XCatalog, OASIS XML Catalog.
+        I am using OASIS XML Catalog Format
+        
+        OASIS XML Catalog Format: https://www.oasis-open.org/committees/entity/specs/cs-entity-xml-catalogs-1.0.html
+        TR9401: https://www.oasis-open.org/specs/a401.htm
+    -->
+
+
     <!--
         See: http://labs.bsb.com/2011/01/usage-of-an-xml-catalog-in-the-xmlbeans-cxf-integration/
              http://cxf.apache.org/cxf-xjc-plugin.html 
