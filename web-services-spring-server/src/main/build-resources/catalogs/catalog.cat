@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public|system|uri" xml:base="http://gumartinm.name" >
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system|public" >
 
    <!--
         An XML catalog will allow us to specify real locations for our imported XML schemas.
@@ -8,20 +8,31 @@
         
         OASIS XML Catalog Format: https://www.oasis-open.org/committees/entity/specs/cs-entity-xml-catalogs-1.0.html
         TR9401: https://www.oasis-open.org/specs/a401.htm
-    -->
 
 
-    <!--
         See: http://labs.bsb.com/2011/01/usage-of-an-xml-catalog-in-the-xmlbeans-cxf-integration/
              http://cxf.apache.org/cxf-xjc-plugin.html 
              https://jaxb.java.net/2.2.4/docs/catalog.html
     -->
 
-    <uri name="http://gumartinm.name/spring-ws/parent/parent.xsd" uri="classpath:parent.xsd"/>
 
-    <rewriteURI uriStartString="http://gumartinm.name/spring-ws/parent/parent.xsd"
+    <!-- I JUST NEED THIS CONFIGURATION, ANYHOW I AM WRITING ALL OF THEM -->
+    <rewriteSystem systemIdStartString="http://gumartinm.name/spring-ws/parent"
+                   rewritePrefix="classpath:parent.xsd"/>
+
+
+    <!-- THE FOLLOWING ONES ARE NOT REQUIRED EVEN IF I AM WRITING THEM -->
+    <public
+        publicId="http://gumartinm.name/spring-ws/parent"
+        uri="classpath:parent.xsd"/>
+
+
+    <system
+        systemId="http://gumartinm.name/spring-ws/parent/parent.xsd"
+        uri="classpath:parent.xsd"/>
+
+
+    <rewriteURI uriStartString="http://gumartinm.name/spring-ws/parent"
                 rewritePrefix="classpath:parent.xsd"/>
 
-    <rewriteSystem systemIdStartString="http://gumartinm.name/spring-ws/parent/parent.xsd" rewritePrefix="classpath:parent.xsd"/>
- 
 </catalog>
