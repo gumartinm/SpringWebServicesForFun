@@ -45,6 +45,11 @@
     </sws:dynamic-wsdl>
 
 
+    <bean id="ParentTypes" class="org.springframework.xml.xsd.SimpleXsdSchema">
+        <property name="xsd" value="classpath:parent.xsd"/>
+    </bean>
+
+
     <!-- Required in order to use SOAP 1.2
     	 id="messageFactory" is not a random choice, if you use another name it will not work
     	 (Spring will end up loading SOAP 1.1)
@@ -71,7 +76,12 @@
         -->
         <bean id="validatingInterceptor" 
             class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
-            <property name="schema" value="classpath:examples.xsd"/>
+            <property name="schemas">
+                <list>
+                    <value>classpath:examples.xsd</value>
+                    <value>classpath:parent.xsd</value>
+                </list>
+            </property>
             <property name="validateRequest" value="true"/>
             <property name="validateResponse" value="true"/>
         </bean>
