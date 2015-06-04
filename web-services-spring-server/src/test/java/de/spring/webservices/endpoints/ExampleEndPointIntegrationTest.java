@@ -17,7 +17,7 @@ import org.springframework.xml.transform.StringSource;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-configuration.xml")
+@ContextConfiguration("/spring-configuration/ws/soap-ws.xml")
 public class ExampleEndPointIntegrationTest {
 
     @Autowired
