@@ -17,7 +17,7 @@ import org.springframework.xml.transform.StringSource;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-configuration/ws/soap-ws.xml")
+@ContextConfiguration(locations = { "classpath*:spring-configuration/ws/soap-ws.xml" } )
 public class ExampleEndPointIntegrationTest {
 
     @Autowired
@@ -42,6 +42,21 @@ public class ExampleEndPointIntegrationTest {
                 "</ns2:ExampleResponse>");
         mockClient.sendRequest(withPayload(requestPayload)).andExpect(
                 payload(responsePayload));
+        
+
+        final Source customRequestPayload = new StringSource(
+                "<CustomBindingExampleRequest xmlns='http://gumartinm.name/spring-ws/example'>" +
+                        "<data>SCARLETT</data>" +
+                		"<exampleDate>2015-06-03T10:20:30Z</exampleDate>" +
+                        "<parentEnum>FIRST</parentEnum>" +
+                "</CustomBindingExampleRequest>");
+        final Source customResponsePayload = new StringSource(
+                "<ns2:CustomBindingExampleResponse xmlns:ns2='http://gumartinm.name/spring-ws/example'>" +
+                        "<ns2:data>CUSTOM BINDING SNAKE EYES AND SCARLETT</ns2:data>" +
+                        "<ns2:parentEnum>FIRST</ns2:parentEnum>" +
+                "</ns2:CustomBindingExampleResponse>");
+        mockClient.sendRequest(withPayload(customRequestPayload)).andExpect(
+                payload(customResponsePayload));
     }
 }
 

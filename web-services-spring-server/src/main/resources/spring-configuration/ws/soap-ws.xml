@@ -45,7 +45,7 @@
     </sws:dynamic-wsdl>
 
 
-    <bean id="ParentTypes" class="org.springframework.xml.xsd.SimpleXsdSchema">
+    <bean id="parent" class="org.springframework.xml.xsd.SimpleXsdSchema">
         <property name="xsd" value="classpath:parent.xsd"/>
     </bean>
 
