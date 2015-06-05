@@ -7,7 +7,7 @@ import de.spring.webservices.auto.ExampleResponse;
 import de.spring.webservices.services.ExampleService;
 
 
-@Service("exampleServiceImpl")
+@Service("exampleService")
 public class ExampleServiceImpl implements ExampleService {
 	
 	@Override
