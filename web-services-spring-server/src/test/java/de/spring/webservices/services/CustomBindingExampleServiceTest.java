@@ -1,4 +1,4 @@
-package de.spring.webservices.services.impl;
+package de.spring.webservices.services;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import de.spring.webservices.auto.CustomBindingExampleRequest;
 import de.spring.webservices.auto.CustomBindingExampleResponse;
 import de.spring.webservices.operations.Operations;
+import de.spring.webservices.services.impl.CustomBindingExampleServiceImpl;
 
 
 public class CustomBindingExampleServiceTest {
