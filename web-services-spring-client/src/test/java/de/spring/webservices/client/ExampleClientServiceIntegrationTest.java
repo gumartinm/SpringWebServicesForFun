@@ -1,12 +1,10 @@
 package de.spring.webservices.client;
 
+import static org.junit.Assert.assertEquals;
 import static org.springframework.ws.test.client.RequestMatchers.payload;
 import static org.springframework.ws.test.client.ResponseCreators.withPayload;
-import static org.junit.Assert.*;
 
 import javax.xml.transform.Source;
-
-import name.gumartinm.spring_ws.example.ExampleResponse;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +16,12 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.test.client.MockWebServiceServer;
 import org.springframework.xml.transform.StringSource;
 
+import de.spring.webservices.auto.CustomBindingExampleResponse;
+import de.spring.webservices.auto.ExampleResponse;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/client-spring-configuration.xml")
+@ContextConfiguration("classpath*:spring-configuration/ws/client-spring-configuration.xml")
 public class ExampleClientServiceIntegrationTest {
 
 	@Autowired
@@ -49,10 +50,28 @@ public class ExampleClientServiceIntegrationTest {
         mockServer.expect(payload(requestPayload)).andRespond(
                 withPayload(responsePayload));
         
-        final ExampleResponse exampleResponse = exampleClientService.sendAndReceiveSpring();
+        final ExampleResponse response = exampleClientService.sendAndReceiveSpring();
 
-        assertEquals(exampleResponse.getData(), "SNAKE EYES AND SCARLETT SPRING. IT IS CANON.");
+        assertEquals(response.getData(), "SNAKE EYES AND SCARLETT SPRING. IT IS CANON.");
+        mockServer.verify();
+    }
+    
+    @Test
+    public void customerCustomClient() throws Exception { 
+        final Source customRequestPayload = new StringSource(
+                "<CustomBindingExampleRequest xmlns='http://gumartinm.name/spring-ws/example'>" +
+                        "<data>CUSTOM BINDING SPRING. SCARLETT. IT IS CANON.</data>" +
+                "</CustomBindingExampleRequest>");
+        final Source customResponsePayload = new StringSource(
+                "<ns2:CustomBindingExampleResponse xmlns:ns2='http://gumartinm.name/spring-ws/example'>" +
+                        "<ns2:data>CUSTOM BINDING SNAKE EYES AND SCARLETT SPRING. IT IS CANON.</ns2:data>" +
+                "</ns2:CustomBindingExampleResponse>");
+        mockServer.expect(payload(customRequestPayload)).andRespond(
+        		withPayload(customResponsePayload));
         
+        final CustomBindingExampleResponse response = exampleClientService.sendAndReceiveSpringCustom();
+
+        assertEquals(response.getData(), "CUSTOM BINDING SNAKE EYES AND SCARLETT SPRING. IT IS CANON.");
         mockServer.verify();
     }
 }

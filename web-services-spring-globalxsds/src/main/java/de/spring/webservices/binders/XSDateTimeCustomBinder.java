@@ -8,6 +8,11 @@ import java.util.TimeZone;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 
+/**
+ * ATTENTION: if you are using this custombinder you will have to create custom payload
+ * validators for Spring (AS FAR AS I KNOW)
+ *
+ */
 public class XSDateTimeCustomBinder extends XmlAdapter<String, Date> {
 
 	@Override
