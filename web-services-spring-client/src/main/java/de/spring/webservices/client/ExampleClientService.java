@@ -1,21 +1,23 @@
 package de.spring.webservices.client;
 
-import name.gumartinm.spring_ws.example.CustomBindingExampleRequest;
-import name.gumartinm.spring_ws.example.CustomBindingExampleResponse;
-import name.gumartinm.spring_ws.example.ExampleRequest;
-import name.gumartinm.spring_ws.example.ExampleResponse;
-import name.gumartinm.spring_ws.example.Examples;
-import name.gumartinm.spring_ws.example.ExamplesService;
+import name.gumartinm.spring_ws.parent.ParentEnumType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.client.core.WebServiceTemplate;
+
+import de.spring.webservices.auto.CustomBindingExampleRequest;
+import de.spring.webservices.auto.CustomBindingExampleResponse;
+import de.spring.webservices.auto.ExampleRequest;
+import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.auto.Examples;
+import de.spring.webservices.auto.ExamplesService;
 
 /**
  * Someone could write code like this one in order to send and receive
  * information from our Web Services.
  * 
  */
-public class ExampleClientService {
+public class ExampleClientService {	
     private final WebServiceTemplate webServiceTemplate;
 
     @Autowired
@@ -47,6 +49,7 @@ public class ExampleClientService {
         final CustomBindingExampleRequest customBindingxampleRequest =
         		new CustomBindingExampleRequest();
         customBindingxampleRequest.setData("CUSTOM BINDING JAVA. SCARLETT. IT IS CANON.");
+        customBindingxampleRequest.setParentEnum(ParentEnumType.FIRST);
   
         final Examples exampleService = new ExamplesService().getExamplesSoap12();
         final CustomBindingExampleResponse customBindingExampleResponse =

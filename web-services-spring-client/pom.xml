@@ -12,9 +12,11 @@
   <url>http://gumartinm.name</url>
 
   <properties>
-    <project.wsdl.sources.path>src/main/resources/wsdl</project.wsdl.sources.path>
+    <project.wsdl.sources.path>src/main/build-resources/wsdl</project.wsdl.sources.path>
     <project.wsdl.target.path>${basedir}/target/generated-sources/src/main/java</project.wsdl.target.path>
-    <project.bindings.path>src/main/resources/bindings</project.bindings.path> 
+    <project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
+    <!-- Requires absolute path (because of that I am using ${basedir} -->
+    <project.catalogs.path>${basedir}/src/main/build-resources/catalogs</project.catalogs.path>
   </properties>
 
   <dependencies>
@@ -30,6 +32,15 @@
         <groupId>org.jdom</groupId>
         <artifactId>jdom</artifactId>
     </dependency>
+
+
+    <!-- Global types -->
+    <dependency>
+        <groupId>de.spring.webservices</groupId>
+        <artifactId>web-services-spring-globalxsds</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+
 
     <!-- Required by spring-ws-core -->
     <dependency>
@@ -94,6 +105,7 @@
                         <goal>wsdl2java</goal>
                     </goals>
                     <configuration>
+                        <fork>true</fork>
                         <sourceRoot>${project.wsdl.target.path}</sourceRoot>
                         <wsdlOptions>
                             <wsdlOption>
@@ -107,6 +119,8 @@
                                 <extraargs>
                                     <extraarg>-xjc-Xinheritance</extraarg>
                                     <extraarg>-xjc-Xannotate</extraarg>
+                                    <extraarg>-catalog</extraarg>
+                                    <extraarg>${project.catalogs.path}/catalog.cat</extraarg>
                                     <extraarg>-verbose</extraarg>
                                 </extraargs>
                             </wsdlOption>

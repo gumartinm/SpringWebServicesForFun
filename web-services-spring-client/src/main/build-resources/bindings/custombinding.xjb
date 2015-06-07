@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<jaxws:bindings
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
+    xmlns:annox="http://annox.dev.java.net"
+    jaxb:version="2.1"
+    jaxb:extensionBindingPrefixes="xjc inheritance annox">
+
+    <jaxws:bindings
+        node="wsdl:definitions">
+        <jaxws:package name="de.spring.webservices.auto"/>
+    </jaxws:bindings>
+    
+
+    <!--
+        XSD namespace for included schema in WSDL: http://gumartinm.name/spring-ws/example
+
+        I am skiping the XSD namespace for imported schema in WSDL: http://gumartinm.name/spring-ws/parent because I guess,
+        there must be some way of using the already generated code in web-services-spring-globalxsds instead of generating new one
+        (perhaps using maven-jaxb2-plugin with episodes)
+     -->
+    <jaxws:bindings
+        node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://gumartinm.name/spring-ws/example']">
+
+        <jaxb:schemaBindings>
+            <jaxb:package name="de.spring.webservices.auto"/>
+        </jaxb:schemaBindings>
+
+        <jaxb:bindings node="//xs:element[@name='CustomBindingExampleRequest']/xs:complextype">
+            <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
+            <annox:annotate>@java.lang.suppresswarnings({"unchecked","rawtypes"})</annox:annotate>
+        </jaxb:bindings>
+
+        <jaxb:bindings node="//xs:element[@name='CustomBindingExampleResponse']/xs:complextype">
+            <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
+            <annox:annotate>@java.lang.suppresswarnings({"unchecked","rawtypes"})</annox:annotate>
+        </jaxb:bindings>
+
+        <jaxb:globalBindings>
+            <xjc:javaType adapter="de.spring.webservices.binders.XSDateTimeCustomBinder"
+                name="java.util.Date" xmlType="xs:dateTime" />
+        </jaxb:globalBindings>
+
+    </jaxws:bindings>
+
+</jaxws:bindings>

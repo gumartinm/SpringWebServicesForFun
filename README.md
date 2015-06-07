@@ -12,9 +12,7 @@ mvn clean install -Dmaven.test.skip=true
 
 TODO: maven-jaxb2-plugin in order to reuse generated Java code from other projects (cxf-xjc-plugin doesn't implement such feature
 without generating episodes by myself)
-TODO: custom bindings when creating Java code from wsdl.
 TODO: using Jetty instead of Tomcat
 TODO: logging Spring information
-TODO: integration tests (client and server)
 
 For debugging: export MAVEN_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
