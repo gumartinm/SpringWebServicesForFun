@@ -4,6 +4,7 @@
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
     xmlns:annox="http://annox.dev.java.net"
+    xmlns:example="http://gumartinm.name/spring-ws/example"
     jaxb:version="2.1"
     jaxb:extensionBindingPrefixes="inheritance annox"
     elementFormDefault="qualified"
@@ -66,5 +67,26 @@
         </xs:complexType>
     </xs:element>
 
+	<!-- Example of creating array list by means of XSD -->
+    <xs:complexType name="car">
+    	<xs:sequence>
+    		<xs:element name="data" type="xs:string" />
+    		<xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="100" />
+    	</xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="truck">
+    	<xs:all>
+    		<xs:element name="data" type="xs:string" />
+    		<xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
+    	</xs:all>
+    </xs:complexType>
+    <xs:element name="vehicles">
+        <xs:complexType>
+        	<xs:sequence>
+				<xs:element name="cars" type="example:car" maxOccurs="unbounded" />
+				<xs:element name="trucks" type="example:truck" minOccurs="0" maxOccurs="100" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
 </xs:schema>
