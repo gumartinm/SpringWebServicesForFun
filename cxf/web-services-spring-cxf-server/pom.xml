@@ -3,13 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>web-services-spring</artifactId>
+    <artifactId>web-services-spring-cxf</artifactId>
     <groupId>de.spring.webservices</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>web-services-spring-server</artifactId>
+  <artifactId>web-services-spring-cxf-server</artifactId>
   <packaging>war</packaging>
-  <name>web-services-spring-server</name>
+  <name>web-services-spring-cxf-server</name>
   <url>http://gumartinm.name</url>
 
   <properties>
@@ -40,7 +40,7 @@
     <!-- Global types -->
     <dependency>
         <groupId>de.spring.webservices</groupId>
-        <artifactId>web-services-spring-globalxsds</artifactId>
+        <artifactId>web-services-spring-cxf-globalxsds</artifactId>
         <version>${project.version}</version>
     </dependency>
 
