@@ -1,221 +1,208 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>web-services-spring-cxf</artifactId>
-    <groupId>de.spring.webservices</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>web-services-spring-cxf-server</artifactId>
-  <packaging>war</packaging>
-  <name>web-services-spring-cxf-server</name>
-  <url>http://gumartinm.name</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>web-services-spring-cxf</artifactId>
+		<groupId>de.spring.webservices</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>web-services-spring-cxf-server</artifactId>
+	<packaging>war</packaging>
+	<name>web-services-spring-cxf-server</name>
+	<url>http://gumartinm.name</url>
 
-  <properties>
-    <jetty.version>9.3.0.RC0</jetty.version>
-    <project.xsd.schemas.source.path>src/main/resources</project.xsd.schemas.source.path>
-    <project.xsd.schemas.target.path>${basedir}/target/generated-sources/src/main/java</project.xsd.schemas.target.path>
-    <project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
-    <project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
-    <!-- Requires absolute path (because of that I am using ${basedir} -->
-    <project.catalogs.path>${basedir}/src/main/build-resources/catalogs</project.catalogs.path>
-  </properties>
+	<properties>
+		<jetty.version>9.3.0.RC0</jetty.version>
+		<project.xsd.schemas.source.path>src/main/resources</project.xsd.schemas.source.path>
+		<project.xsd.schemas.target.path>${basedir}/target/generated-sources/src/main/java</project.xsd.schemas.target.path>
+		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
+		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
+		<!-- Requires absolute path (because of that I am using ${basedir} -->
+		<project.catalogs.path>${basedir}/src/main/build-resources/catalogs</project.catalogs.path>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-ws-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-xml</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.jdom</groupId>
-        <artifactId>jdom</artifactId>
-    </dependency>
-
-
-    <!-- Global types -->
-    <dependency>
-        <groupId>de.spring.webservices</groupId>
-        <artifactId>web-services-spring-cxf-globalxsds</artifactId>
-        <version>${project.version}</version>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
 
 
-    <!-- Required by spring-ws-core -->
-    <dependency>
-        <groupId>wsdl4j</groupId>
-        <artifactId>wsdl4j</artifactId>
-    </dependency>
+		<!-- Global types -->
+		<dependency>
+			<groupId>de.spring.webservices</groupId>
+			<artifactId>web-services-spring-cxf-globalxsds</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    <!-- Required by jaxb2-basics as specified: 
-         http://confluence.highsource.org/display/J2B/Using+JAXB2+Basics+Plugins+with+CXF
-    -->
-    <dependency>
-      <groupId>org.jvnet.jaxb2_commons</groupId>
-      <artifactId>jaxb2-basics-runtime</artifactId>
-      <version>0.9.4</version>
-    </dependency>
 
-    <!-- Unitary and integration tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-ws-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+		<!-- Required by spring-ws-core -->
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+		</dependency>
 
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <resources>
-        <resource>
-            <directory>${basedir}/src/main/webapp</directory>
-            <excludes>
-                <exclude>**/*.*</exclude>
-            </excludes>
-        </resource>
-        <resource>
-            <directory>${basedir}/src/main/resources/</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-    </resources>
-    <plugins>
-        <!-- Generate code from xsd files:
-             We could use maven-jaxb2-plugin in order to generate Java classes from XSD files but
-             this plugin seems more useful so, I keep using it. Besides, it is based on Apache CXF which
-             as well, uses jaxb.
+		<!-- Required by jaxb2-basics as specified: http://confluence.highsource.org/display/J2B/Using+JAXB2+Basics+Plugins+with+CXF -->
+		<dependency>
+			<groupId>org.jvnet.jaxb2_commons</groupId>
+			<artifactId>jaxb2-basics-runtime</artifactId>
+			<version>0.9.4</version>
+		</dependency>
 
-             See: http://cxf.apache.org/cxf-xjc-plugin.html
-        -->
-        <plugin>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-xjc-plugin</artifactId>
-            <version>3.0.3</version>
-            <configuration>
-                <fork>true</fork>
-                <extensions>
-                    <extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:3.0.3</extension>
-                </extensions>
-            </configuration>
-            <executions>
-                <execution>
-                    <id>generate-sources-from-xsd</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>xsdtojava</goal>
-                    </goals>
-                    <configuration>
-                        <sourceRoot>${project.xsd.schemas.target.path}</sourceRoot>
-                        <xsdOptions>
-                            <xsdOption>
-                                <extension>true</extension>
-                                <xsd>${project.xsd.schemas.source.path}/examples.xsd</xsd>
-                                <bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>
-                                <catalog>${project.catalogs.path}/catalog.cat</catalog>
-                                <packagename>${project.xsd.schemas.package.name}</packagename>
-                                <extensionArgs>
-                                    <extraarg>-Xinheritance</extraarg>
-                                    <extraarg>-Xannotate</extraarg>
-                                 </extensionArgs>
-                            </xsdOption>
-                        </xsdOptions>
-                    </configuration>
-                </execution>
-            </executions>
-            <dependencies>
-                 <!-- We make this plugin work with this jaxb2 version.
-                      This particular version let us generate inherited classes using
-                      the -Xinheritance argument.
-     
-                      DO NOT FORGET: We can use <inheritance:implements> in xsd files or by means 
-                      of custom bindings (see custombinding.xjb) This useful when you may not modify
-                      xsd files because they are generated by other person or machine.
-                 -->
-                 <dependency>
-                     <groupId>org.jvnet.jaxb2_commons</groupId>
-                     <artifactId>jaxb2-basics</artifactId>
-                     <version>0.9.4</version>
-                 </dependency>
+		<!-- Unitary and integration tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-                 <!-- We make this plugin work with this jaxb2 version.
-                      This particular version let us generate annotated classes using
-                      the -Xannotate argument.
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/webapp</directory>
+				<excludes>
+					<exclude>**/*.*</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources/</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<!-- Generate code from xsd files: We could use maven-jaxb2-plugin in 
+				order to generate Java classes from XSD files but this plugin seems more 
+				useful so, I keep using it. Besides, it is based on Apache CXF which as well, 
+				uses jaxb. See: http://cxf.apache.org/cxf-xjc-plugin.html -->
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-xjc-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+					<extensions>
+						<extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:3.0.3</extension>
+					</extensions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-sources-from-xsd</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>xsdtojava</goal>
+						</goals>
+						<configuration>
+							<sourceRoot>${project.xsd.schemas.target.path}</sourceRoot>
+							<xsdOptions>
+								<xsdOption>
+									<extension>true</extension>
+									<xsd>${project.xsd.schemas.source.path}/examples.xsd</xsd>
+									<bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>
+									<catalog>${project.catalogs.path}/catalog.cat</catalog>
+									<packagename>${project.xsd.schemas.package.name}</packagename>
+									<extensionArgs>
+										<extraarg>-Xinheritance</extraarg>
+										<extraarg>-Xannotate</extraarg>
+									</extensionArgs>
+								</xsdOption>
+							</xsdOptions>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<!-- We make this plugin work with this jaxb2 version. This particular 
+						version let us generate inherited classes using the -Xinheritance argument. 
+						DO NOT FORGET: We can use <inheritance:implements> in xsd files or by means 
+						of custom bindings (see custombinding.xjb) This useful when you may not modify 
+						xsd files because they are generated by other person or machine. -->
+					<dependency>
+						<groupId>org.jvnet.jaxb2_commons</groupId>
+						<artifactId>jaxb2-basics</artifactId>
+						<version>0.9.4</version>
+					</dependency>
 
-                      DO NOT FORGET: We can use <annox:annotate> in xsd files or by means 
-                      of custom bindings like I did with <inheritance:implements> (see custombinding.xjb)
-                      This useful when you may not modify xsd files because they are generated
-                      by other person or machine.
-                 -->
-                 <dependency>
-                     <groupId>org.jvnet.jaxb2_commons</groupId>
-                     <artifactId>jaxb2-basics-annotate</artifactId>
-                     <version>1.0.1</version>
-                 </dependency>
-             </dependencies>
-         </plugin>
-        <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.xsd.schemas.target.path}</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-          </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-            <webResources>
-                <resource>
-                    <filtering>true</filtering>
-                    <directory>src/main/webapp</directory>
-                    <includes>
-                        <include>WEB-INF/web.xml</include>
-                    </includes>
-                </resource>
-            </webResources>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-maven-plugin</artifactId>
-        <version>${jetty.version}</version>
-        <configuration>
-          <jettyXml>${basedir}/src/main/jetty/jetty-http.xml</jettyXml>
-        </configuration>
-      </plugin> 
-    </plugins>
-  </build>
+					<!-- We make this plugin work with this jaxb2 version. This particular 
+						version let us generate annotated classes using the -Xannotate argument. 
+						DO NOT FORGET: We can use <annox:annotate> in xsd files or by means of custom 
+						bindings like I did with <inheritance:implements> (see custombinding.xjb) 
+						This useful when you may not modify xsd files because they are generated 
+						by other person or machine. -->
+					<dependency>
+						<groupId>org.jvnet.jaxb2_commons</groupId>
+						<artifactId>jaxb2-basics-annotate</artifactId>
+						<version>1.0.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9.1</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.xsd.schemas.target.path}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<filtering>true</filtering>
+							<directory>src/main/webapp</directory>
+							<includes>
+								<include>WEB-INF/web.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<jettyXml>${basedir}/src/main/jetty/jetty-http.xml</jettyXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
