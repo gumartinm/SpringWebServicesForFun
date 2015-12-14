@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>web-services-spring-jaxb2</artifactId>
+		<groupId>de.spring.webservices</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>web-services-spring-jaxb2-globalxsds</artifactId>
+	<name>web-services-spring-jaxb2-globalxsds</name>
+	<url>http://gumartinm.name</url>
+
+	<properties>
+		<project.xsd.schemas.source.path>src/main/resources/schemas</project.xsd.schemas.source.path>
+		<project.xsd.schemas.target.path>${project.build.directory}/generated-sources/src/main/java</project.xsd.schemas.target.path>
+		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
+		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
+	</properties>
+
+	<dependencies>
+
+		<!-- Unitary and integration tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.1</version>
+				<executions>
+					<execution>
+						<id>generate-sources-from-xsd</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- Specifies the schema directory, src/main/resources by default. -->
+					<schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
+
+					<!-- Specifies the binding directory, default to the schemaDirectory -->
+					<bindingDirectory>${project.bindings.path}</bindingDirectory>
+					<!-- Do not scan for *.xjb files in dependencies -->
+					<scanDependenciesForBindings>false</scanDependenciesForBindings>
+
+					<!-- Target directory for the generated code, target/generated-sources/xjc 
+						by default. -->
+					<generateDirectory>${project.xsd.schemas.target.path}</generateDirectory>
+
+					<!-- The generated classes will all be placed under this Java package 
+						(XJC's -p option), unless otherwise specified in the schemas. If left unspecified, 
+						the package will be derived from the schemas only. -->
+					<generatePackage>${project.xsd.schemas.package.name}</generatePackage>
+
+					<!-- I don't think I need the next two options because mvn clean should 
+						make the trick, anyhow, I am using them. If true, the generateDirectory will 
+						be deleted before the XJC binding compiler recompiles the source files. Default 
+						is false. -->
+					<removeOldOutput>true</removeOldOutput>
+					<!-- If true (default), package directories will be cleaned before the 
+						XJC binding compiler generates the source files. -->
+					<cleanPackageDirectories>true</cleanPackageDirectories>
+
+					<!-- Encoding for the generated sources, defaults to ${project.build.sourceEncoding}. -->
+					<encoding>${project.build.sourceEncoding}</encoding>
+
+					<!-- Locale used during generation, for instance en, de, fr etc. This 
+						will, for instance, influence the language of the generated JavaDoc comments. -->
+					<locale>en</locale>
+
+					<!-- This nice configuration avoids to use build-helper-maven-plugin -->
+					<addCompileSourceRoot>true</addCompileSourceRoot>
+					<addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+
+					<!-- If true (default), XJC will perform strict validation of the input 
+						schema. If strict is set to false XJC will be run with -nv, this disables 
+						strict validation of schemas. -->
+					<strict>true</strict>
+
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

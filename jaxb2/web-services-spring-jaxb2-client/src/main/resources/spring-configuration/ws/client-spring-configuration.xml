@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:sws="http://www.springframework.org/schema/web-services"
+    xmlns:oxm="http://www.springframework.org/schema/oxm" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:util="http://www.springframework.org/schema/util"
+
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/web-services 
+        http://www.springframework.org/schema/web-services/web-services.xsd
+        http://www.springframework.org/schema/oxm 
+        http://www.springframework.org/schema/oxm/spring-oxm.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 
+        This file is an example about how someone should write code in order to send and
+        receive data from the Web Services.
+    -->
+   
+    <!-- Searches for @Endpoint  --> 
+    <context:component-scan base-package="de.spring.webservices"/>
+
+    <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
+       
+    <!-- Searches for @PayloadRoot --> 
+    <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
+     
+   
+    <!-- Required in order to use SOAP 1.2
+         id="messageFactory" is not a random choice, if you use another name it will not work
+         (Spring will end up loading SOAP 1.1)
+    -->
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory">
+        <property name="soapVersion">
+            <util:constant static-field="org.springframework.ws.soap.SoapVersion.SOAP_12" />
+        </property>
+    </bean> 
+    
+    
+    <sws:interceptors>
+        <bean class="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
+            <property name="logRequest" value="true"/>
+            <property name="logResponse" value="true"/>
+        </bean>
+    </sws:interceptors>
+
+    <!-- 
+        ¿Este validador funciona teniendo inheritance en el xsd? (inheritances es una cosa especial 
+        del JAXB2 que estoy usando para generar las clases desde el xsd)
+        Parece que el unmarshal (que supongo que se hace con el JAXB2 que está en el classpath
+        debido al tipo de Endpoint que estoy usando, que por cierto no sé cual JAXB2 está cogiendo realmente) 
+        funciona, así que supongo el validador tambien :/
+        Lo que realmente tampoco sé es si hay alguna relación entre los validadores y JAXB2 :/
+    -->
+    <bean id="payloadValidatingInterceptor" 
+        class="org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor">
+        <property name="schemas">
+            <list>
+                <value>classpath:examples.xsd</value>
+                <value>classpath:parent.xsd</value>
+            </list>
+        </property>
+        <property name="validateRequest" value="true"/>
+        <property name="validateResponse" value="true"/>
+    </bean>
+    
+
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory"/>
+        <property name="marshaller" ref="marshaller" />
+        <property name="unmarshaller" ref="marshaller" />
+
+        <!-- For local deployments change to http://localhost:8080/web-services-spring-server/spring-ws/example -->
+        <property name="defaultUri" value="http://gumartinm.name/spring-ws/example"/>
+
+        <property name="interceptors">
+            <list>
+                <ref bean="payloadValidatingInterceptor" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="exampleClient" class="de.spring.webservices.client.ExampleClientService">
+        <!--
+        @Autowired works even using XML configuration as long as you use context:component-scan
+        <property name="webServiceTemplate" ref="webServiceTemplate"/>
+        -->
+    </bean>
+    
+</beans>

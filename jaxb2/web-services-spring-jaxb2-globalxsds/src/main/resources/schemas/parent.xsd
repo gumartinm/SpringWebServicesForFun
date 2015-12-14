@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    targetNamespace="http://gumartinm.name/spring-ws/parent">
+	
+    <xs:simpleType name="parentEnumType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="FIRST"/>
+            <xs:enumeration value="SECOND"/>
+            <xs:enumeration value="THIRD"/>
+            <xs:enumeration value="FOURTH"/>
+            <xs:enumeration value="FIVETH"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>
