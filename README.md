@@ -10,8 +10,6 @@ mvn jetty:run
 mvn clean install -Dmaven.test.skip=true
 
 
-TODO: maven-jaxb2-plugin in order to reuse generated Java code from other projects (cxf-xjc-plugin doesn't implement such feature
-without generating episodes by myself)
 TODO: using Jetty instead of Tomcat
 TODO: logging Spring information
 
