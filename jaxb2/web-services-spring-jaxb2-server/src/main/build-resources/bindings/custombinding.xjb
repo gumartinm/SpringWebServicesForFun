@@ -22,7 +22,7 @@
     </jaxb:bindings>
     -->
 
-    <jaxb:bindings schemaLocation="../../resources/examples.xsd"> 
+    <jaxb:bindings schemaLocation="../../resources/schemas/examples.xsd"> 
         <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleRequest']/xsd:complexType">
                 <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
                 <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>
@@ -30,7 +30,7 @@
     </jaxb:bindings>
 
 
-    <jaxb:bindings schemaLocation="../../resources/examples.xsd"> 
+    <jaxb:bindings schemaLocation="../../resources/schemas/examples.xsd"> 
         <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleResponse']/xsd:complexType">
                 <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
                 <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate>

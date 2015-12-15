@@ -13,15 +13,10 @@
 
 	<properties>
 		<jetty.version>9.3.0.RC0</jetty.version>
-		<!-- Requires absolute path (because of that I am using ${basedir} -->
-		<project.catalogs.path>${basedir}/src/main/build-resources/catalogs</project.catalogs.path>
-
-
 		<project.xsd.schemas.source.path>src/main/resources/schemas</project.xsd.schemas.source.path>
 		<project.xsd.schemas.target.path>${project.build.directory}/generated-sources/src/main/java</project.xsd.schemas.target.path>
 		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
 		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
-
 	</properties>
 
 	<dependencies>
@@ -146,8 +141,14 @@
 
 					<!-- If true (default), XJC will perform strict validation of the input 
 						schema. If strict is set to false XJC will be run with -nv, this disables 
-						strict validation of schemas. -->
-					<strict>true</strict>
+						strict validation of schemas.
+
+					 	The plugin is configured to use catalogs and strict mode at the 
+						same time. Using catalogs to resolve schema URIs in strict mode is known 
+						to be problematic and may fail. Please refer to the following link for more 
+						information: https://github.com/highsource/maven-jaxb2-plugin/wiki/Catalogs-in-Strict-Mode 
+						Consider setting <strict>false</strict> in your plugin configuration. -->
+					<strict>false</strict>
 
 					<verbose>true</verbose>
 
@@ -168,6 +169,29 @@
 							<version>1.0.2</version>
 						</plugin>
 					</plugins>
+
+
+					<!--
+						GRAN DIFERENCIA:
+					 
+						CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
+						
+						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :( 
+					-->
+						
+					<!-- You can use the useDependenciesAsEpisodes instead of configuring 
+						individual episodes. In this case all the dependencies will be treated as 
+						episodes which is very convenient (less configuration). I am going to use 
+						the long way (individual episodes) -->
+					<useDependenciesAsEpisodes>false</useDependenciesAsEpisodes>
+					<catalog>src/main/build-resources/catalogs/catalog.cat</catalog>
+					<episodes>
+						<episode>
+							<groupId>de.spring.webservices</groupId>
+							<artifactId>web-services-spring-jaxb2-globalxsds</artifactId>
+						</episode>
+					</episodes>
 				</configuration>
 			</plugin>
 			<plugin>

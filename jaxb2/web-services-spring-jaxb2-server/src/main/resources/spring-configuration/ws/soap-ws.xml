@@ -30,7 +30,22 @@
          Searches for @PayloadRoot
         <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
      -->
-    <sws:annotation-driven/>
+     
+     <!-- 
+     	VOY A INSTANCIAR EXPLÍCITAMENTE EL Marshaller Y VOY A USAR packagesToScan
+     	PORQUE TENGO DOS ObjectFactory CON EL MISMO package. UNO ESTÁ EN globalxsds Y OTRO
+     	ESTÁ EN ESTE PROYECTO server.
+     	
+     	SI NO RECUERDO MAL HABÍA PROBLEMAS CUANDO SE TENÍA DOS ObjectFactory IGUALES Y
+     	SE USABA contest-path.
+     	
+     	DE TODOS MODOS, PROBABLEMENTE HABRÍA QUE USAR UN PACKAGE DISTINTO PARA LO QUE HAY
+     	EN globalxsds Y ASÍ PODRÍA EVITAR ESTA CONFIGURACIÓN :(
+      -->
+    <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+    	<property name="packagesToScan" value="de.spring.webservices.auto"/>
+  	</bean>
+    <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller" />
 
     <!--
         Spring makes the WSDL file for us from the XSD file.
@@ -41,12 +56,12 @@
         createSoap12Binding="true" createSoap11Binding="false"
         locationUri="/spring-ws/example"
         targetNamespace="http://gumartinm.name/resource/wsdl/schemas">
-        <sws:xsd location="classpath:examples.xsd"/>
+        <sws:xsd location="classpath:schemas/examples.xsd"/>
     </sws:dynamic-wsdl>
 
 
     <bean id="parent" class="org.springframework.xml.xsd.SimpleXsdSchema">
-        <property name="xsd" value="classpath:parent.xsd"/>
+        <property name="xsd" value="classpath:schemas/parent.xsd"/>
     </bean>
 
 
@@ -78,8 +93,8 @@
             class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
             <property name="schemas">
                 <list>
-                    <value>classpath:examples.xsd</value>
-                    <value>classpath:parent.xsd</value>
+                    <value>classpath:schemas/examples.xsd</value>
+                    <value>classpath:schemas/parent.xsd</value>
                 </list>
             </property>
             <property name="validateRequest" value="true"/>
