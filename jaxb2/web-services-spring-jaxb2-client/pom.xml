@@ -1,184 +1,219 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>web-services-spring-jaxb2</artifactId>
-    <groupId>de.spring.webservices</groupId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>web-services-spring-jaxb2-client</artifactId>
-  <name>web-services-spring-jaxb2-client</name>
-  <url>http://gumartinm.name</url>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>web-services-spring-jaxb2</artifactId>
+		<groupId>de.spring.webservices</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>web-services-spring-jaxb2-client</artifactId>
+	<name>web-services-spring-jaxb2-client</name>
+	<url>http://gumartinm.name</url>
 
-  <properties>
-    <project.wsdl.sources.path>src/main/build-resources/wsdl</project.wsdl.sources.path>
-    <project.wsdl.target.path>${basedir}/target/generated-sources/src/main/java</project.wsdl.target.path>
-    <project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
-    <!-- Requires absolute path (because of that I am using ${basedir} -->
-    <project.catalogs.path>${basedir}/src/main/build-resources/catalogs</project.catalogs.path>
-  </properties>
+	<properties>
+		<project.xsd.schemas.source.path>src/main/build-resources/wsdl</project.xsd.schemas.source.path>
+		<project.xsd.schemas.target.path>${project.build.directory}/generated-sources/src/main/java</project.xsd.schemas.target.path>
+		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
+		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-ws-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-xml</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.jdom</groupId>
-        <artifactId>jdom</artifactId>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+		</dependency>
 
 
-    <!-- Global types -->
-    <dependency>
-        <groupId>de.spring.webservices</groupId>
-        <artifactId>web-services-spring-jaxb2-globalxsds</artifactId>
-        <version>${project.version}</version>
-    </dependency>
+		<!-- Global types -->
+		<dependency>
+			<groupId>de.spring.webservices</groupId>
+			<artifactId>web-services-spring-jaxb2-globalxsds</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 
-    <!-- Required by spring-ws-core -->
-    <dependency>
-        <groupId>wsdl4j</groupId>
-        <artifactId>wsdl4j</artifactId>
-    </dependency>
+		<!-- Required by spring-ws-core -->
+		<dependency>
+			<groupId>wsdl4j</groupId>
+			<artifactId>wsdl4j</artifactId>
+		</dependency>
 
-    <!-- Required by jaxb2-basics as specified: 
-         http://confluence.highsource.org/display/J2B/Using+JAXB2+Basics+Plugins+with+CXF
-    -->
-    <dependency>
-      <groupId>org.jvnet.jaxb2_commons</groupId>
-      <artifactId>jaxb2-basics-runtime</artifactId>
-      <version>0.9.4</version>
-    </dependency>
+		<!-- Unitary and integration tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-ws-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-    <!-- Unitary and integration tests -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.ws</groupId>
-      <artifactId>spring-ws-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+	    <resources>
+	        <resource>
+	            <directory>${basedir}/src/main/resources/</directory>
+	            <includes>
+	                <include>**/*.*</include>
+	            </includes>
+	        </resource>
+	    </resources>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.13.1</version>
+				<executions>
+					<execution>
+						<id>generate-sources-from-xsd</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>generate-sources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- REQUIRED FOR USING THIS PLUGIN WITH WSDL FILES!!!!! -->
+					<wsdl>true</wsdl>
+    				<xmlschema>false</xmlschema>
+    				<schemaFiles>${project.xsd.schemas.source.path</schemaFiles>
+				
+					<!-- DOESN'T WORK FOR WSDL FILES!!!! 
+						Specifies the schema directory, src/main/resources by default. 
+					<schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
+					-->
 
-  <build>
-    <finalName>${project.artifactId}</finalName>
-    <resources>
-        <resource>
-            <directory>${basedir}/src/main/resources/</directory>
-            <includes>
-                <include>**/*.*</include>
-            </includes>
-        </resource>
-    </resources>
-    <plugins>
-        <!-- Generate code from wsdl files:
-             We could use maven-jaxb2-plugin in order to generate Java classes from WSDL files but
-             this plugin seems more useful so, I keep using it. Besides, it is based on Apache CXF which
-             as well, uses jaxb.
 
-             See: http://cxf.apache.org/docs/maven-cxf-codegen-plugin-wsdl-to-java.html
-        -->
-        <plugin>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-codegen-plugin</artifactId>
-            <version>3.1.0</version>
-            <executions>
-                <execution>
-                    <id>generate-sources-from-wsdl</id>
-                    <phase>generate-sources</phase>
-                    <goals>
-                        <goal>wsdl2java</goal>
-                    </goals>
-                    <configuration>
-                        <fork>true</fork>
-                        <sourceRoot>${project.wsdl.target.path}</sourceRoot>
-                        <wsdlOptions>
-                            <wsdlOption>
-                                <!--
-                                <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
-                                -->
-                                <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
-                                <bindingFiles>
-                                    <bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>
-                                </bindingFiles>
-                                <extraargs>
-                                    <extraarg>-xjc-Xinheritance</extraarg>
-                                    <extraarg>-xjc-Xannotate</extraarg>
-                                    <extraarg>-catalog</extraarg>
-                                    <extraarg>${project.catalogs.path}/catalog.cat</extraarg>
-                                    <extraarg>-verbose</extraarg>
-                                </extraargs>
-                            </wsdlOption>
-                        </wsdlOptions>
-                    </configuration>
-                 </execution>
-            </executions>
-            <dependencies>
-                 <!-- We make this plugin work with this jaxb2 version.
-                      This particular version let us generate inherited classes using
-                      the -Xinheritance argument.
-     
-                      DO NOT FORGET: We can use <inheritance:implements> in xsd files or by means 
-                      of custom bindings (see custombinding.xjb) This is useful when you may not modify
-                      xsd files because they are generated by other person or machine.
-                 -->
-                 <dependency>
-                     <groupId>org.jvnet.jaxb2_commons</groupId>
-                     <artifactId>jaxb2-basics</artifactId>
-                     <version>0.9.4</version>
-                 </dependency>
+					<!--
+						GRANDES DIFERENCIAS:
+					 
+						:( CON ESTE PLUGIN A DIFERENCIA DE cxf-codegen-plugin NO SE PUEDEN USAR BINDINGS PARA WSDL
+						LLAMADOS jaxws:bindings :(  ESTO PUEDE SER UN PROBLEMA SI SE QUIERE MODIFICAR EL WSDL PROPORCIONADO
+						POR ALGUIEN SIN TENER QUE EDITARLO :(  POR EJEMPLO, AQUÍ YA NO PUEDO METER MI XSDateTimeCustomBinder
+						SIN EDITAR EL WSDL :(
+						
+						:) CON ESTE PLUGIN A DIFERENCIA DE cxf-codegen-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
+						
+						:( CON ESTE PLUGIN NO CONSIGO GENERAR LAS CLASES @WebService, @WebServiceClient y @WebEndpoint
+						CON cxf-codegen-plugin SÍ PUEDO :(  VER ExamplesService EN web-services-spring-cxf-client
+					-->
+					
+					<!-- DOESN'T WORK FOR WSDL FILES!!!!
+					     Specifies the binding directory, default to the schemaDirectory
+					<bindingDirectory>${project.bindings.path}</bindingDirectory>
+					-->
+					<!-- Do not scan for *.xjb files in dependencies -->
+					<scanDependenciesForBindings>false</scanDependenciesForBindings>
 
-                 <!-- We make this plugin work with this jaxb2 version.
-                      This particular version let us generate annotated classes using
-                      the -Xannotate argument.
+					<!-- Target directory for the generated code, target/generated-sources/xjc 
+						by default. -->
+					<generateDirectory>${project.xsd.schemas.target.path}</generateDirectory>
 
-                      DO NOT FORGET: We can use <annox:annotate> in xsd files or by means 
-                      of custom bindings like I did with <inheritance:implements> (see custombinding.xjb)
-                      This is useful when you may not modify xsd files because they are generated
-                      by other person or machine.
-                 -->
-                 <dependency>
-                     <groupId>org.jvnet.jaxb2_commons</groupId>
-                     <artifactId>jaxb2-basics-annotate</artifactId>
-                     <version>1.0.1</version>
-                 </dependency>
-             </dependencies>
-        </plugin>
-        <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.wsdl.target.path}</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-          </plugin>
-    </plugins>
-  </build>
+					<!-- The generated classes will all be placed under this Java package 
+						(XJC's -p option), unless otherwise specified in the schemas. If left unspecified, 
+						the package will be derived from the schemas only. -->
+					<generatePackage>${project.xsd.schemas.package.name}</generatePackage>
+
+					<!-- I don't think I need the next two options because mvn clean should 
+						make the trick, anyhow, I am using them. If true, the generateDirectory will 
+						be deleted before the XJC binding compiler recompiles the source files. Default 
+						is false. -->
+					<removeOldOutput>true</removeOldOutput>
+					<!-- If true (default), package directories will be cleaned before the 
+						XJC binding compiler generates the source files. -->
+					<cleanPackageDirectories>true</cleanPackageDirectories>
+
+					<!-- Encoding for the generated sources, defaults to ${project.build.sourceEncoding}. -->
+					<encoding>${project.build.sourceEncoding}</encoding>
+
+					<!-- Locale used during generation, for instance en, de, fr etc. This 
+						will, for instance, influence the language of the generated JavaDoc comments. -->
+					<locale>en</locale>
+
+					<!-- This nice configuration avoids to use build-helper-maven-plugin -->
+					<addCompileSourceRoot>true</addCompileSourceRoot>
+					<addTestCompileSourceRoot>false</addTestCompileSourceRoot>
+
+					<!-- If true (default), XJC will perform strict validation of the input 
+						schema. If strict is set to false XJC will be run with -nv, this disables 
+						strict validation of schemas.
+
+					 	The plugin is configured to use catalogs and strict mode at the 
+						same time. Using catalogs to resolve schema URIs in strict mode is known 
+						to be problematic and may fail. Please refer to the following link for more 
+						information: https://github.com/highsource/maven-jaxb2-plugin/wiki/Catalogs-in-Strict-Mode 
+						Consider setting <strict>false</strict> in your plugin configuration. -->
+					<strict>false</strict>
+
+					<verbose>true</verbose>
+
+					<extension>true</extension>
+					<args>
+						<arg>-Xinheritance</arg>
+						<arg>-Xannotate</arg>
+					</args>
+					<plugins>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics</artifactId>
+							<version>0.9.5</version>
+						</plugin>
+						<plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>1.0.2</version>
+						</plugin>
+					</plugins>
+
+
+					<!--
+						GRAN DIFERENCIA:
+					 
+						CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
+						
+						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :(
+						
+						CON ESTE PLUGIN CONSEGUIMOS NO EMPAQUETAR AQUÍ TAMBIÉN LAS MISMAS CLASES QUE
+						TENÍAMOS EN web-services-spring-jaxb2-globalxsds
+					-->
+						
+					<!-- You can use the useDependenciesAsEpisodes instead of configuring 
+						individual episodes. In this case all the dependencies will be treated as 
+						episodes which is very convenient (less configuration). I am going to use 
+						the long way (individual episodes) -->
+					<useDependenciesAsEpisodes>false</useDependenciesAsEpisodes>
+					<catalog>src/main/build-resources/catalogs/catalog.cat</catalog>
+					<episodes>
+						<episode>
+							<groupId>de.spring.webservices</groupId>
+							<artifactId>web-services-spring-jaxb2-globalxsds</artifactId>
+						</episode>
+					</episodes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
-

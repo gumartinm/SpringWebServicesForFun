@@ -174,7 +174,7 @@
 					<!--
 						GRAN DIFERENCIA:
 					 
-						CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						:) CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
 						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
 						
 						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :(

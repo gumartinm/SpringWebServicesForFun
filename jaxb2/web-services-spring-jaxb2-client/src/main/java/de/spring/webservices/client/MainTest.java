@@ -30,23 +30,24 @@ public class MainTest {
         final ExampleClientService example =
         		(ExampleClientService) test.context.getBean("exampleClient");
 
-        logger.info("ExampleResponse Java:");
-        ExampleResponse response = example.sendAndReceiveJava();
-        logger.info(response.getData());
+//  maven-jaxb2-plugin DOESN'T CREATE @WebService, @WebServiceClient y @WebEndpoint
+//        logger.info("ExampleResponse Java:");
+//        ExampleResponse response = example.sendAndReceiveJava();
+//        logger.info(response.getData());
         
         
-        logger.info("CustomBindingExampleResponse Java:");
-        CustomBindingExampleResponse customBindingResponse = example.sendAndReceiveJavaCustom();
-        logger.info(customBindingResponse.getData());
+//        logger.info("CustomBindingExampleResponse Java:");
+//        CustomBindingExampleResponse customBindingResponse = example.sendAndReceiveJavaCustom();
+//        logger.info(customBindingResponse.getData());
         
         
         logger.info("ExampleResponse Spring:");
-        response = example.sendAndReceiveSpring();
+        ExampleResponse response = example.sendAndReceiveSpring();
         logger.info(response.getData());
         
         
         logger.info("CustomBindingExampleResponse Spring:");
-        customBindingResponse = example.sendAndReceiveSpringCustom();
+        CustomBindingExampleResponse customBindingResponse = example.sendAndReceiveSpringCustom();
         logger.info(customBindingResponse.getData());
     }
 }

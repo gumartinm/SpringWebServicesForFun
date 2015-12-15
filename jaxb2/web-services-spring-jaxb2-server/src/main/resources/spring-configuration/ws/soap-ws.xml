@@ -50,7 +50,7 @@
     <!--
         Spring makes the WSDL file for us from the XSD file.
         Launch the Jetty server and download WSDL file from this URL:
-        http://localhost:8080/web-services-spring-server/spring-ws/example/example.wsdl
+        http://localhost:8080/web-services-spring-jaxb2-server/spring-ws/example/example.wsdl
     -->
     <sws:dynamic-wsdl id="example" portTypeName="Examples"
         createSoap12Binding="true" createSoap11Binding="false"
