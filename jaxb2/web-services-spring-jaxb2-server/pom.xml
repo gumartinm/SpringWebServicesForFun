@@ -177,7 +177,12 @@
 						CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
 						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
 						
-						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :( 
+						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :(
+						
+						CON ESTE PLUGIN CONSEGUIMOS NO EMPAQUETAR AQUÍ TAMBIÉN LAS MISMAS CLASES QUE
+						TENÍAMOS EN web-services-spring-jaxb2-globalxsds
+						
+						ESTE PLUGIN ES MUCHO MEJOR QUE cxf-xjc-plugin :)
 					-->
 						
 					<!-- You can use the useDependenciesAsEpisodes instead of configuring 
