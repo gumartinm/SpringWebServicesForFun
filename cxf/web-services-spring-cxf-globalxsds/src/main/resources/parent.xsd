@@ -12,5 +12,11 @@
             <xs:enumeration value="FIVETH"/>
         </xs:restriction>
     </xs:simpleType>
+    
+    <xs:simpleType name="limitedString">
+    	<xs:restriction base="xs:string">
+      		<xs:maxLength value="20" />
+    	</xs:restriction>
+  	</xs:simpleType>
 
 </xs:schema>
