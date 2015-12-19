@@ -27,7 +27,7 @@
     
     
         <!-- 
-        	Specific log when request message from client or response message created by this server contains validation errors.
+        	Specific log when request message from remote client or response message created by this server contains validation errors.
         	It is used by org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor
          -->
         <Logger name="org.springframework.ws.soap.server.endpoint.interceptor.AbstractFaultCreatingValidatingInterceptor" level="INFO" additivity="false">
@@ -40,7 +40,7 @@
         	 
         	 see soap-ws.xml Spring configuration file.
         	 
-        	 This configuration enables us to log the SOAP XML Request (received from client), Response (sent by this server) and Fault (sent by this server).
+        	 This configuration enables us to log the SOAP XML Request (received from remote client), Response (sent by this server) and Fault (sent by this server).
     	-->
         <Logger name="org.springframework.ws.server.endpoint.AbstractLoggingInterceptor" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT" />

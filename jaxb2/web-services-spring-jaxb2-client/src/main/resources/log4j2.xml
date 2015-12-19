@@ -27,7 +27,7 @@
     
     
         <!-- 
-        	Specific log when request message from client or response message created by this client contains validation errors.
+        	Specific log when request message from this client or response message created by remote server contains validation errors.
         	It is used by org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor
          -->
         <Logger name="org.springframework.ws.client.support.interceptor.AbstractValidatingInterceptor" level="INFO" additivity="false">
