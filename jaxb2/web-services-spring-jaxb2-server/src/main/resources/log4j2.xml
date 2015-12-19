@@ -29,6 +29,10 @@
         <!-- 
         	Specific log when request message from remote client or response message created by this server contains validation errors.
         	It is used by org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor
+        	
+        	see soap-ws.xml Spring configuration file.
+        	
+        	This configuration enables us to log validation errors of data sent from remote client or data created by this server.
          -->
         <Logger name="org.springframework.ws.soap.server.endpoint.interceptor.AbstractFaultCreatingValidatingInterceptor" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT" />
