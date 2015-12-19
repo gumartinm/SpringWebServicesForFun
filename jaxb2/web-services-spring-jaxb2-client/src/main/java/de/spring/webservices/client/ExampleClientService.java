@@ -1,6 +1,7 @@
 package de.spring.webservices.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
 import de.spring.webservices.auto.CustomBindingExampleRequest;
@@ -16,6 +17,7 @@ import de.spring.webservices.auto.ExampleResponse;
  * information from our Web Services.
  * 
  */
+@Service
 public class ExampleClientService {	
     private final WebServiceTemplate webServiceTemplate;
 
