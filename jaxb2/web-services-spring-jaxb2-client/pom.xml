@@ -95,15 +95,11 @@
 				</executions>
 				<configuration>
 					<!-- REQUIRED FOR USING THIS PLUGIN WITH WSDL FILES!!!!! -->
-					<wsdl>true</wsdl>
-    				<xmlschema>false</xmlschema>
-    				<schemaFiles>${project.xsd.schemas.source.path</schemaFiles>
+                    <schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
+                    <schemaIncludes>
+                        <include>*.wsdl</include>
+                    </schemaIncludes>
 				
-					<!-- DOESN'T WORK FOR WSDL FILES!!!! 
-						Specifies the schema directory, src/main/resources by default. 
-					<schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
-					-->
-
 
 					<!--
 						GRANDES DIFERENCIAS:
