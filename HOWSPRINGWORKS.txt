@@ -1,0 +1,138 @@
+
+
+*************************** Porque estoy usando sws:annotation-driven ***************************
+
+Porque estoy usando sws:annotation-driven y no declarando explícitamente los beans en XML existe un
+orden de búsqueda de por defecto de macheadores de endpoints y excepciones. Ver: org.springframework.ws.config.AnnotationDrivenBeanDefinitionParser
+Cuanto más bajo es el valor de order mayor es la prioridad.
+
+
+    	1. Manejadores de excepción, orden por defecto inicializado en AnnotationDrivenBeanDefinitionParser:
+    	a) SoapFaultAnnotationExceptionResolver será el primer manejador de excepciones que se intente usar por defecto. order = 0
+    	b) SimpleSoapExceptionResolver será el último manejador de excepciones que se intente usar por defecto. order = Ordered.LOWEST_PRECEDENCE
+	   Se usará si la excepción generada no pudo ser manejada por SoapFaultAnnotationExceptionResolver (porque la excepción no fue anotada con
+	   @SoapFault. Este manejador se traga cualquier excepción.
+    	
+    	2. Endpoints a buscar, orden por defecto inicializado en AnnotationDrivenBeanDefinitionParser:
+    	a) PayloadRootAnnotationMethodEndpointMapping será el primer tipo de endpoints que se buscará y que se intentará usar. order = 0
+	   Si el XML SOAP que llega no machea ningún metodo anotado con este EndPoint pasamos a b).
+    	b) SoapActionAnnotationMethodEndpointMapping será el segundo tipo de endpoints que se intentará usar. order = 1
+	   Si el XML SOAP que llega no machea ningún metodo anotado con este EndPoint pasamos a c).
+    	c) AnnotationActionEndpointMapping será el último tipo de endpoints que se buscará. order = 2
+	   Si el XML SOAP que llega no machea tampoco métodos anotado con este EndPoint se
+	   lanza NoEndpointFoundException desde org.springframework.ws.server.MessageDispatcher.dispatch()
+
+
+    	EN LUGAR DE USAR LA ANOTACIÓN PODRÍAMOS HABER DECLARADO EXPLÍCITAMENTE CADA BEAN TAL QUE ASÍ:
+    	
+    	<bean id="soapFaultMappingExceptionResolver"
+        	class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
+        	<property name="order" value="0" />
+    	</bean>
+    	
+    	<bean id="payloadRootAnnotationMethodEndpointMapping"
+        	class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
+        	<property name="order" value="0" />
+    	</bean>
+    	
+    	CON LA ANOTACIÓN ME AHORRO DECLARAR bean POR bean PERO LO MALO ES QUE INSTANCIO MANEJADORES QUE LUEGO NO USO :(
+
+
+
+
+*************************** org.springframework.ws.server.MessageDispatcher ***************************
+
+
+org.springframework.ws.server.MessageDispatcher ES LA CLASE QUE BUSCA EndPoints Y MANEJADORES DE EXCEPCIÓN
+
+ORDEN DE BUSQUEDA DE IMPLEMENTACIONES DE MANEJADORES DE EXCEPCION
+Busca en el ApplicationContext manejadores de excepción siguiendo este orden. Cuanto más bajo es el valor de order
+mayor es la prioridad.
+
+Por haber usado sws:annotation-driven el orden es el siguiente:
+
+
+1. Primero se busca por excepciones anotadas con @SoapFault. Si la excepcion generada
+está anotada son @SoapFault entonces se usa este manejador de excepcion.
+
+Implementation of the org.springframework.ws.server.EndpointExceptionResolver interface
+that uses the SoapFault annotation to map exceptions to SOAP Faults.
+org.springframework.ws.soap.server.endpoint.SoapFaultAnnotationExceptionResolver
+
+
+
+2. Segundo usa este manejador de excepción. Este manejador machea cualquier excepción así que si
+este manejador llega primero siempre resolverá la excepción.
+Simple, SOAP-specific EndpointExceptionResolver implementation that stores
+the exception's message as the fault string. 
+org.springframework.ws.soap.server.endpoint.SimpleSoapExceptionResolver
+
+
+3. Un manejador de excepciones inyectado por mi en un archivo XML de Spring. Si no se pone prioridad por defecto
+Spring le pone la prioridad más baja que es lo que me pasó a mí al principio y SimpleSoapExceptionResolver
+se meterá siempre por el medio :(
+org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver
+
+
+Si ninguno machea MessageDispatcher lanza la Excepción desde org.springframework.ws.server.MessageDispatcher.processEndpointException()
+
+
+
+ORDEN DE BUSQUEDA DE ENDPOINTS EN EL APPLICATION CONTEXT:
+Busca en el ApplicationContext metodos anotados siguiendo este orden. Si el XML SOAP que me llega
+machea con alguna de estas anotaciones, entonces ese método anotado será usado. Y NO SE CONTINUARÁ
+BUSCANDO MÁS MANEJADORES. EN CUANTO UNO MACHEA YA NO SE BUSCA POR MÁS.
+
+
+Por haber usado sws:annotation-driven el orden es el siguiente:
+
+
+1. Primero se busca por métodos de este modo. Si el XML SOAP machea con algún metodo anotado
+de este modo, entonces ese método será usado y no se continúa buscando matches.
+
+Implementation of the org.springframework.ws.server.EndpointMapping interface that uses the
+PayloadRoot annotation to map methods to request payload root elements. 
+org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping
+@Endpoint
+public class MyEndpoint {
+
+    @PayloadRoot(localPart = "Request", namespace = "http://springframework.org/spring-ws")
+    public Source doSomethingWithRequest() {
+         ...
+    }
+}
+
+2. Segundo se busca por métodos de este modo. Si el XML SOAP machea con algún metodo anotado
+de este modo, entonces ese método será usado y no se continúa buscando matches.
+
+Implementation of the org.springframework.ws.server.EndpointMapping interface that uses the
+SoapAction annotation to map methods to the request SOAPAction header. 
+org.springframework.ws.soap.server.endpoint.mapping.SoapActionAnnotationMethodEndpointMapping
+@Endpoint
+public class MyEndpoint{
+
+    @SoapAction("http://springframework.org/spring-ws/SoapAction")
+    public Source doSomethingWithRequest() {
+	 ...
+    }
+}
+
+
+3. Tercero se busca por métodos de este modo. Si el XML SOAP machea con algún metodo anotado
+de este modo, entonces ese método será usado.
+
+Implementation of the org.springframework.ws.server.EndpointMapping interface that uses the
+@Action annotation to map methods to a WS-Addressing Action header. 
+org.springframework.ws.soap.addressing.server.AnnotationActionEndpointMapping
+@Endpoint
+@Address("mailto:joe@fabrikam123.example")
+public class MyEndpoint{
+
+    @Action("http://fabrikam123.example/mail/Delete")
+    public Source doSomethingWithRequest() {
+	 ...
+    }
+}
+
+
+Si ninguno machea MessageDispatcher lanza NoEndpointFoundException desde org.springframework.ws.server.MessageDispatcher.dispatch()

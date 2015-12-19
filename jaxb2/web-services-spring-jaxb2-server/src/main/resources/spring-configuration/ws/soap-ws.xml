@@ -14,38 +14,81 @@
                       http://www.springframework.org/schema/util 
                       http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<!-- Searches for @Endpoint  --> 
+	<!-- Searches for beans in packages (instead of XML configuration we can use in this way annotations like @Service, @Endpoint, etc, etc)  -->
     <context:component-scan base-package="de.spring.webservices"/>
 
     <!--
-        Aqui se podría especificar un unmarshaller (para la request) o un
-        marshaller (para la response) especifico. Por ejemplo Castor.
+        Three ways of using a marshallers/unmarshallers.
         
-        Por la anotacion que uso para el EndPoint y porque tengo JAXB2 en el
-        classpath, Spring lo que está haciendo es el equivalente a si se 
-        escribiera lo siguiente:
+        1. No declarar nada en el XML y dejar que Spring lo haga internamente todo por nosotros.
+        Esto equivale a esta configuracion en XML
+        
+        <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices"/>
+        El context-path Spring supongo que lo rellena automáticamente en base al component-scan declarado arriba.
+        
+        2. Especificando el context-path para ser escaneado por Spring usando anotaciones. Esto
+        se hace de este modo:
         
         <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
+        Esto es lo mismo que haría Spring si no declaramos nada en el XML pero así tenemos opción de
+        de especificar un context-path en concreto.
         
-         Searches for @PayloadRoot
-        <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
+        3. Especificando la implementación concreta del marshaller.
+        Con esta opción además puedo usar packagesToScan, contest-path si no recuerdo mal tenía problemas
+        cuando había dos ObjectFactory con el mismo package. Uno está en globalxsds y otro en este proyecto.
+        De todos modos, probablemente habría que usar un package distinto para lo que hay
+     	en globalxsds (quizás incluso basado en el namespace del xsd) y así podría evitar esta configuración.
      -->
-     
-     <!-- 
-     	VOY A INSTANCIAR EXPLÍCITAMENTE EL Marshaller Y VOY A USAR packagesToScan
-     	PORQUE TENGO DOS ObjectFactory CON EL MISMO package. UNO ESTÁ EN globalxsds Y OTRO
-     	ESTÁ EN ESTE PROYECTO server.
-     	
-     	SI NO RECUERDO MAL HABÍA PROBLEMAS CUANDO SE TENÍA DOS ObjectFactory IGUALES Y
-     	SE USABA contest-path.
-     	
-     	DE TODOS MODOS, PROBABLEMENTE HABRÍA QUE USAR UN PACKAGE DISTINTO PARA LO QUE HAY
-     	EN globalxsds Y ASÍ PODRÍA EVITAR ESTA CONFIGURACIÓN :(
-      -->
     <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
     	<property name="packagesToScan" value="de.spring.webservices.auto"/>
   	</bean>
+  	<!-- Searches for @PayloadRoot -->
     <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller" />
+    
+    
+    <!-- 
+    	CONSECUENCIAS DE USAR sws:annotation-driven VER: org.springframework.ws.config.AnnotationDrivenBeanDefinitionParser
+    	Cuanto más bajo es el valor de order mayor es la prioridad.
+    	
+    	1. Manejadores de excepción, orden por defecto inicializado en AnnotationDrivenBeanDefinitionParser:
+    	a) SoapFaultAnnotationExceptionResolver será el primer manejador de excepciones que se intente usar por defecto. order = 0
+    	b) SimpleSoapExceptionResolver será el último manejador de excepciones que se intente usar por defecto. order = Ordered.LOWEST_PRECEDENCE
+		   Se usará si la excepción generada no pudo ser manejada por SoapFaultAnnotationExceptionResolver (porque la excepción no fue anotada con
+		   @SoapFault. Este manejador se traga cualquier excepción.
+    	
+    	2. Endpoints a buscar, orden por defecto inicializado en AnnotationDrivenBeanDefinitionParser:
+    	a) PayloadRootAnnotationMethodEndpointMapping será el primer tipo de endpoints que se buscará y que se intentará usar. order = 0
+		   Si el XML SOAP que llega no machea ningún metodo anotado con este EndPoint pasamos a b).
+    	b) SoapActionAnnotationMethodEndpointMapping será el segundo tipo de endpoints que se intentará usar. order = 1
+		   Si el XML SOAP que llega no machea ningún metodo anotado con este EndPoint pasamos a c).
+    	c) AnnotationActionEndpointMapping será el último tipo de endpoints que se buscará. order = 2
+		   Si el XML SOAP que llega no machea tampoco métodos anotado con este EndPoint se
+		   lanza NoEndpointFoundException desde org.springframework.ws.server.MessageDispatcher.dispatch()
+    	
+    	
+    	EN LUGAR DE USAR LA ANOTACIÓN PODRÍAMOS HABER DECLARADO EXPLÍCITAMENTE CADA BEAN TAL QUE ASÍ:
+    	
+    	<bean id="soapFaultMappingExceptionResolver"
+        	class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
+        	<property name="order" value="0" />
+    	</bean>
+    	
+    	<bean id="payloadRootAnnotationMethodEndpointMapping"
+        	class="org.springframework.ws.server.endpoint.mapping.PayloadRootAnnotationMethodEndpointMapping">
+        	<property name="order" value="0" />
+    	</bean>
+    	
+    	CON LA ANOTACIÓN ME AHORRO DECLARAR bean POR bean PERO LO MALO ES QUE INSTANCIO MANEJADORES QUE LUEGO NO USO :(
+    	
+    	
+    	ATENCION:
+    	Solo se usa una instancia de org.springframework.oxm.jaxb.Jaxb2Marshaller que será usada por todas las llamadas (todos los hilos).
+    	Es hilo seguro, por debajo usa javax.xml.bind.JAXBContext que es hilo seguro.
+    	JAXBContext debe ser siempre un singleton porque la primera vez tarda mucho en inicializarse. Cada vez que se haga marshalling y unmarshalling
+    	se deben crear objetos ligeros y no seguros mediante los métodos JAXBContext.createMarshaller() y JAXBContext.createUnmarshaller()
+    	(esto es lo que hace Jaxb2Marshaller por nosotros) Los objetos ligeros creados son javax.xml.bind.Marshaller y javax.xml.bind.Unmarshaller
+    	que no son hilo seguro y por tanto serán creados por cada petición (todo esto lo está haciendo Spring ya, así que genial)
+     -->
 
     <!--
         Spring makes the WSDL file for us from the XSD file.
@@ -75,10 +118,16 @@
         </property>
     </bean>
     
+    <!-- The interceptors in this set are automatically configured on each registered EndpointMapping
+    	 What means, every class annotated with @Endpoint will be using these interceptors.
+    	 
+    	 This configuration enables us to log the SOAP XML Request (received from client), Response (sent by this server) and Fault (sent by this server).
+     -->
     <sws:interceptors>
         <bean class="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
             <property name="logRequest" value="true"/>
             <property name="logResponse" value="true"/>
+            <property name="logFault" value="true"/>
         </bean>
 
         <!-- 
@@ -102,15 +151,71 @@
         </bean>
     </sws:interceptors>
     
-   
-    <bean id="exceptionResolver"
+    
+    <!-- 
+	    PARA METER MAS COSAS A LA RESPUESTA CON ERROR, por ejemplo si quisiéramos enviar en Reason Text la pila de excepción tengo que
+	    implementar mi propio manejador de excepción que extienda de AbstractSoapFaultDefinitionExceptionResolver y añada todo aquello
+	    que yo necesite.
+	    
+	    A mí me parecen muy pobres las implementaciones que trae Spring así que implementaré el mío propio que devuelva la pila
+	    de excepción si la hay.
+     -->
+    <bean id="soapFaultMappingExceptionResolver"
         class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
+        <!--
+        	No quiero usar un valor por defecto porque si no, si mi manejador no machea ninguna excepción
+        	devolvera este valor por defecto.
+        	
+        	Cuando se escribe value="SERVER" Spring está seteando SoapFaultDefinition.SERVER en defaultValue
+        	de org.springframework.ws.soap.server.endpoint.AbstractSoapFaultDefinitionExceptionResolver Esto parece
+        	magia pero Spring lo logra usando org.springframework.ws.soap.server.endpoint.SoapFaultDefinitionEditor.setAsText("SERVER")
+        	
         <property name="defaultFault" value="SERVER"/>
+        -->
         <property name="exceptionMappings">
-            <value>
-                org.springframework.oxm.ValidationFailureException=CLIENT,Invalid request
-            </value>
+            <props>
+            	<!--
+            		<prop key="de.spring.webservices.exceptions.BusinessException">SERVER,something went wrong in server side,en_US</prop>
+            		
+            		Si hago esto en lugar de devolver al cliente el mensaje que va dentro de la excepcion devuelvo siempre:
+            		
+					<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+					   <env:Header/>
+					   <env:Body>
+					      <env:Fault>
+					         <env:Code>
+					            <env:Value>env:Receiver</env:Value>    Receiver y Server significa lo mismo. Cuando pongo "SERVER" en primer token aquí aparece Receiver.
+					         </env:Code>
+					         <env:Reason>
+					            <env:Text xml:lang="en-US">something went wrong in server side</env:Text>   en-US porque puse como Locale en_US en el tercer token.
+					         </env:Reason>
+					      </env:Fault>
+					   </env:Body>
+					</env:Envelope>
+            		
+            		El primer token es el Value. Si es SERVER o RECEIVER se muestra Receiver. Si es CLIENT o SENDER se muestra Sender.
+            		
+            		El segundo token es el mensaje que SIEMPRE se mostrará.
+            		
+            		El tercer token mapea a un Locale en SoapFaultDefinition (por defecto Locale.ENGLISH). El mapeo se hace con
+            		org.springframework.util.StringUtils.parseLocaleString("en_US")
+            		
+            		
+            		
+            		
+            		
+            		Yo prefiero que se devuelva el mensaje que va dentro de la excepción. Para eso SOLO puede haber un token y
+            		el Locale siempre será entonces Locale.ENGLISH.
+            		
+            		Uso SERVER porque de.spring.webservices.exceptions.BusinessException es una excepción generada en el lado servidor.
+            	 -->
+      			<prop key="de.spring.webservices.exceptions.BusinessException">SERVER</prop>
+    		</props>
         </property>
+        <!-- Así mi manejador de excepciones entra antes que  SimpleSoapExceptionResolver pero después que
+        	 SoapFaultAnnotationExceptionResolver
+        -->
+        <property name="order" value="1" />
     </bean>
     
 </beans>

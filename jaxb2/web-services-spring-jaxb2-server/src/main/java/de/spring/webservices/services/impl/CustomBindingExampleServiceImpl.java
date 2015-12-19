@@ -2,6 +2,7 @@ package de.spring.webservices.services.impl;
 
 import org.springframework.stereotype.Service;
 
+//import de.spring.webservices.exceptions.BusinessException;
 import de.spring.webservices.auto.CustomBindingExampleRequest;
 import de.spring.webservices.auto.CustomBindingExampleResponse;
 import de.spring.webservices.auto.ParentEnumType;
@@ -15,6 +16,11 @@ public class CustomBindingExampleServiceImpl implements
 	
 	@Override
     public CustomBindingExampleResponse requestResponse(final CustomBindingExampleRequest request) {
+		
+		
+		// Example about how works org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver
+		// see soap-ws.xml Spring configuration file.
+//		throw new BusinessException("This feature has not been implemented yet.");
 		
         CustomBindingExampleResponse response = new CustomBindingExampleResponse();
 
