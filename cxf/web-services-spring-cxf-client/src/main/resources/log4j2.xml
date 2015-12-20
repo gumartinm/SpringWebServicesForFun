@@ -28,12 +28,27 @@
     
         <!-- 
         	Specific log when request message from this client or response message created by remote server contains validation errors.
-        	It is used by org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor
+        	
+        	see client-spring-configuration.xml Spring configuration file.
+        	
+        	This configuration enables us to log validation errors of data sent from this client or data sent by remote server.
          -->
-        <Logger name="org.springframework.ws.client.support.interceptor.AbstractValidatingInterceptor" level="INFO" additivity="false">
+        <Logger name="org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT" />
         </Logger>
 
+        <!-- Specific log level for SOAP XML messages.
+        	 
+        	 see client-spring-configuration.xml Spring configuration file.
+        	 
+        	 This configuration enables us to log the SOAP XML Request (sent from this client), Response (sent by remote server) and Fault (sent by remote server).
+    	-->
+		<Logger name="org.springframework.ws.client.MessageTracing" level="TRACE" additivity="false">
+			<AppenderRef ref="STDOUT" />
+        </Logger>
+        <Logger name="org.springframework.ws.server.MessageTracing" level="TRACE" additivity="false">
+        	<AppenderRef ref="STDOUT" />
+	   	</Logger>
         
         <!-- 
     		Specific log level for Spring WS.
