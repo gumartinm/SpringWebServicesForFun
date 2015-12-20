@@ -76,8 +76,19 @@
         class="org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor">
         <property name="schemas">
             <list>
-                <value>classpath:schemas/examples.xsd</value>
-                <value>classpath:schemas/parent.xsd</value>
+                <!--
+                	ALWAYS FIRST THE XSD FILES TO BE IMPORTED!!!!!  O.o
+                	OTHERWISE THE import IN examples.xsd WILL BE SOLVED BY MEANS OF DOWNLOADING THE
+                	EXTERNAL parent.xsd (USING THE URL LINKED BY THE IMPORT STATEMENT IN examples.xsd)
+                		 
+        			IF YOU DON'T DO THIS, PayloadValidatingInterceptor WILL TRY TO CONNECT TO THE
+        			EXTERNAL SERVER WHERE parent.xsd IS LOCATED AND IT WILL FAIL IF BECAUSE SOME
+        			REASON YOU DON'T HAVE IN THAT VERY MOMENT NETWORK CONNECTION. SO, DON'T MESS WITH THIS
+        			CONFIGURATION.
+                 -->
+                 <value>classpath:schemas/parent.xsd</value>
+                    
+                 <value>classpath:schemas/examples.xsd</value>
             </list>
         </property>
         <property name="validateRequest" value="true"/>
