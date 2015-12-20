@@ -103,11 +103,6 @@
     </sws:dynamic-wsdl>
 
 
-    <bean id="parent" class="org.springframework.xml.xsd.SimpleXsdSchema">
-        <property name="xsd" value="classpath:schemas/parent.xsd"/>
-    </bean>
-
-
     <!-- Required in order to use SOAP 1.2
     	 id="messageFactory" is not a random choice, if you use another name it will not work
     	 (Spring will end up loading SOAP 1.1)
