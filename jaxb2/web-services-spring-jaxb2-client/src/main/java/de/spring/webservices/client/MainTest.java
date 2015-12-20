@@ -28,7 +28,7 @@ public class MainTest {
                 "classpath:spring-configuration/ws/client-spring-configuration.xml");
 
         final ExampleClientService example =
-        		(ExampleClientService) test.context.getBean("exampleClient");
+        		(ExampleClientService) test.context.getBean("exampleClientService");
 
 //  maven-jaxb2-plugin DOESN'T CREATE @WebService, @WebServiceClient y @WebEndpoint
 //        logger.info("ExampleResponse Java:");

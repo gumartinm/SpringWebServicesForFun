@@ -17,7 +17,7 @@ import de.spring.webservices.auto.ExampleResponse;
  * information from our Web Services.
  * 
  */
-@Service
+@Service("exampleClientService")
 public class ExampleClientService {	
     private final WebServiceTemplate webServiceTemplate;
 
