@@ -218,4 +218,20 @@
         <property name="order" value="1" />
     </bean>
     
+    
+    
+    <bean id="myCustomExceptionResolver" class="de.spring.webservices.endpoints.MyCustomExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+
+      			<prop key="de.spring.webservices.exceptions.CustomBusinessException">SERVER</prop>
+    		</props>
+        </property>
+        <property name="marshaller" ref="marshaller"/>
+        <!-- Así mi manejador de excepciones entra antes que SimpleSoapExceptionResolver pero después que
+        	 SoapFaultAnnotationExceptionResolver y SoapFaultMappingExceptionResolver
+        -->
+        <property name="order" value="2" />
+    </bean>
+    
 </beans>
