@@ -102,6 +102,8 @@
 					</execution>
 				</executions>
 				<configuration>
+					<schemaLanguage>XMLSCHEMA</schemaLanguage>
+					
 					<!-- Specifies the schema directory, src/main/resources by default. -->
 					<schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
 
@@ -170,7 +172,9 @@
 						</plugin>
 					</plugins>
 
-
+					<!--  Avoids the annoying SCD "x-schema::tns" didn't match any schema component errors. -->
+					<addIfExistsToEpisodeSchemaBindings>true</addIfExistsToEpisodeSchemaBindings>
+					
 					<!--
 						GRAN DIFERENCIA:
 					 

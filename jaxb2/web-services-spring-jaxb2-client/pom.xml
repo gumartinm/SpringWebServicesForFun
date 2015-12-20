@@ -95,6 +95,7 @@
 				</executions>
 				<configuration>
 					<!-- REQUIRED FOR USING THIS PLUGIN WITH WSDL FILES!!!!! -->
+					<schemaLanguage>WSDL</schemaLanguage>
                     <schemaDirectory>${project.xsd.schemas.source.path}</schemaDirectory>
                     <schemaIncludes>
                         <include>*.wsdl</include>
@@ -183,6 +184,8 @@
 						</plugin>
 					</plugins>
 
+					<!--  Avoids the annoying SCD "x-schema::tns" didn't match any schema component errors. -->
+					<addIfExistsToEpisodeSchemaBindings>true</addIfExistsToEpisodeSchemaBindings>
 
 					<!--
 						GRAN DIFERENCIA:
