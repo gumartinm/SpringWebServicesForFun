@@ -110,11 +110,15 @@
 						POR ALGUIEN SIN TENER QUE EDITARLO :(  POR EJEMPLO, AQUÍ YA NO PUEDO METER MI XSDateTimeCustomBinder
 						SIN EDITAR EL WSDL :(
 						
-						:) CON ESTE PLUGIN A DIFERENCIA DE cxf-codegen-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						:( CON ESTE PLUGIN AL IGUAL QUE CON cxf-codegen-plugin SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
 						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
 						
 						:( CON ESTE PLUGIN NO CONSIGO GENERAR LAS CLASES @WebService, @WebServiceClient y @WebEndpoint
 						CON cxf-codegen-plugin SÍ PUEDO :(  VER ExamplesService EN web-services-spring-cxf-client
+						
+						CONCLUSION: ESTE PLUGIN PARA WSDLs ES PEOR QUE cxf-codegen-plugin
+						
+						¡¡¡¡¡PARA WSDLs MEJOR USAR cxf-codegen-plugin!!!!!
 					-->
 					
 					<!-- DOESN'T WORK FOR WSDL FILES!!!!
@@ -188,15 +192,11 @@
 					<addIfExistsToEpisodeSchemaBindings>true</addIfExistsToEpisodeSchemaBindings>
 
 					<!--
-						GRAN DIFERENCIA:
-					 
-						CON ESTE PLUGIN A DIFERENCIA DE cxf-xjc-plugin NO SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
+						 :( CON ESTE PLUGIN COMO CON cxf-xjc-plugin SE VUELVEN A GENERAR LOS OBJETOS DE parent.xsd
 						QUE SE ENCONTRABAN EN web-services-spring-jaxb2-globalxsds
 						
-						CON cxf-xjc-plugin SÍ SE VUELVEN A GENERAR INCLUSO AUNQUE USEMOS EPISODIOS :(
-						
-						CON ESTE PLUGIN CONSEGUIMOS NO EMPAQUETAR AQUÍ TAMBIÉN LAS MISMAS CLASES QUE
-						TENÍAMOS EN web-services-spring-jaxb2-globalxsds
+						ESTE PLUGIN PARA WSDLs SE COMPORTA COMO cxf-xjc-plugin EN CUANTO A QUE GENERA
+						OTRA VEZ LOS OBJETOS QUE YA ESTÁN EN web-services-spring-jaxb2-globalxsds :(
 					-->
 						
 					<!-- You can use the useDependenciesAsEpisodes instead of configuring 
