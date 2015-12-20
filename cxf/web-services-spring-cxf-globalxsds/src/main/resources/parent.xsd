@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:parent="http://gumartinm.name/spring-ws/parent"
     elementFormDefault="qualified"
     targetNamespace="http://gumartinm.name/spring-ws/parent">
+	
+    <!--
+    	  When should an item be declared as an element versus when should it be defined as a type?
+    	  When in doubt, make it a type. You can always create an element from the type, if needed. With a type, other elements can reuse that type.
+    	  
+    	  <xs:all> specifies that the child elements can appear in any order.
+    	  
+    	  <xs:sequence> specifies child elements can only appear in the order mentioned.
+    -->
 	
     <xs:simpleType name="parentEnumType">
         <xs:restriction base="xs:token">
@@ -15,8 +25,15 @@
     
     <xs:simpleType name="limitedString">
     	<xs:restriction base="xs:string">
-      		<xs:maxLength value="20" />
+      		<xs:maxLength value="30" />
     	</xs:restriction>
   	</xs:simpleType>
+  	
+  	<xs:complexType name="element">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="messageArgs" type="xs:string" minOccurs="0" maxOccurs="100"/>
+        </xs:sequence>
+    </xs:complexType>
 
 </xs:schema>

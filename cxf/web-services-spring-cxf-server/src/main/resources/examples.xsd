@@ -9,6 +9,15 @@
     jaxb:extensionBindingPrefixes="inheritance annox"
     elementFormDefault="qualified"
     targetNamespace="http://gumartinm.name/spring-ws/example">
+    
+    <!--
+    	  When should an item be declared as an element versus when should it be defined as a type?
+    	  When in doubt, make it a type. You can always create an element from the type, if needed. With a type, other elements can reuse that type.
+    	  
+    	  <xs:all> specifies that the child elements can appear in any order.
+    	  
+    	  <xs:sequence> specifies child elements can only appear in the order mentioned.
+    -->
 
     <!--
         We are going to use catalog.cat in order to avoid downloading parent.xsd from remote server
@@ -53,6 +62,14 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
+    <xs:element name="ExampleFault">
+    	<xs:complexType>
+        	<xs:sequence>
+     			<xs:element name="technicalError" type="xs:string" />
+           		<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
+        	</xs:sequence>
+        </xs:complexType>
+    </xs:element>
 
 
 	<!-- Using custombinding.xjb instead of inheritance plugin.
@@ -75,6 +92,14 @@
                 <xs:element name="exampleDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
                 <xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
             </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CustomBindingExampleFault">
+    	<xs:complexType>
+        	<xs:sequence>
+     			<xs:element name="technicalError" type="xs:string" />
+           		<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
+        	</xs:sequence>
         </xs:complexType>
     </xs:element>
 
