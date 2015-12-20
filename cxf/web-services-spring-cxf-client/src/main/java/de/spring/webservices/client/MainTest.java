@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.spring.webservices.auto.CustomBindingExampleFault_Exception;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleFault_Exception;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.client.auto.CustomBindingExampleFault;
+import de.spring.webservices.client.auto.CustomBindingExampleResponse;
+import de.spring.webservices.client.auto.ExampleFault;
+import de.spring.webservices.client.auto.ExampleResponse;
 
 /**
  * This class is used just like a nice example about how to write and run client
@@ -25,7 +25,7 @@ public class MainTest {
      * @throws ExampleFault_Exception 
      * @throws CustomBindingExampleFault_Exception 
      */
-    public static void main(final String[] args) throws ExampleFault_Exception, CustomBindingExampleFault_Exception {
+    public static void main(final String[] args) throws ExampleFault, CustomBindingExampleFault {
         final MainTest test = new MainTest();
 
         test.context = new ClassPathXmlApplicationContext(

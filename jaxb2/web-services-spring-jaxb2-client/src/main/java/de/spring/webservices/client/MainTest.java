@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.client.auto.CustomBindingExampleResponse;
+import de.spring.webservices.client.auto.ExampleResponse;
 
 /**
  * This class is used just like a nice example about how to write and run client

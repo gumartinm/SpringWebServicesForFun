@@ -8,12 +8,12 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
 import de.spring.webservices.operations.Operations;
 import de.spring.webservices.operations.Operations.RequestResponse;
+import de.spring.webservices.server.auto.CustomBindingExampleRequest;
+import de.spring.webservices.server.auto.CustomBindingExampleResponse;
+import de.spring.webservices.server.auto.ExampleRequest;
+import de.spring.webservices.server.auto.ExampleResponse;
 import de.spring.webservices.services.ExampleService;
 
 

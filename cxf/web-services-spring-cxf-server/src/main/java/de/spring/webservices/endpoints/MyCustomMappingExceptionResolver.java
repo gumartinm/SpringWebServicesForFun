@@ -19,9 +19,9 @@ import org.springframework.ws.soap.server.endpoint.AbstractSoapFaultDefinitionEx
 import org.springframework.ws.soap.server.endpoint.SoapFaultDefinition;
 import org.springframework.ws.soap.server.endpoint.SoapFaultDefinitionEditor;
 
-import de.spring.webservices.auto.Element;
-import de.spring.webservices.auto.ExampleFault;
 import de.spring.webservices.exceptions.CustomBusinessException;
+import de.spring.webservices.server.auto.Element;
+import de.spring.webservices.server.auto.GeneralFault;
 
 public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitionExceptionResolver {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyCustomMappingExceptionResolver.class);
@@ -94,7 +94,7 @@ public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitio
 	}
 
 	protected void customizeFault(Object endpoint, Exception ex, SoapFault fault) {
-		ExampleFault customFault = new ExampleFault();
+		GeneralFault customFault = new GeneralFault();
 		customFault.setTechnicalError(getStackTrace(ex));
 		
 		Element element = buildElement(ex);

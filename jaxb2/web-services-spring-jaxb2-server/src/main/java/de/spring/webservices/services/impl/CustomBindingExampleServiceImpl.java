@@ -5,14 +5,12 @@ package de.spring.webservices.services.impl;
 
 import org.springframework.stereotype.Service;
 
-
-
+import de.spring.webservices.operations.Operations;
+import de.spring.webservices.parent.auto.ParentEnumType;
+import de.spring.webservices.server.auto.CustomBindingExampleRequest;
+import de.spring.webservices.server.auto.CustomBindingExampleResponse;
 //import de.spring.webservices.exceptions.BusinessException;
 //import de.spring.webservices.exceptions.CustomBusinessException;
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ParentEnumType;
-import de.spring.webservices.operations.Operations;
 
 
 @Service("customBindingExampleService")

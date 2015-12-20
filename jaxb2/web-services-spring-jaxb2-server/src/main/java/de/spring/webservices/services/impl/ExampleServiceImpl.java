@@ -2,8 +2,8 @@ package de.spring.webservices.services.impl;
 
 import org.springframework.stereotype.Service;
 
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.server.auto.ExampleRequest;
+import de.spring.webservices.server.auto.ExampleResponse;
 import de.spring.webservices.services.ExampleService;
 
 

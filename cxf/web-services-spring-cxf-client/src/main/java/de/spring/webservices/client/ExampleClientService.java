@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import de.spring.webservices.auto.CustomBindingExampleFault_Exception;
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleFault_Exception;
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
-import de.spring.webservices.auto.Examples;
-import de.spring.webservices.auto.ExamplesService;
+import de.spring.webservices.client.auto.CustomBindingExampleFault;
+import de.spring.webservices.client.auto.CustomBindingExampleRequest;
+import de.spring.webservices.client.auto.CustomBindingExampleResponse;
+import de.spring.webservices.client.auto.ExampleFault;
+import de.spring.webservices.client.auto.ExampleRequest;
+import de.spring.webservices.client.auto.ExampleResponse;
+import de.spring.webservices.client.auto.Examples;
+import de.spring.webservices.client.auto.ExamplesService;
 
 /**
  * Someone could write code like this one in order to send and receive
@@ -29,7 +29,7 @@ public class ExampleClientService {
 	    this.webServiceTemplate = webServiceTemplate;
     }
 
-	public ExampleResponse sendAndReceiveJava() throws ExampleFault_Exception {
+	public ExampleResponse sendAndReceiveJava() throws ExampleFault {
         final ExampleRequest exampleRequest = new ExampleRequest();
         exampleRequest.setData("SCARLETT JAVA. IT IS CANON.");
 
@@ -49,7 +49,7 @@ public class ExampleClientService {
         return exampleResponse;
     }
 	
-	public CustomBindingExampleResponse sendAndReceiveJavaCustom() throws CustomBindingExampleFault_Exception {
+	public CustomBindingExampleResponse sendAndReceiveJavaCustom() throws CustomBindingExampleFault {
         final CustomBindingExampleRequest customBindingxampleRequest =
         		new CustomBindingExampleRequest();
         customBindingxampleRequest.setData("CUSTOM BINDING JAVA. SCARLETT. IT IS CANON.");

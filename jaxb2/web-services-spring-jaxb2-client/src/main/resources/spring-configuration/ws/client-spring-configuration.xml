@@ -49,7 +49,12 @@
      	en globalxsds (quizás incluso basado en el namespace del xsd) y así podría evitar esta configuración. 
      -->
 	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-    	<property name="packagesToScan" value="de.spring.webservices.auto"/>
+    	<!--
+    		maven-jaxb2-plugin for WSDL DOES generate again the objects in web-services-spring-jaxb2-globalxsds :(
+    		So we MAY NOT scan everything because there is more than one class representing
+    		the same XML element. :(
+    	-->
+    	<property name="packagesToScan" value="de.spring.webservices.client.auto"/>
   	</bean>
      
    

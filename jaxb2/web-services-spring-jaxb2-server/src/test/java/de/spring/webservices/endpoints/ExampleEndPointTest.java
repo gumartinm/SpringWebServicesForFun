@@ -6,10 +6,10 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleRequest;
 import de.spring.webservices.operations.Operations;
+import de.spring.webservices.server.auto.CustomBindingExampleRequest;
+import de.spring.webservices.server.auto.CustomBindingExampleResponse;
+import de.spring.webservices.server.auto.ExampleRequest;
 import de.spring.webservices.services.ExampleService;
 
 

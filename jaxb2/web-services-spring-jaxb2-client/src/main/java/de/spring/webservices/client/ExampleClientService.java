@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
-//import de.spring.webservices.auto.Examples;
-//import de.spring.webservices.auto.ExamplesService;
-//import de.spring.webservices.auto.ParentEnumType;
+import de.spring.webservices.client.auto.CustomBindingExampleRequest;
+import de.spring.webservices.client.auto.CustomBindingExampleResponse;
+import de.spring.webservices.client.auto.ExampleRequest;
+import de.spring.webservices.client.auto.ExampleResponse;
+//import de.spring.webservices.client.auto.Examples;
+//import de.spring.webservices.client.auto.ExamplesService;
+//import de.spring.webservices.client.auto.ParentEnumType;
 
 /**
  * Someone could write code like this one in order to send and receive

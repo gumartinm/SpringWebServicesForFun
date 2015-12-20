@@ -4,8 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.server.auto.ExampleRequest;
+import de.spring.webservices.server.auto.ExampleResponse;
 import de.spring.webservices.services.impl.ExampleServiceImpl;
 
 public class ExampleServiceTest {

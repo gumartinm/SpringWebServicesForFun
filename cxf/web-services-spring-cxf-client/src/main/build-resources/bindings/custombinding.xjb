@@ -10,9 +10,13 @@
     jaxb:version="2.1"
     jaxb:extensionBindingPrefixes="xjc inheritance annox">
 
+	<!--
+		Perhaps it would be better to relay on the package generated automatically from WSDL
+		In a real project, I guess, I should use the package generated from WSDL file...
+	 -->
     <jaxws:bindings
         node="wsdl:definitions">
-        <jaxws:package name="de.spring.webservices.auto"/>
+        <jaxws:package name="de.spring.webservices.client.auto"/>
     </jaxws:bindings>
     
 
@@ -26,8 +30,12 @@
     <jaxws:bindings
         node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://gumartinm.name/spring-ws/example']">
 
+		<!--
+			Perhaps it would be better to relay on the package generated automatically from WSDL
+			In a real project, I guess, I should use the package generated from WSDL file...
+	 	-->
         <jaxb:schemaBindings>
-            <jaxb:package name="de.spring.webservices.auto"/>
+            <jaxb:package name="de.spring.webservices.client.auto"/>
         </jaxb:schemaBindings>
 
         <jaxb:bindings node="//xs:element[@name='CustomBindingExampleRequest']/xs:complextype">

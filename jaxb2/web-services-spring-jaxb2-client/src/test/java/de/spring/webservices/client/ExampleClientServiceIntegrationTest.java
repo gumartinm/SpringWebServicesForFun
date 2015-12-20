@@ -16,8 +16,8 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.test.client.MockWebServiceServer;
 import org.springframework.xml.transform.StringSource;
 
-import de.spring.webservices.auto.CustomBindingExampleResponse;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.client.auto.CustomBindingExampleResponse;
+import de.spring.webservices.client.auto.ExampleResponse;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

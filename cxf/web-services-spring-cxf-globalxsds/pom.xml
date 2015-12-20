@@ -13,7 +13,7 @@
 	<properties>
 		<project.xsd.schemas.source.path>src/main/resources</project.xsd.schemas.source.path>
 		<project.xsd.schemas.target.path>${basedir}/target/generated-sources/src/main/java</project.xsd.schemas.target.path>
-		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
+		<project.xsd.schemas.package.name>de.spring.webservices.parent.auto</project.xsd.schemas.package.name>
 		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
 	</properties>
 

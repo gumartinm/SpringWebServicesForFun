@@ -15,7 +15,7 @@
 		<jetty.version>9.3.0.RC0</jetty.version>
 		<project.xsd.schemas.source.path>src/main/resources/schemas</project.xsd.schemas.source.path>
 		<project.xsd.schemas.target.path>${project.build.directory}/generated-sources/src/main/java</project.xsd.schemas.target.path>
-		<project.xsd.schemas.package.name>de.spring.webservices.auto</project.xsd.schemas.package.name>
+		<project.xsd.schemas.package.name>de.spring.webservices.server.auto</project.xsd.schemas.package.name>
 		<project.bindings.path>src/main/build-resources/bindings</project.bindings.path>
 	</properties>
 

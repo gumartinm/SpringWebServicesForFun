@@ -103,7 +103,6 @@
 							<sourceRoot>${project.wsdl.target.path}</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<!-- <wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl> -->
 									<wsdl>${project.wsdl.sources.path}/example.wsdl</wsdl>
 									<bindingFiles>
 										<bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>

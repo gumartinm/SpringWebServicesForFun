@@ -62,14 +62,7 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    <xs:element name="ExampleFault">
-    	<xs:complexType>
-        	<xs:sequence>
-     			<xs:element name="technicalError" type="xs:string" />
-           		<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
-        	</xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xs:element name="ExampleFault" type="parent:generalFault" />
 
 
 	<!-- Using custombinding.xjb instead of inheritance plugin.
@@ -94,14 +87,7 @@
             </xs:all>
         </xs:complexType>
     </xs:element>
-    <xs:element name="CustomBindingExampleFault">
-    	<xs:complexType>
-        	<xs:sequence>
-     			<xs:element name="technicalError" type="xs:string" />
-           		<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
-        	</xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xs:element name="CustomBindingExampleFault" type="parent:generalFault" />
 
 	<!-- Example of creating array list by means of XSD -->
     <xs:complexType name="car">

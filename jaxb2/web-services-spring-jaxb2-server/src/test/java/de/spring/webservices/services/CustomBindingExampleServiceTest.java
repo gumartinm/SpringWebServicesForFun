@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.spring.webservices.auto.CustomBindingExampleRequest;
-import de.spring.webservices.auto.CustomBindingExampleResponse;
 import de.spring.webservices.operations.Operations;
+import de.spring.webservices.server.auto.CustomBindingExampleRequest;
+import de.spring.webservices.server.auto.CustomBindingExampleResponse;
 import de.spring.webservices.services.impl.CustomBindingExampleServiceImpl;
 
 

@@ -1,7 +1,7 @@
 package de.spring.webservices.services;
 
-import de.spring.webservices.auto.ExampleRequest;
-import de.spring.webservices.auto.ExampleResponse;
+import de.spring.webservices.server.auto.ExampleRequest;
+import de.spring.webservices.server.auto.ExampleResponse;
 
 
 public interface ExampleService {

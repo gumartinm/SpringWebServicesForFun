@@ -29,7 +29,7 @@
         2. Especificando el context-path para ser escaneado por Spring usando anotaciones. Esto
         se hace de este modo:
         
-        <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
+        <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.server.auto"/>
         Esto es lo mismo que haría Spring si no declaramos nada en el XML pero así tenemos opción de
         de especificar un context-path en concreto.
         
@@ -40,7 +40,12 @@
      	en globalxsds (quizás incluso basado en el namespace del xsd) y así podría evitar esta configuración.
      -->
     <bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-    	<property name="packagesToScan" value="de.spring.webservices.auto"/>
+    	<!--
+    		maven-jaxb2-plugin does NOT generate again the objects in web-services-spring-jaxb2-globalxsds
+    		So we MAY scan everything and there is no trouble because there is not more than one class representing
+    		the same XML element.
+    	-->
+    	<property name="packagesToScan" value="de.spring.webservices"/>
   	</bean>
   	<!-- Searches for @PayloadRoot -->
     <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller" />
