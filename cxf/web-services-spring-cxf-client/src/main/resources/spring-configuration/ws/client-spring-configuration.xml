@@ -114,7 +114,7 @@
     
     
     <!-- 
-    Strategies used by default (see WebServiceTemplate.properties file)
+    WebServiceTemplate using these strategies by default (see WebServiceTemplate.properties file)
     
     org.springframework.ws.client.core.FaultMessageResolver=org.springframework.ws.soap.client.core.SoapFaultMessageResolver
 	org.springframework.ws.WebServiceMessageFactory=org.springframework.ws.soap.saaj.SaajSoapMessageFactory

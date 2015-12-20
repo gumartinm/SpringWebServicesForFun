@@ -95,6 +95,14 @@
         <property name="validateResponse" value="true"/>
     </bean>
     
+    <!-- 
+    WebServiceTemplate using these strategies by default (see WebServiceTemplate.properties file)
+    
+    org.springframework.ws.client.core.FaultMessageResolver=org.springframework.ws.soap.client.core.SoapFaultMessageResolver
+	org.springframework.ws.WebServiceMessageFactory=org.springframework.ws.soap.saaj.SaajSoapMessageFactory
+	org.springframework.ws.transport.WebServiceMessageSender=org.springframework.ws.transport.http.HttpUrlConnectionMessageSender
+    
+     -->
 
     <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
         <constructor-arg ref="messageFactory"/>
