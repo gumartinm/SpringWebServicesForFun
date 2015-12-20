@@ -63,7 +63,8 @@
 			at org.springframework.oxm.jaxb.Jaxb2Marshaller.convertJaxbException(Jaxb2Marshaller.java:888)
 			
   		ESTE ERROR SE PRODUCE PORQUE cxf-codegen-plugin GENERA Examples QUE ES UN inteface @WebService
-  		maven-jaxb2-plugin NO GENERA ESTOS OBJETOS (otra razón más para usar maven-jaxb2-plugin)
+  		maven-jaxb2-plugin NO GENERA ESTOS OBJETOS pero maven-jaxb2-plugin NO ES BUENO PARA GENERAR CLASES
+  		DESDE WSDLs POR LAS RAZONES EXPLICADAS EN EL pom.xml DEL PROYECTO web-services-spring-jaxb2-client.
      -->
      <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
 	
@@ -92,14 +93,34 @@
         class="org.springframework.ws.client.support.interceptor.PayloadValidatingInterceptor">
         <property name="schemas">
             <list>
-                <value>classpath:examples.xsd</value>
-                <value>classpath:parent.xsd</value>
+                <!--
+                	ALWAYS FIRST THE XSD FILES TO BE IMPORTED!!!!!  O.o
+                	OTHERWISE THE import IN examples.xsd WILL BE SOLVED BY MEANS OF DOWNLOADING THE
+                	EXTERNAL parent.xsd (USING THE URL LINKED BY THE IMPORT STATEMENT IN examples.xsd)
+                		 
+        			IF YOU DON'T DO THIS, PayloadValidatingInterceptor WILL TRY TO CONNECT TO THE
+        			EXTERNAL SERVER WHERE parent.xsd IS LOCATED AND IT WILL FAIL IF BECAUSE SOME
+        			REASON YOU DON'T HAVE IN THAT VERY MOMENT NETWORK CONNECTION. SO, DON'T MESS WITH THIS
+        			CONFIGURATION.
+                 -->
+                 <value>classpath:parent.xsd</value>
+                    
+                 <value>classpath:examples.xsd</value>
             </list>
         </property>
         <property name="validateRequest" value="true"/>
         <property name="validateResponse" value="true"/>
     </bean>
     
+    
+    <!-- 
+    Strategies used by default (see WebServiceTemplate.properties file)
+    
+    org.springframework.ws.client.core.FaultMessageResolver=org.springframework.ws.soap.client.core.SoapFaultMessageResolver
+	org.springframework.ws.WebServiceMessageFactory=org.springframework.ws.soap.saaj.SaajSoapMessageFactory
+	org.springframework.ws.transport.WebServiceMessageSender=org.springframework.ws.transport.http.HttpUrlConnectionMessageSender
+    
+     -->
 
     <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
         <constructor-arg ref="messageFactory"/>
