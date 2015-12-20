@@ -98,7 +98,7 @@
     <sws:dynamic-wsdl id="example" portTypeName="Examples"
         createSoap12Binding="true" createSoap11Binding="false"
         locationUri="/spring-ws/example"
-        targetNamespace="http://gumartinm.name/resource/wsdl/schemas">
+        targetNamespace="http://gumartinm.name/spring-ws/exampleService">
         <sws:xsd location="classpath:schemas/examples.xsd"/>
     </sws:dynamic-wsdl>
 
@@ -142,8 +142,19 @@
             class="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor">
             <property name="schemas">
                 <list>
-                    <value>classpath:schemas/examples.xsd</value>
+                	<!--
+                		 ALWAYS FIRST THE XSD FILES TO BE IMPORTED!!!!!  O.o
+                		 OTHERWISE THE import IN examples.xsd WILL BE SOLVED BY MEANS OF DOWNLOADING THE
+                		 EXTERNAL parent.xsd (USING THE URL LINKED BY THE IMPORT STATEMENT IN examples.xsd)
+                		 
+        				 IF YOU DON'T DO THIS, PayloadValidatingInterceptor WILL TRY TO CONNECT TO THE
+        				 EXTERNAL SERVER WHERE parent.xsd IS LOCATED AND IT WILL FAIL IF BECAUSE SOME
+        				 REASON YOU DON'T HAVE IN THAT VERY MOMENT NETWORK CONNECTION. SO, DON'T MESS WITH THIS
+        				 CONFIGURATION.
+                	 -->
                     <value>classpath:schemas/parent.xsd</value>
+                    
+                    <value>classpath:schemas/examples.xsd</value>
                 </list>
             </property>
             <property name="validateRequest" value="true"/>
@@ -164,7 +175,7 @@
         class="org.springframework.ws.soap.server.endpoint.SoapFaultMappingExceptionResolver">
         <!--
         	No quiero usar un valor por defecto porque si no, si mi manejador no machea ninguna excepción
-        	devolvera este valor por defecto.
+        	devolvera este valor por defecto. Y no se probará con otros manejadores de excepción que tengan un order con menor precedencia.
         	
         	Cuando se escribe value="SERVER" Spring está seteando SoapFaultDefinition.SERVER en defaultValue
         	de org.springframework.ws.soap.server.endpoint.AbstractSoapFaultDefinitionExceptionResolver Esto parece
@@ -220,7 +231,16 @@
     
     
     
-    <bean id="myCustomExceptionResolver" class="de.spring.webservices.endpoints.MyCustomExceptionResolver">
+    <bean id="myCustomMappingExceptionResolver" class="de.spring.webservices.endpoints.MyCustomMappingExceptionResolver">
+        <!--
+        	Voy a usar un valor por defecto porque este va a ser el último manejador que haya antes de
+        	SimpleSoapExceptionResolver. SimpleSoapExceptionResolver será siempre por el order que he puesto
+        	el último manejador de excepciones.
+ 			Así todas las excepciones que no hayan sido macheadas por los otros manejadores serán siempre
+ 			cogidas por este y se les asignará un SoapFaultDefinition.SERVER. En este caso SimpleSoapExceptionResolver
+ 			nunca será usado.
+        -->
+        <property name="defaultFault" value="SERVER"/>
         <property name="exceptionMappings">
             <props>
 
