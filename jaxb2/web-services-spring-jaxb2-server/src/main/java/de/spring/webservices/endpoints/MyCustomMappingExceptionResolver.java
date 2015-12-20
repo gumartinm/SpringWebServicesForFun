@@ -23,8 +23,8 @@ import de.spring.webservices.auto.Element;
 import de.spring.webservices.auto.ExampleFault;
 import de.spring.webservices.exceptions.CustomBusinessException;
 
-public class MyCustomExceptionResolver extends AbstractSoapFaultDefinitionExceptionResolver {
-	private static final Logger LOGGER = LoggerFactory.getLogger(MyCustomExceptionResolver.class);
+public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitionExceptionResolver {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyCustomMappingExceptionResolver.class);
 	
 	private Marshaller marshaller;
 
@@ -94,35 +94,44 @@ public class MyCustomExceptionResolver extends AbstractSoapFaultDefinitionExcept
 	}
 
 	protected void customizeFault(Object endpoint, Exception ex, SoapFault fault) {
-		SoapFaultDetail detail = fault.addFaultDetail();
-		Result result = detail.getResult();
-		
-		Element element = new Element();
-		element.setMessage(ex.getMessage());
-		
-		if (ex instanceof CustomBusinessException) {
-			List<String> arguments = element.getMessageArgs();
-			arguments.add("ARGUMENT 1");
-			arguments.add("ARGUMENT 2");
-		}
-		
 		ExampleFault customFault = new ExampleFault();
 		customFault.setTechnicalError(getStackTrace(ex));
+		
+		Element element = buildElement(ex);
 		List<Element> elements = customFault.getElements();
 		elements.add(element);
 		
+		SoapFaultDetail detail = fault.addFaultDetail();
+		Result result = detail.getResult();
 		try {
 			marshaller.marshal(customFault, result);
 		} catch (Exception marshallEx) {
-			LOGGER.error("", marshallEx);
+			LOGGER.error("MyCustomMappingExceptionResolver: marshaller error", marshallEx);
 		}
 	}
 	
 	public void setMarshaller(Marshaller marshaller) {
 		this.marshaller = marshaller;
 	}
+		
+	private Element buildElement(Exception ex) {
+		Element element = new Element();
+		element.setMessage(ex.getMessage());
+		
+		if (ex instanceof CustomBusinessException) {
+			CustomBusinessException customEx = (CustomBusinessException) ex;
+			List<String> messageArgs = element.getMessageArgs();
+			List<String> argumentsEx = customEx.getArguments();
+			
+			for (String argumentEx: argumentsEx) {
+				messageArgs.add(argumentEx);
+			}
+		}
+		
+		return element;
+	}
 	
-	private static String getStackTrace(final Throwable throwable) {
+	private String getStackTrace(Throwable throwable) {
 	     final StringWriter sw = new StringWriter();
 	     final PrintWriter pw = new PrintWriter(sw, true);
 	     throwable.printStackTrace(pw);

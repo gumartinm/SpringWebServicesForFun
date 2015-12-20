@@ -3,7 +3,7 @@ package de.spring.webservices.exceptions;
 import java.util.List;
 
 /**
- * This exception will be caught by de.spring.webservices.endpoints.MyCustomExceptionResolver
+ * This exception will be caught by de.spring.webservices.endpoints.MyCustomMappingExceptionResolver
  *
  */
 public class CustomBusinessException extends RuntimeException {

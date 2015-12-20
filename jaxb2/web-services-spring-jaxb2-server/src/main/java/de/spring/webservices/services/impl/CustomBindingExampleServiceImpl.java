@@ -28,7 +28,7 @@ public class CustomBindingExampleServiceImpl implements
 		// see soap-ws.xml Spring configuration file.
 //		throw new BusinessException("This feature has not been implemented yet.");
 		
-		// Example about how works de.spring.webservices.endpoints.MyCustomExceptionResolver
+		// Example about how works de.spring.webservices.endpoints.MyCustomMappingExceptionResolver
 		// see soap-ws.xml Spring configuration file.
 //		List<String> arguments = new ArrayList<>();
 //		arguments.add("ARGUMENT 1");
