@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import de.spring.webservices.auto.CustomBindingExampleFault_Exception;
 import de.spring.webservices.auto.CustomBindingExampleResponse;
+import de.spring.webservices.auto.ExampleFault_Exception;
 import de.spring.webservices.auto.ExampleResponse;
 
 /**
@@ -20,15 +22,17 @@ public class MainTest {
 
     /**
      * @param args
+     * @throws ExampleFault_Exception 
+     * @throws CustomBindingExampleFault_Exception 
      */
-    public static void main(final String[] args) {
+    public static void main(final String[] args) throws ExampleFault_Exception, CustomBindingExampleFault_Exception {
         final MainTest test = new MainTest();
 
         test.context = new ClassPathXmlApplicationContext(
                 "classpath:spring-configuration/ws/client-spring-configuration.xml");
 
         final ExampleClientService example =
-        		(ExampleClientService) test.context.getBean("exampleClient");
+        		(ExampleClientService) test.context.getBean("exampleClientService");
 
         logger.info("ExampleResponse Java:");
         ExampleResponse response = example.sendAndReceiveJava();

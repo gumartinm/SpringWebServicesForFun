@@ -23,13 +23,50 @@
         receive data from the Web Services.
     -->
    
-    <!-- Searches for @Endpoint  --> 
+    <!-- Searches for beans in packages (instead of XML configuration we can use in this way annotations like @Service, @Component, etc, etc)  -->
     <context:component-scan base-package="de.spring.webservices"/>
 
-    <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
-       
-    <!-- Searches for @PayloadRoot --> 
-    <sws:annotation-driven marshaller="marshaller" unmarshaller="marshaller"/>
+    <!--
+        Three ways of using a marshallers/unmarshallers.
+        
+        1. No declarar nada en el XML y dejar que Spring lo haga internamente todo por nosotros.
+        Esto equivale a esta configuracion en XML
+        
+        <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices"/>
+        El context-path Spring supongo que lo rellena automáticamente en base al component-scan declarado arriba.
+        
+        2. Especificando el context-path para ser escaneado por Spring usando anotaciones. Esto
+        se hace de este modo:
+        
+        <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
+        Esto es lo mismo que haría Spring si no declaramos nada en el XML pero así tenemos opción de
+        de especificar un context-path en concreto.
+        
+        3. Especificando la implementación concreta del marshaller.
+        Con esta opción además puedo usar packagesToScan, contest-path si no recuerdo mal tenía problemas
+        cuando había dos ObjectFactory con el mismo package. Uno está en globalxsds y otro en este proyecto.
+        De todos modos, probablemente habría que usar un package distinto para lo que hay
+     	en globalxsds (quizás incluso basado en el namespace del xsd) y así podría evitar esta configuración.
+     	
+     	
+     	<bean id="marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+    		<property name="packagesToScan" value="de.spring.webservices.auto"/>
+  		</bean>
+  		
+     	NO PUEDO USAR ESTA CONFIGURACION PORQUE SE PRODUCE ESTE ERROR:
+     	
+     	Caused by: org.springframework.oxm.UncategorizedMappingException: Unknown JAXB exception;
+     	nested exception is com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationsException: 1 counts of IllegalAnnotationExceptions
+		de.spring.webservices.auto.Examples es una interfaz y JAXB no puede manejar interfaces.
+			this problem is related to the following location: at de.spring.webservices.auto.Examples
+
+			at org.springframework.oxm.jaxb.Jaxb2Marshaller.convertJaxbException(Jaxb2Marshaller.java:888)
+			
+  		ESTE ERROR SE PRODUCE PORQUE cxf-codegen-plugin GENERA Examples QUE ES UN inteface @WebService
+  		maven-jaxb2-plugin NO GENERA ESTOS OBJETOS (otra razón más para usar maven-jaxb2-plugin)
+     -->
+     <oxm:jaxb2-marshaller id="marshaller" context-path="de.spring.webservices.auto"/>
+	
      
    
     <!-- Required in order to use SOAP 1.2
@@ -42,13 +79,6 @@
         </property>
     </bean> 
     
-    
-    <sws:interceptors>
-        <bean class="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor">
-            <property name="logRequest" value="true"/>
-            <property name="logResponse" value="true"/>
-        </bean>
-    </sws:interceptors>
 
     <!-- 
         ¿Este validador funciona teniendo inheritance en el xsd? (inheritances es una cosa especial 
@@ -76,7 +106,7 @@
         <property name="marshaller" ref="marshaller" />
         <property name="unmarshaller" ref="marshaller" />
 
-        <!-- For local deployments change to http://localhost:8080/web-services-spring-server/spring-ws/example -->
+        <!-- For local deployments change to http://localhost:8080/web-services-spring-cxf-server/spring-ws/example -->
         <property name="defaultUri" value="http://gumartinm.name/spring-ws/example"/>
 
         <property name="interceptors">
@@ -86,11 +116,14 @@
         </property>
     </bean>
     
-    <bean id="exampleClient" class="de.spring.webservices.client.ExampleClientService">
-        <!--
+    <!--
+    Using @Service and @Autowired
+    We could use just XML configuration, or XML confirguration and @Autowired or as I am doing now @Service and @Autowired.
+    <bean id="exampleClientService" class="de.spring.webservices.client.ExampleClientService">
+        
         @Autowired works even using XML configuration as long as you use context:component-scan
         <property name="webServiceTemplate" ref="webServiceTemplate"/>
-        -->
     </bean>
+    -->
     
 </beans>

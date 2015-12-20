@@ -3,10 +3,13 @@ package de.spring.webservices.client;
 import name.gumartinm.spring_ws.parent.ParentEnumType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
 
+import de.spring.webservices.auto.CustomBindingExampleFault_Exception;
 import de.spring.webservices.auto.CustomBindingExampleRequest;
 import de.spring.webservices.auto.CustomBindingExampleResponse;
+import de.spring.webservices.auto.ExampleFault_Exception;
 import de.spring.webservices.auto.ExampleRequest;
 import de.spring.webservices.auto.ExampleResponse;
 import de.spring.webservices.auto.Examples;
@@ -17,6 +20,7 @@ import de.spring.webservices.auto.ExamplesService;
  * information from our Web Services.
  * 
  */
+@Service("exampleClientService")
 public class ExampleClientService {	
     private final WebServiceTemplate webServiceTemplate;
 
@@ -25,7 +29,7 @@ public class ExampleClientService {
 	    this.webServiceTemplate = webServiceTemplate;
     }
 
-	public ExampleResponse sendAndReceiveJava() {
+	public ExampleResponse sendAndReceiveJava() throws ExampleFault_Exception {
         final ExampleRequest exampleRequest = new ExampleRequest();
         exampleRequest.setData("SCARLETT JAVA. IT IS CANON.");
 
@@ -45,7 +49,7 @@ public class ExampleClientService {
         return exampleResponse;
     }
 	
-	public CustomBindingExampleResponse sendAndReceiveJavaCustom() {
+	public CustomBindingExampleResponse sendAndReceiveJavaCustom() throws CustomBindingExampleFault_Exception {
         final CustomBindingExampleRequest customBindingxampleRequest =
         		new CustomBindingExampleRequest();
         customBindingxampleRequest.setData("CUSTOM BINDING JAVA. SCARLETT. IT IS CANON.");
