@@ -147,7 +147,7 @@
         <property name="unmarshaller" ref="marshaller" />
 
         <!-- For local deployments change to http://localhost:8080/web-services-spring-jaxb2-server/spring-ws/example -->
-        <property name="defaultUri" value="http://localhost:8080/web-services-spring-cxf-server/spring-ws/example"/>
+        <property name="defaultUri" value="http://gumartinm.name/spring-ws/example"/>
 
         <property name="interceptors">
             <list>
