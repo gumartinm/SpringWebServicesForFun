@@ -14,7 +14,7 @@ import de.spring.webservices.client.auto.ExampleResponse;
  * 
  */
 public class MainTest {
-	private static final Logger logger = LoggerFactory.getLogger(MainTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainTest.class);
 	
     public ApplicationContext context;
 
@@ -41,13 +41,13 @@ public class MainTest {
 //        logger.info(customBindingResponse.getData());
         
         
-        logger.info("ExampleResponse Spring:");
+        LOGGER.info("ExampleResponse Spring:");
         ExampleResponse response = example.sendAndReceiveSpring();
-        logger.info(response.getData());
+        LOGGER.info(response.getData());
         
         
-        logger.info("CustomBindingExampleResponse Spring:");
+        LOGGER.info("CustomBindingExampleResponse Spring:");
         CustomBindingExampleResponse customBindingResponse = example.sendAndReceiveSpringCustom();
-        logger.info(customBindingResponse.getData());
+        LOGGER.info(customBindingResponse.getData());
     }
 }

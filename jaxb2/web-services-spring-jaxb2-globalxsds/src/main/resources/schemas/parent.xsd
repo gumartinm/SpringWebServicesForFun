@@ -36,11 +36,13 @@
         </xs:sequence>
     </xs:complexType>
     
-    <xs:complexType name="generalFault">
-        <xs:sequence>
-     		<xs:element name="technicalError" type="xs:string" />
-           	<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="GeneralFault">
+    	<xs:complexType>
+        	<xs:sequence>
+     			<xs:element name="technicalError" type="xs:string" />
+           		<xs:element name="elements" type="parent:element" minOccurs="0" maxOccurs="unbounded"/>
+        	</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
 
 </xs:schema>

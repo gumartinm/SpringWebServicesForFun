@@ -16,7 +16,7 @@ import de.spring.webservices.client.auto.ExampleResponse;
  * 
  */
 public class MainTest {
-	private static final Logger logger = LoggerFactory.getLogger(MainTest.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainTest.class);
 	
     public ApplicationContext context;
 
@@ -25,7 +25,7 @@ public class MainTest {
      * @throws ExampleFault_Exception 
      * @throws CustomBindingExampleFault_Exception 
      */
-    public static void main(final String[] args) throws ExampleFault, CustomBindingExampleFault {
+    public static void main(final String[] args) {
         final MainTest test = new MainTest();
 
         test.context = new ClassPathXmlApplicationContext(
@@ -34,23 +34,35 @@ public class MainTest {
         final ExampleClientService example =
         		(ExampleClientService) test.context.getBean("exampleClientService");
 
-        logger.info("ExampleResponse Java:");
-        ExampleResponse response = example.sendAndReceiveJava();
-        logger.info(response.getData());
+        LOGGER.info("ExampleResponse Java:");
+        ExampleResponse response;
+		try {
+			response = example.sendAndReceiveJava();
+			LOGGER.info(response.getData());
+		} catch (Exception e) {
+			LOGGER.info("ExampleResponse Java error:", e);
+		}
         
         
-        logger.info("CustomBindingExampleResponse Java:");
-        CustomBindingExampleResponse customBindingResponse = example.sendAndReceiveJavaCustom();
-        logger.info(customBindingResponse.getData());
+        
+        LOGGER.info("CustomBindingExampleResponse Java:");
+        CustomBindingExampleResponse customBindingResponse;
+		try {
+			customBindingResponse = example.sendAndReceiveJavaCustom();
+			LOGGER.info(customBindingResponse.getData());
+		} catch (Exception e) {
+			LOGGER.info("CustomBindingExampleResponse Java error:", e);
+		}
         
         
-        logger.info("ExampleResponse Spring:");
+        
+        LOGGER.info("ExampleResponse Spring:");
         response = example.sendAndReceiveSpring();
-        logger.info(response.getData());
+        LOGGER.info(response.getData());
         
         
-        logger.info("CustomBindingExampleResponse Spring:");
+        LOGGER.info("CustomBindingExampleResponse Spring:");
         customBindingResponse = example.sendAndReceiveSpringCustom();
-        logger.info(customBindingResponse.getData());
+        LOGGER.info(customBindingResponse.getData());
     }
 }
