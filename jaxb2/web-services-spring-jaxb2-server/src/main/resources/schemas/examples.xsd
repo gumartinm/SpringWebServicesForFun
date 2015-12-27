@@ -1,29 +1,30 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+<xsd:schema xmlns="http://gumartinm.name/spring-ws/example"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:parent="http://gumartinm.name/spring-ws/parent"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
     xmlns:annox="http://annox.dev.java.net"
-    xmlns:example="http://gumartinm.name/spring-ws/example"
     jaxb:version="2.1"
     jaxb:extensionBindingPrefixes="inheritance annox"
+    targetNamespace="http://gumartinm.name/spring-ws/example"
     elementFormDefault="qualified"
-    targetNamespace="http://gumartinm.name/spring-ws/example">
+    attributeFormDefault="unqualified">
     
     <!--
     	  When should an item be declared as an element versus when should it be defined as a type?
     	  When in doubt, make it a type. You can always create an element from the type, if needed. With a type, other elements can reuse that type.
     	  
-    	  <xs:all> specifies that the child elements can appear in any order.
+    	  <xsd:all> specifies that the child elements can appear in any order.
     	  
-    	  <xs:sequence> specifies child elements can only appear in the order mentioned.
+    	  <xsd:sequence> specifies child elements can only appear in the order mentioned.
     -->
 
     <!--
         We are going to use catalog.cat in order to avoid downloading parent.xsd from remote server
         when creating Java objects from examples.xsd.
     -->
-    <xs:import namespace="http://gumartinm.name/spring-ws/parent" schemaLocation="http://gumartinm.name/spring-ws/parent/parent.xsd" />
+    <xsd:import namespace="http://gumartinm.name/spring-ws/parent" schemaLocation="http://gumartinm.name/spring-ws/parent/parent.xsd" />
 
 
 	<!-- Spring requires the following:
@@ -37,90 +38,90 @@
 		 The same for CustomBindingExample.
 	-->
 	<!-- Using inheritance and annox plugin -->
-	<xs:element name="ExampleRequest">
-	   <xs:complexType>
-	       <xs:annotation>
-                <xs:appinfo>
+	<xsd:element name="ExampleRequest">
+	   <xsd:complexType>
+	       <xsd:annotation>
+                <xsd:appinfo>
                     <annox:annotate>@java.lang.SuppressWarnings({"unchecked","rawtypes"})</annox:annotate> 
                     <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
-                </xs:appinfo>
-            </xs:annotation>   
-            <xs:all>
-                <xs:element name="data" type="parent:limitedString" />
-            </xs:all>
-        </xs:complexType>
-	</xs:element>
-    <xs:element name="ExampleResponse">
-        <xs:complexType>
-        <xs:annotation>
-                <xs:appinfo>
+                </xsd:appinfo>
+            </xsd:annotation>   
+            <xsd:all>
+                <xsd:element name="data" type="parent:limitedString" />
+            </xsd:all>
+        </xsd:complexType>
+	</xsd:element>
+    <xsd:element name="ExampleResponse">
+        <xsd:complexType>
+        <xsd:annotation>
+                <xsd:appinfo>
                     <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
-                </xs:appinfo>
-            </xs:annotation>  
-            <xs:all>
-                <xs:element name="data" type="xs:string" />
-            </xs:all>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="ExampleFault">
-    	<xs:complexType>
-    		<xs:sequence>
-    			<xs:element ref="parent:GeneralFault" />
-    		</xs:sequence>
-    	</xs:complexType>
-    </xs:element>
+                </xsd:appinfo>
+            </xsd:annotation>  
+            <xsd:all>
+                <xsd:element name="data" type="xsd:string" />
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ExampleFault">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element ref="parent:GeneralFault" />
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
 
 
 	<!-- Using custombinding.xjb instead of inheritance plugin.
 		 Useful when you can not modify your xsd files because they are provided
 		 by another person or company
 	-->
-    <xs:element name="CustomBindingExampleRequest">
-	   <xs:complexType>
-            <xs:all>
-                <xs:element name="data" type="xs:string" />
-                <xs:element name="exampleDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                <xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
-            </xs:all>
-        </xs:complexType>
-	</xs:element>
-    <xs:element name="CustomBindingExampleResponse">
-        <xs:complexType>
-            <xs:all>
-                <xs:element name="data" type="xs:string" />
-                <xs:element name="exampleDate" type="xs:dateTime" minOccurs="0" maxOccurs="1" />
-                <xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
-            </xs:all>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="CustomBindingExampleFault">
-    	<xs:complexType>
-    		<xs:sequence>
-    			<xs:element ref="parent:GeneralFault" />
-    		</xs:sequence>
-    	</xs:complexType>
-    </xs:element>
+    <xsd:element name="CustomBindingExampleRequest">
+	   <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="data" type="xsd:string" />
+                <xsd:element name="exampleDate" type="xsd:dateTime" minOccurs="0" maxOccurs="1" />
+                <xsd:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
+            </xsd:all>
+        </xsd:complexType>
+	</xsd:element>
+    <xsd:element name="CustomBindingExampleResponse">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="data" type="xsd:string" />
+                <xsd:element name="exampleDate" type="xsd:dateTime" minOccurs="0" maxOccurs="1" />
+                <xsd:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="CustomBindingExampleFault">
+    	<xsd:complexType>
+    		<xsd:sequence>
+    			<xsd:element ref="parent:GeneralFault" />
+    		</xsd:sequence>
+    	</xsd:complexType>
+    </xsd:element>
 
 	<!-- Example of creating array list by means of XSD -->
-    <xs:complexType name="car">
-    	<xs:sequence>
-    		<xs:element name="data" type="xs:string" />
-    		<xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="100" />
-    	</xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="truck">
-    	<xs:all>
-    		<xs:element name="data" type="xs:string" />
-    		<xs:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
-    	</xs:all>
-    </xs:complexType>
-    <xs:element name="vehicles">
-        <xs:complexType>
-        	<xs:sequence>
-				<xs:element name="cars" type="example:car" maxOccurs="unbounded" />
-				<xs:element name="trucks" type="example:truck" minOccurs="0" maxOccurs="100" />
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
+    <xsd:complexType name="car">
+    	<xsd:sequence>
+    		<xsd:element name="data" type="xsd:string" />
+    		<xsd:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="100" />
+    	</xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="truck">
+    	<xsd:all>
+    		<xsd:element name="data" type="xsd:string" />
+    		<xsd:element name="parentEnum" type="parent:parentEnumType" minOccurs="0" maxOccurs="1" />
+    	</xsd:all>
+    </xsd:complexType>
+    <xsd:element name="vehicles">
+        <xsd:complexType>
+        	<xsd:sequence>
+				<xsd:element name="cars" type="car" maxOccurs="unbounded" />
+				<xsd:element name="trucks" type="truck" minOccurs="0" maxOccurs="100" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 
-</xs:schema>
+</xsd:schema>

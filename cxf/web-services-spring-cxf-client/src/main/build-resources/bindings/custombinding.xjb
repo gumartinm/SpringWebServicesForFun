@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jaxws:bindings
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
     xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
@@ -28,7 +28,7 @@
         (perhaps using maven-jaxb2-plugin with episodes)
      -->
     <jaxws:bindings
-        node="wsdl:definitions/wsdl:types/xs:schema[@targetNamespace='http://gumartinm.name/spring-ws/example']">
+        node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://gumartinm.name/spring-ws/example']">
 
 		<!--
 			Perhaps it would be better to relay on the package generated automatically from WSDL
@@ -38,19 +38,19 @@
             <jaxb:package name="de.spring.webservices.client.auto"/>
         </jaxb:schemaBindings>
 
-        <jaxb:bindings node="//xs:element[@name='CustomBindingExampleRequest']/xs:complextype">
+        <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleRequest']/xsd:complextype">
             <inheritance:implements>de.spring.webservices.operations.Request</inheritance:implements>
             <annox:annotate>@java.lang.suppresswarnings({"unchecked","rawtypes"})</annox:annotate>
         </jaxb:bindings>
 
-        <jaxb:bindings node="//xs:element[@name='CustomBindingExampleResponse']/xs:complextype">
+        <jaxb:bindings node="//xsd:element[@name='CustomBindingExampleResponse']/xsd:complextype">
             <inheritance:implements>de.spring.webservices.operations.Response</inheritance:implements>
             <annox:annotate>@java.lang.suppresswarnings({"unchecked","rawtypes"})</annox:annotate>
         </jaxb:bindings>
 
         <jaxb:globalBindings>
             <xjc:javaType adapter="de.spring.webservices.binders.XSDateTimeCustomBinder"
-                name="java.util.Date" xmlType="xs:dateTime" />
+                name="java.util.Date" xmlType="xsd:dateTime" />
         </jaxb:globalBindings>
 
     </jaxws:bindings>

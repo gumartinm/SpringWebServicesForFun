@@ -40,12 +40,12 @@
     <!-- The same applies to annotate. If you do not want or you may not modify your xsd files you can
          modify instead this file with your custom binding :) -->
 
-    <!-- Custom xs:dateTime adapter
+    <!-- Custom xsd:dateTime adapter
          See: https://jaxb.java.net/2.2.4/docs/vendorCustomizations.html#javaType
     -->
     <jaxb:globalBindings>
        <xjc:javaType adapter="de.spring.webservices.binders.XSDateTimeCustomBinder"
-            name="java.util.Date" xmlType="xs:dateTime" />
+            name="java.util.Date" xmlType="xsd:dateTime" />
     </jaxb:globalBindings>
 
 </jaxb:bindings>
