@@ -156,6 +156,12 @@
         </property>
         
         <property name="faultMessageResolver" ref="customFaultMessageResolver" />
+
+        <property name="messageSenders">
+            <list>
+                <bean class="de.spring.webservices.client.transport.http.CustomHttpRequestMessageSender" />
+            </list>
+        </property>
     </bean>
     
     <!--
