@@ -160,6 +160,9 @@
             <property name="validateRequest" value="true"/>
             <property name="validateResponse" value="true"/>
         </bean>
+
+        <!-- My custom header interceptor -->
+        <bean class="de.spring.webservices.endpoints.CustomHeaderInterceptor" />
     </sws:interceptors>
     
     
