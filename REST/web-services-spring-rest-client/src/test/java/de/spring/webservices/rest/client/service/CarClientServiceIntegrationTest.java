@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.client;
+package de.spring.webservices.rest.client.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.business;
+package de.spring.webservices.rest.business.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -13,7 +13,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import de.spring.webservices.domain.Car;
-import de.spring.webservices.rest.client.CarClientService;
+import de.spring.webservices.rest.business.service.impl.BusinessServiceImpl;
+import de.spring.webservices.rest.client.service.CarClientService;
 
 public class BusinessServiceTest {
 
@@ -23,7 +24,7 @@ public class BusinessServiceTest {
     @Before
     public void createTest() {
     	carClientService = mock(CarClientService.class);
-    	businessService = new BusinessService(carClientService);	
+    	businessService = new BusinessServiceImpl(carClientService);	
     }
     
 	@Test

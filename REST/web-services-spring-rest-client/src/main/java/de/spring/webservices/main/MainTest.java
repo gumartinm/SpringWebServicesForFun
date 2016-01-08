@@ -1,9 +1,9 @@
-package de.spring.webservices.rest.main;
+package de.spring.webservices.main;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.spring.webservices.rest.business.BusinessService;
+import de.spring.webservices.rest.business.service.BusinessService;
 
 
 /**

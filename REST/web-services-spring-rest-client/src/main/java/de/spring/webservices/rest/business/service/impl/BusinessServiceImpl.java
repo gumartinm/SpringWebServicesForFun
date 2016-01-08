@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.business;
+package de.spring.webservices.rest.business.service.impl;
 
 import java.util.List;
 
@@ -8,20 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import de.spring.webservices.domain.Car;
-import de.spring.webservices.rest.client.CarClientService;
+import de.spring.webservices.rest.business.service.BusinessService;
+import de.spring.webservices.rest.client.service.CarClientService;
 
 @Service("businessService")
-public class BusinessService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessService.class);
+public class BusinessServiceImpl implements BusinessService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
 	private final CarClientService carClientService;
 
 	@Autowired
-	public BusinessService(CarClientService carClientService) {
+	public BusinessServiceImpl(CarClientService carClientService) {
 		this.carClientService = carClientService;
 	}
 	
 	
+	@Override
 	public void doSomethingWithCars() {
 		List<Car> cars = carClientService.doGetCars();
 		LOGGER.info("Retrieved cars");
@@ -31,6 +33,7 @@ public class BusinessService {
 		}
 	}
 	
+	@Override
 	public void doSomethingWithCar(long id) {		
 		Car car = carClientService.doGetCar(id);
 		LOGGER.info("Retrieved car");
@@ -38,6 +41,7 @@ public class BusinessService {
 		LOGGER.info(car.getContent());
 	}
 	
+	@Override
 	public void createsNewCar() {
 		Car newCar = new Car(666L, "just_a_test");
 		

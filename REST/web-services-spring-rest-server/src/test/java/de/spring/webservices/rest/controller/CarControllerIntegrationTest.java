@@ -1,4 +1,4 @@
-package de.spring.webservices.rest;
+package de.spring.webservices.rest.controller;
 
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
