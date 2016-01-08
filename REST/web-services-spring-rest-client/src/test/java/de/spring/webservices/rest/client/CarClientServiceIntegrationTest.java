@@ -2,6 +2,7 @@ package de.spring.webservices.rest.client;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
@@ -17,13 +18,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.spring.webservices.domain.Car;
 
@@ -42,6 +43,9 @@ public class CarClientServiceIntegrationTest {
     
     @Autowired
 	private CarClientService carClientService;
+    
+    @Autowired
+    private Jackson2ObjectMapperFactoryBean jsonObjectMapperFactory;
 
     private MockRestServiceServer mockServer;
 
@@ -94,6 +98,8 @@ public class CarClientServiceIntegrationTest {
 		
 		mockServer.expect(requestTo(apiCarsUrl))
 					.andExpect(method(HttpMethod.POST))
+					.andExpect(content()
+							.string(asJsonString(expected)))
 					.andRespond(withSuccess(asJsonString(expected), MediaType.APPLICATION_JSON_UTF8)
 							.headers(headers));
 
@@ -105,8 +111,7 @@ public class CarClientServiceIntegrationTest {
 		assertEquals(expected, car);
 	}
 	
-	private static String asJsonString(final Object obj) throws JsonProcessingException {
-		final ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(obj);
+	private String asJsonString(final Object obj) throws JsonProcessingException {
+		return jsonObjectMapperFactory.getObject().writeValueAsString(obj);
 	}
 }
