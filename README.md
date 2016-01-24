@@ -21,8 +21,5 @@ REST
 Release:
 mvn clean install
 
-Documentation:
-mvn clean install -Dmaven.test.skip=true -Pdocumentation
-
 Javadoc and Sources:
 mvn dependency:sources && mvn dependency:resolve -Dclassifier=javadoc
