@@ -31,59 +31,6 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
-		<profile>
-			<id>documentation</id>
-			<properties>
-				<environment.profile>documentation</environment.profile>
-			</properties>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<dependencies>
-				<!-- API documentation -->
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger2</artifactId>
-					<version>2.3.1</version>
-				</dependency>
-				<dependency>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger-ui</artifactId>
-					<version>2.3.1</version>
-				</dependency>
-			</dependencies>
-			<build>
-				<resources>
-					<resource>
-						<directory>${basedir}/src/doc/main/resources/</directory>
-						<includes>
-							<include>**/*.*</include>
-						</includes>
-					</resource>
-				</resources>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<version>1.10</version>
-						<executions>
-							<execution>
-								<id>add-source</id>
-								<phase>process-sources</phase>
-								<goals>
-									<goal>add-source</goal>
-								</goals>
-								<configuration>
-									<sources>
-										<source>src/doc/main/java/</source>
-									</sources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
 	</profiles>
 	<dependencies>
 		<!-- 1/3 Required dependency for log4j 2 with slf4j: binding between log4j 
@@ -164,6 +111,7 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>2.6.4</version>
 			</dependency>
+			
 			
 			<!-- Required by spring-context for using JSR-303. See LocalValidatorFactoryBean 
 				in rest-config.xml -->

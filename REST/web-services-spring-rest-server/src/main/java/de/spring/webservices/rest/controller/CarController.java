@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.ws.rs.Path;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,10 +23,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.spring.webservices.domain.Car;
-
-//import io.swagger.annotations.ApiOperation;
-//import io.swagger.annotations.ApiResponse;
-//import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ResponseHeader;
 
 @RestController
 @RequestMapping("/api/cars/")
@@ -34,12 +37,11 @@ public class CarController {
     
     private final AtomicLong counter = new AtomicLong();
 
-//  Do I want to release with Swagger dependencies?
-//    @ApiOperation(value = "getCars", nickname = "getAllCars", response = Car.class)
-//    @ApiResponses({
-//        @ApiResponse(code =  404, message ="Not found"),
-//        @ApiResponse(code =  400, message ="Invalid input")
-//    })
+	@ApiOperation(value = "Get all available cars", nickname = "getAllCars", responseContainer="List", response = Car.class)
+    @ApiResponses({
+        @ApiResponse(code =  404, message ="Specific getCars not found"),
+        @ApiResponse(code =  400, message ="Specific getCars invalid input")
+    })
     @RequestMapping(produces = { MediaType.APPLICATION_JSON_UTF8_VALUE }, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Car> cars() {
@@ -51,16 +53,15 @@ public class CarController {
         return cars;
     }
 
-//  Do I want to release with Swagger dependencies?
-//  @ApiOperation(value = "getCar", nickname = "getsOneCar", response = Car.class)
-//  @ApiResponses({
-//      @ApiResponse(code =  404, message ="Not found"),
-//      @ApiResponse(code =  400, message ="Invalid input")
-//  })
+	@ApiOperation(value = "Get one car", nickname = "getOneCar", response = Car.class)
+    @ApiResponses({
+        @ApiResponse(code =  404, message ="Specific getCar not found"),
+        @ApiResponse(code =  400, message ="Specific getCar invalid input")
+    })
     @RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Car car(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
-    		@PathVariable("id") long id,
+    		@ApiParam(name = "id", value = "Car id", required = true) @PathVariable("id") long id,
     		@RequestParam Map<String, String> params,
     		@RequestParam(value = "wheel", required = false) String[] wheelParams) {
     	    	
@@ -92,14 +93,16 @@ public class CarController {
         return new Car(counter.incrementAndGet(), String.format(TEMPLATE, id));
     }
     
-//  Do I want to release with Swagger dependencies?
-//  @ApiOperation(value = "postCat", nickname = "createsNewCar", response = Car.class)
-//  @ApiResponses({
-//      @ApiResponse(code =  404, message ="Not found"),
-//      @ApiResponse(code =  400, message ="Invalid input")
-//  })
+	@ApiOperation(code =  201, value = "Create one new car", nickname = "createNewCar")
+    @ApiResponses({
+    	@ApiResponse(code =  201, message ="Specific createCar with header",
+    			responseHeaders = { @ResponseHeader(name = HttpHeaders.LOCATION) }, response = Car.class),
+        @ApiResponse(code =  404, message ="Specific createCar not found"),
+        @ApiResponse(code =  400, message ="Specific createCar invalid input")
+    })
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
     		produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Car> create(@RequestBody Car car) {
     	long count = counter.incrementAndGet();
     	HttpHeaders headers = new HttpHeaders();

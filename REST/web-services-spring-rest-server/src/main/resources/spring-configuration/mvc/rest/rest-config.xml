@@ -21,8 +21,23 @@
 	<context:annotation-config />
    
 	<context:component-scan base-package="de.spring.webservices.rest"/>
-
-    <bean id="jsonObjectMapperFactory" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean" p:indentOutput="true" p:failOnEmptyBeans="false">
+	
+	<!--
+		Required beans for generating XML responses from Java objects using JAXB annotations
+		Jackson also works but it doesn't generate XML with namespaces... O.o
+		
+		This implementation will be slower than the one using Jackson :( but I am going to use it just for WADL generation :)
+	-->    
+    <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan" value="org.jvnet.ws.wadl"/>
+    </bean>
+	<bean id="jaxbConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+      	<constructor-arg ref="jaxbMarshaller" />
+   	</bean>
+    
+	<!-- Required beans for generating JSON responses from Java objects -->
+    <bean id="jsonObjectMapperFactory" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean"
+    	p:indentOutput="true" p:failOnEmptyBeans="false">
         <property name="featuresToDisable">
             <array>
                 <util:constant static-field="com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES"/>
@@ -30,9 +45,10 @@
             </array>
         </property>
     </bean>
-
+    
     <util:list id="messageConverters">
         <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" p:objectMapper-ref="jsonObjectMapperFactory"/>
+		<ref bean="jaxbConverter" />
         <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
     </util:list>
 

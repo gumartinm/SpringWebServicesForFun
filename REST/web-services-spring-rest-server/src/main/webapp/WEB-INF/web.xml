@@ -34,7 +34,8 @@
 
     <servlet-mapping>
         <servlet-name>spring-rest</servlet-name>
-        <url-pattern>/spring-rest/*</url-pattern>
+        <!-- REQUIRED PATTERN BY swagger-ui. IT DOESN'T WORK WITH ANY OTHER o.O -->
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

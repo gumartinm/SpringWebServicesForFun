@@ -1,33 +1,40 @@
-package de.spring.webservices.rest.doc;
+package de.spring.webservices.doc;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger1.annotations.EnableSwagger;
 
 @Configuration
 @EnableWebMvc
-@EnableSwagger2
+@EnableSwagger
+@ComponentScan("de.spring.webservices.rest.controller")
 public class Swagger2Configuration {
-	private static final String DOCKET_ID = "web-services-spring-rest";
 	
 	@Bean
 	public Docket documentation() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.groupName(DOCKET_ID)
+		return new Docket(DocumentationType.SWAGGER_12)
 				.select()
 					.apis(RequestHandlerSelectors.withMethodAnnotation(RequestMapping.class))
 					.paths(PathSelectors.any())
 					.build()
+					.globalResponseMessage(RequestMethod.GET,
+							newArrayList(new ResponseMessageBuilder()
+									.code(500).message("Global server custom error message").build()))
 		        .pathMapping("/")
 		        .useDefaultResponseMessages(false)
 		        .apiInfo(metadata())
@@ -38,7 +45,6 @@ public class Swagger2Configuration {
 	UiConfiguration uiConfig() {
 		return UiConfiguration.DEFAULT;
 	}
-
 	
 	private static ApiInfo metadata() {
 		return new ApiInfoBuilder()
