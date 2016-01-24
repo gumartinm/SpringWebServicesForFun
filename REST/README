@@ -5,3 +5,13 @@ mvn clean install
 
 Javadoc and Sources:
 mvn dependency:sources && mvn dependency:resolve -Dclassifier=javadoc
+
+
+Releasing without documentation:
+9,1M
+
+Releasing with documentation (WADL and SpringFox)
+22M
+
+
+More than 13M for documentation :/
