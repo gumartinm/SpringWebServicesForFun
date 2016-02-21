@@ -40,6 +40,10 @@ public class CustomHttpRequestMessageSender extends AbstractHttpWebServiceMessag
 	public CustomHttpRequestMessageSender() {
 		requestFactory = new SimpleClientHttpRequestFactory();
 	}
+	
+	public CustomHttpRequestMessageSender(ClientHttpRequestFactory requestFactory) {
+		this.requestFactory = requestFactory;
+	}
 
 	@Override
 	public WebServiceConnection createConnection(URI uri) throws IOException {
