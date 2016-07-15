@@ -14,6 +14,7 @@
     	  <xsd:sequence> specifies child elements can only appear in the order mentioned.
     -->
 	
+	<!-- WARNING: I DO NOT KNOW WHY BUT TYPES WORK BETTER WITH JAXB IF THEY END WITH THE Type SUFFIX!!!! :/ -->
     <xsd:simpleType name="parentEnumType">
         <xsd:restriction base="xsd:token">
             <xsd:enumeration value="FIRST"/>
@@ -24,24 +25,26 @@
         </xsd:restriction>
     </xsd:simpleType>
     
-    <xsd:simpleType name="limitedString">
+    <!-- WARNING: I DO NOT KNOW WHY BUT TYPES WORK BETTER WITH JAXB IF THEY END WITH THE Type SUFFIX!!!! :/ --> 
+    <xsd:simpleType name="limitedStringType">
     	<xsd:restriction base="xsd:string">
       		<xsd:maxLength value="30" />
     	</xsd:restriction>
   	</xsd:simpleType>
   	
-  	<xsd:complexType name="element">
+  	<!-- WARNING: I DO NOT KNOW WHY BUT TYPES WORK BETTER WITH JAXB IF THEY END WITH THE Type SUFFIX!!!! :/ -->
+  	<xsd:complexType name="elementType">
         <xsd:sequence>
             <xsd:element name="message" type="xsd:string"/>
             <xsd:element name="messageArgs" type="xsd:string" minOccurs="0" maxOccurs="100"/>
         </xsd:sequence>
     </xsd:complexType>
     
-    <xsd:element name="GeneralFault">
+    <xsd:element id="GeneralFault" name="GeneralFault">
     	<xsd:complexType>
         	<xsd:sequence>
      			<xsd:element name="technicalError" type="xsd:string" />
-           		<xsd:element name="elements" type="element" minOccurs="0" maxOccurs="unbounded"/>
+           		<xsd:element name="elements" type="elementType" minOccurs="0" maxOccurs="unbounded"/>
         	</xsd:sequence>
     	</xsd:complexType>
     </xsd:element>

@@ -20,8 +20,8 @@ import org.springframework.ws.soap.server.endpoint.SoapFaultDefinition;
 import org.springframework.ws.soap.server.endpoint.SoapFaultDefinitionEditor;
 
 import de.spring.webservices.exceptions.CustomBusinessException;
-import de.spring.webservices.server.auto.Element;
-import de.spring.webservices.server.auto.GeneralFault;
+import de.spring.webservices.parent.auto.ElementType;
+import de.spring.webservices.parent.auto.GeneralFault;
 
 public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitionExceptionResolver {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MyCustomMappingExceptionResolver.class);
@@ -97,8 +97,8 @@ public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitio
 		GeneralFault customFault = new GeneralFault();
 		customFault.setTechnicalError(getStackTrace(ex));
 		
-		Element element = buildElement(ex);
-		List<Element> elements = customFault.getElements();
+		ElementType element = buildElement(ex);
+		List<ElementType> elements = customFault.getElements();
 		elements.add(element);
 		
 		SoapFaultDetail detail = fault.addFaultDetail();
@@ -114,8 +114,8 @@ public class MyCustomMappingExceptionResolver extends AbstractSoapFaultDefinitio
 		this.marshaller = marshaller;
 	}
 		
-	private Element buildElement(Exception ex) {
-		Element element = new Element();
+	private ElementType buildElement(Exception ex) {
+		ElementType element = new ElementType();
 		element.setMessage(ex.getMessage());
 		
 		if (ex instanceof CustomBusinessException) {

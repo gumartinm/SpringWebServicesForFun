@@ -38,7 +38,7 @@
                 </xsd:appinfo>
             </xsd:annotation>   
             <xsd:all>
-                <xsd:element name="data" type="parent:limitedString"/>
+                <xsd:element name="data" type="parent:limitedStringType"/>
             </xsd:all>
         </xsd:complexType>
 	</xsd:element>
