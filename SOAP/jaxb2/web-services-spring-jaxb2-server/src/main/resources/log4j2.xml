@@ -34,6 +34,8 @@
         	This configuration enables us to log validation errors of data sent from remote client or data created by this server.
         	
         	Los errores de validación se loguean aquí (tanto de validación de datos de respuesta de servidor como de datos recibidos desde cliente)
+        	
+        	It requires at least INFO log level if you want to log some information.
          -->
         <Logger name="org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT" />
@@ -47,11 +49,35 @@
         	 This configuration enables us to log the SOAP XML Request (received from remote client), Response (sent by this server) and Fault (sent by this server).
         	 
         	 Aquí no se loguean errores de validación.
+        	 
+        	 It requires at least DEBUG log level if you want to log some information.
     	-->
-        <Logger name="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor" level="INFO" additivity="false">
+        <Logger name="org.springframework.ws.soap.server.endpoint.interceptor.SoapEnvelopeLoggingInterceptor" level="DEBUG" additivity="false">
             <AppenderRef ref="STDOUT" />
         </Logger>
         
+        <!--
+    		This logger is located in org.springframework.ws.server.MessageDispatcher and it requires DEBUG or TRACE log levels
+    		if you want to log some information.
+    	-->
+        <Logger name="org.springframework.ws.server.MessageTracing" level="TRACE" additivity="false">
+        	<AppenderRef ref="STDOUT" />
+	   	</Logger>
+        <!--
+    		This logger is located in org.springframework.ws.server.MessageDispatcher and it requires DEBUG or TRACE log levels
+    		if you want to log some information.
+    	-->
+        <Logger name="org.springframework.ws.server.EndpointNotFound" level="TRACE" additivity="false">
+        	<AppenderRef ref="STDOUT" />
+	   	</Logger>
+	   	
+	   	<!-- 
+	   		This logger enables us to log information about mapped end points.
+	   		It requires DEBUG log level.
+	   	 -->
+	   	<Logger name="org.springframework.ws.soap.server.SoapMessageDispatcher" level="DEBUG" additivity="false">
+        	<AppenderRef ref="STDOUT" />
+	   	</Logger>
 
         
         <!-- 
