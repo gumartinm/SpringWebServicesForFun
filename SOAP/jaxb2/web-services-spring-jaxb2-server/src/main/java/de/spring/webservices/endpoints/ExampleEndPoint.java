@@ -34,6 +34,10 @@ public class ExampleEndPoint {
 	    this.exampleService = exampleService;
     }
 	
+    // WARNING!!! RESPONSE OBJECT MUST BE ANNOTATED WITH @XmlRootElement
+    // (ExampleResponse has such annotation)
+    // OTHERWISE YOU WILL SEE THIS WEIRD ERROR: "No adapter for endPoint"
+    // see: http://stackoverflow.com/a/22227806
     @PayloadRoot(localPart = "ExampleRequest", namespace = NAMESPACE_URI)
     @ResponsePayload
     public ExampleResponse exampleResponse(
@@ -44,6 +48,10 @@ public class ExampleEndPoint {
         return this.exampleService.doResponse(request);
     }
     
+    // WARNING!!! RESPONSE OBJECT MUST BE ANNOTATED WITH @XmlRootElement
+    // (CustomBindingExampleResponse has such annotation)
+    // OTHERWISE YOU WILL SEE THIS WEIRD ERROR: "No adapter for endPoint"
+    // see: http://stackoverflow.com/a/22227806
     @PayloadRoot(localPart = "CustomBindingExampleRequest", namespace = NAMESPACE_URI)
     @ResponsePayload
     public CustomBindingExampleResponse cuntomBindingExampleResponse(
