@@ -17,22 +17,22 @@
 
 
     <!-- I JUST NEED THIS CONFIGURATION, ANYHOW I AM WRITING ALL OF THEM -->
-    <rewriteSystem systemIdStartString="http://gumartinm.name/spring-ws/parent"
+    <rewriteSystem systemIdStartString="http://schemas.gumartinm.name/spring-ws/parent"
                    rewritePrefix="classpath:parent.xsd"/>
 
 
     <!-- THE FOLLOWING ONES ARE NOT REQUIRED EVEN IF I AM WRITING THEM -->
     <public
-        publicId="http://gumartinm.name/spring-ws/parent"
+        publicId="http://schemas.gumartinm.name/spring-ws/parent"
         uri="classpath:parent.xsd"/>
 
 
     <system
-        systemId="http://gumartinm.name/spring-ws/parent/parent.xsd"
+        systemId="http://schemas.gumartinm.name/spring-ws/parent/parent.xsd"
         uri="classpath:parent.xsd"/>
 
 
-    <rewriteURI uriStartString="http://gumartinm.name/spring-ws/parent"
+    <rewriteURI uriStartString="http://schemas.gumartinm.name/spring-ws/parent"
                 rewritePrefix="classpath:parent.xsd"/>
 
 </catalog>

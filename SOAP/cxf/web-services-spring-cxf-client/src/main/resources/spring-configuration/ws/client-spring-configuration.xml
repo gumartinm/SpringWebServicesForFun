@@ -77,7 +77,7 @@
     		
     		We scan the objects generated in this package.
      	 -->
-    	<property name="contextPath" value="de.spring.webservices.client.auto:name.gumartinm.spring_ws.parent"/>
+    	<property name="contextPath" value="de.spring.webservices.client.auto:name.gumartinm.schemas.spring_ws.parent"/>
   	 </bean>
 	
      

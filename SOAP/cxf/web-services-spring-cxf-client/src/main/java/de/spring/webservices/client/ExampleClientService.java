@@ -1,7 +1,5 @@
 package de.spring.webservices.client;
 
-import name.gumartinm.spring_ws.parent.ParentEnumType;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ws.client.core.WebServiceTemplate;
@@ -14,6 +12,7 @@ import de.spring.webservices.client.auto.ExampleRequest;
 import de.spring.webservices.client.auto.ExampleResponse;
 import de.spring.webservices.client.auto.Examples;
 import de.spring.webservices.client.auto.ExamplesService;
+import name.gumartinm.schemas.spring_ws.parent.ParentEnumType;
 
 /**
  * Someone could write code like this one in order to send and receive

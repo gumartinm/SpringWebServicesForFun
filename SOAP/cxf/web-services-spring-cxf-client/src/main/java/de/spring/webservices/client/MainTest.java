@@ -5,9 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import de.spring.webservices.client.auto.CustomBindingExampleFault;
 import de.spring.webservices.client.auto.CustomBindingExampleResponse;
-import de.spring.webservices.client.auto.ExampleFault;
 import de.spring.webservices.client.auto.ExampleResponse;
 
 /**
@@ -22,8 +20,6 @@ public class MainTest {
 
     /**
      * @param args
-     * @throws ExampleFault_Exception 
-     * @throws CustomBindingExampleFault_Exception 
      */
     public static void main(final String[] args) {
         final MainTest test = new MainTest();

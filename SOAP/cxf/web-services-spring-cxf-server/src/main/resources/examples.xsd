@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xsd:schema xmlns="http://gumartinm.name/spring-ws/example"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:parent="http://gumartinm.name/spring-ws/parent"
+    xmlns:parent="http://schemas.gumartinm.name/spring-ws/parent"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
     xmlns:inheritance="http://jaxb2-commons.dev.java.net/basic/inheritance"
     xmlns:annox="http://annox.dev.java.net"
@@ -24,7 +24,7 @@
         We are going to use catalog.cat in order to avoid downloading parent.xsd from remote server
         when creating Java objects from examples.xsd.
     -->
-    <xsd:import namespace="http://gumartinm.name/spring-ws/parent" schemaLocation="http://gumartinm.name/spring-ws/parent/parent.xsd" />
+    <xsd:import namespace="http://schemas.gumartinm.name/spring-ws/parent" schemaLocation="http://schemas.gumartinm.name/spring-ws/parent/parent.xsd" />
 
 
 	<!-- Spring requires the following:

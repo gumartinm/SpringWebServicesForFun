@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns="http://gumartinm.name/spring-ws/parent"
+<xsd:schema xmlns="http://schemas.gumartinm.name/spring-ws/parent"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
-    targetNamespace="http://gumartinm.name/spring-ws/parent">
+    targetNamespace="http://schemas.gumartinm.name/spring-ws/parent">
 	
     <!--
     	  When should an item be declared as an element versus when should it be defined as a type?

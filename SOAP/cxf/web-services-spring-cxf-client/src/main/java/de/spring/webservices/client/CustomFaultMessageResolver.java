@@ -8,7 +8,7 @@ import javax.xml.transform.Source;
 // cxf-codegen-plugin DOES generate again the objects in web-services-spring-jaxb2-globalxsds :(
 // So I guess it is better to use the objects generated in this package
 // than the ones from globalxsds even if they should be the same.
-import name.gumartinm.spring_ws.parent.GeneralFault;
+import name.gumartinm.schemas.spring_ws.parent.GeneralFault;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

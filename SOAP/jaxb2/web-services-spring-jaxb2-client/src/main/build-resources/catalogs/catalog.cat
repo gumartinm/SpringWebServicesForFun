@@ -1,6 +1,6 @@
 
 
-REWRITE_SYSTEM "http://gumartinm.name/spring-ws/parent/parent.xsd" "maven:de.spring.webservices:web-services-spring-jaxb2-globalxsds:jar::!/schemas/parent.xsd"
+REWRITE_SYSTEM "http://schemas.gumartinm.name/spring-ws/parent/parent.xsd" "maven:de.spring.webservices:web-services-spring-jaxb2-globalxsds:jar::!/schemas/parent.xsd"
 	
 --
 	This configuration is better (it relies on namespace instead of schemaLocation) but it doesn't work
