@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns="http://gumartinm.name/spring-ws/example"
+<xsd:schema xmlns="http://schemas.gumartinm.name/spring-ws/example"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:parent="http://schemas.gumartinm.name/spring-ws/parent"
     xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
@@ -7,7 +7,7 @@
     xmlns:annox="http://annox.dev.java.net"
     jaxb:version="2.1"
     jaxb:extensionBindingPrefixes="inheritance annox"
-    targetNamespace="http://gumartinm.name/spring-ws/example"
+    targetNamespace="http://schemas.gumartinm.name/spring-ws/example"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified">
     

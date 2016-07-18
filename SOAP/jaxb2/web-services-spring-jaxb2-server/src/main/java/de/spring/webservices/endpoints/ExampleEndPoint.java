@@ -19,7 +19,7 @@ import de.spring.webservices.services.ExampleService;
 
 @Endpoint
 public class ExampleEndPoint {
-    private static final String NAMESPACE_URI = "http://gumartinm.name/spring-ws/example";
+    private static final String NAMESPACE_URI = "http://schemas.gumartinm.name/spring-ws/example";
     
     private final Operations.RequestResponse
     	<CustomBindingExampleResponse, CustomBindingExampleRequest> customBindingExampleService;  

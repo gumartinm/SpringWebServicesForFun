@@ -21,14 +21,14 @@
     
 
     <!--
-        XSD namespace for included schema in WSDL: http://gumartinm.name/spring-ws/example
+        XSD namespace for included schema in WSDL: http://gumartinm.name/spring-ws/exampleService
 
         I am skiping the XSD namespace for imported schema in WSDL: http://gumartinm.name/spring-ws/parent because I guess,
         there must be some way of using the already generated code in web-services-spring-globalxsds instead of generating new one
         (perhaps using maven-jaxb2-plugin with episodes)
      -->
     <jaxws:bindings
-        node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://gumartinm.name/spring-ws/example']">
+        node="wsdl:definitions/wsdl:types/xsd:schema[@targetNamespace='http://schemas.gumartinm.name/spring-ws/example']">
 
 		<!--
 			Perhaps it would be better to relay on the package generated automatically from WSDL

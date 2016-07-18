@@ -168,8 +168,8 @@
         <property name="marshaller" ref="marshaller" />
         <property name="unmarshaller" ref="marshaller" />
 
-        <!-- For local deployments change to http://localhost:8080/web-services-spring-cxf-server/spring-ws/example -->
-        <property name="defaultUri" value="http://gumartinm.name/spring-ws/example"/>
+        <!-- For local deployments change to http://localhost:8080/web-services-spring-cxf-server/spring-ws/exampleService -->
+        <property name="defaultUri" value="http://gumartinm.name/spring-ws/exampleService"/>
 
         <property name="interceptors">
             <list>

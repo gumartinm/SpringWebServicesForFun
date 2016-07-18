@@ -40,11 +40,11 @@ public class ExampleClientServiceIntegrationTest {
     @Test
     public void customerClient() throws Exception {
         final Source requestPayload = new StringSource(
-                "<ExampleRequest xmlns='http://gumartinm.name/spring-ws/example'>"
+                "<ExampleRequest xmlns='http://schemas.gumartinm.name/spring-ws/example'>"
                         + "<data>SCARLETT SPRING. IT IS CANON.</data>"
                         + "</ExampleRequest>");
         final Source responsePayload = new StringSource(
-                "<ns2:ExampleResponse xmlns:ns2='http://gumartinm.name/spring-ws/example'>"
+                "<ns2:ExampleResponse xmlns:ns2='http://schemas.gumartinm.name/spring-ws/example'>"
                         + "<ns2:data>SNAKE EYES AND SCARLETT SPRING. IT IS CANON.</ns2:data>"
                         + "</ns2:ExampleResponse>");
         mockServer.expect(payload(requestPayload)).andRespond(
@@ -59,11 +59,11 @@ public class ExampleClientServiceIntegrationTest {
     @Test
     public void customerCustomClient() throws Exception { 
         final Source customRequestPayload = new StringSource(
-                "<CustomBindingExampleRequest xmlns='http://gumartinm.name/spring-ws/example'>" +
+                "<CustomBindingExampleRequest xmlns='http://schemas.gumartinm.name/spring-ws/example'>" +
                         "<data>CUSTOM BINDING SPRING. SCARLETT. IT IS CANON.</data>" +
                 "</CustomBindingExampleRequest>");
         final Source customResponsePayload = new StringSource(
-                "<ns2:CustomBindingExampleResponse xmlns:ns2='http://gumartinm.name/spring-ws/example'>" +
+                "<ns2:CustomBindingExampleResponse xmlns:ns2='http://schemas.gumartinm.name/spring-ws/example'>" +
                         "<ns2:data>CUSTOM BINDING SNAKE EYES AND SCARLETT SPRING. IT IS CANON.</ns2:data>" +
                 "</ns2:CustomBindingExampleResponse>");
         mockServer.expect(payload(customRequestPayload)).andRespond(

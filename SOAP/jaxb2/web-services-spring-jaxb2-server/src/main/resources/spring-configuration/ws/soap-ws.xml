@@ -102,7 +102,7 @@
     -->
     <sws:dynamic-wsdl id="example" portTypeName="Examples"
         createSoap12Binding="true" createSoap11Binding="false"
-        locationUri="/spring-ws/example"
+        locationUri="/spring-ws/exampleService"
         targetNamespace="http://gumartinm.name/spring-ws/exampleService">
         <sws:xsd location="classpath:schemas/examples.xsd"/>
     </sws:dynamic-wsdl>
