@@ -49,6 +49,26 @@
 				<configuration>
 					<fork>true</fork>
 					<extensions>
+                        <!--
+                            By means of the CXF XJC Default Value Plugin (cxf-xjc-dv) Java objects
+                            will return (as default value) their default values declared in the XSD file.
+                            This feature is not found in the xjc Java tool.
+
+                            It is using the XSD attributes "default", "maxocurrs", "minocurrs" when
+                            trying to find the default value to be returned when no other value
+                            is available in the Java object.
+
+                            For using 
+                            a) default plugin's behaviour:
+                              <extensionArgs>
+                                       <extraarg>-Xdv</extraarg>   Initialize fields mapped from elements with their default values
+                              </extensionArgs>
+                            b) optional plugin's behaviour:
+                              <extensionArgs>
+                                       <extraarg>-Xdv:optional</extraarg> Initialize fields mapped from elements with their default values
+                              </extensionArgs>                            for elements with minOccurs=0 but with complexTypes containing
+                                                                          fields with default values.
+                        -->
 						<extension>org.apache.cxf.xjcplugins:cxf-xjc-dv:3.0.3</extension>
 					</extensions>
 				</configuration>
@@ -67,6 +87,9 @@
 									<xsd>${project.xsd.schemas.source.path}/parent.xsd</xsd>
 									<bindingFile>${project.bindings.path}/custombinding.xjb</bindingFile>
 									<packagename>${project.xsd.schemas.package.name}</packagename>
+                                    <extensionArgs>
+                                        <extraarg>-Xdv:optional</extraarg>
+                                    </extensionArgs>
 								</xsdOption>
 							</xsdOptions>
 						</configuration>
