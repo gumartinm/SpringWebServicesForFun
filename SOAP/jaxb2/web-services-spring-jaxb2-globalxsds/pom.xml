@@ -95,6 +95,26 @@
 					<strict>true</strict>
 
 					<verbose>true</verbose>
+
+                    <!--
+                            By means of this plugin Java objects
+                            will return (as default value) their default values declared in the XSD file.
+                            This feature is not found in the xjc Java tool.
+
+                            It is using the XSD attribute "default" when
+                            trying to find the default value to be returned when no other value
+                            is available in the Java object.
+                    -->
+                    <args>
+                        <arg>-Xdefault-value</arg>
+                    </args>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-default-value</artifactId>
+                            <version>1.1</version>
+                        </plugin>
+                    </plugins>
 				</configuration>
 			</plugin>
 		</plugins>

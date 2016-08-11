@@ -35,7 +35,7 @@
   	<!-- WARNING: I DO NOT KNOW WHY BUT TYPES WORK BETTER WITH JAXB IF THEY END WITH THE Type SUFFIX!!!! :/ -->
   	<xsd:complexType name="elementType">
         <xsd:sequence>
-            <xsd:element name="message" type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string" default="This is a default message. Used by jaxb2-default-value."/>
             <xsd:element name="messageArgs" type="xsd:string" minOccurs="0" maxOccurs="100"/>
         </xsd:sequence>
     </xsd:complexType>
@@ -43,7 +43,7 @@
     <xsd:element id="GeneralFault" name="GeneralFault">
     	<xsd:complexType>
         	<xsd:sequence>
-     			<xsd:element name="technicalError" type="xsd:string" />
+     			<xsd:element name="technicalError" type="xsd:string" default="This is a default error. Used by jaxb2-default-value."/>
            		<xsd:element name="elements" type="elementType" minOccurs="0" maxOccurs="unbounded"/>
         	</xsd:sequence>
     	</xsd:complexType>
