@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: web-services-spring-rest-server
+  main:
+    banner-mode: "LOG"
+
+server:
+  port: 8080
+  
+springfox.documentation.swagger.v2.path: /schema
+
+logging:
+  config: classpath:log4j2.xml
