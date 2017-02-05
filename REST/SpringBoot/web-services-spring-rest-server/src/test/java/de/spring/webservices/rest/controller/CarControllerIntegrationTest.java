@@ -32,11 +32,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import de.spring.webservices.domain.Car;
 
 
+/** WHEN USING @RunWith SPRING SEARCHES FOR YOUR main Aplication AND RUNS IT!!!!! **/
 @RunWith(SpringRunner.class)
 @WebMvcTest(CarController.class)
 public class CarControllerIntegrationTest {
 	
-	// For injecting and mocking services which could be  used in the Controller under test.
+	// For injecting and mocking services which could be used in the Controller under test just use @MockBean and
+	// then you can work with it using the traditional given willReturn statements from Mockito.
 	//@MockBean
 	//private CarService carService;
 	

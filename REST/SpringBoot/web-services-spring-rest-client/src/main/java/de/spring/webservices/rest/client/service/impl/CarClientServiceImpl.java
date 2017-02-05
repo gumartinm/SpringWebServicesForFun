@@ -4,18 +4,20 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.rest.client.service.CarClientService;
 
-@Service("carClientService")
+@Named("carClientService")
 public class CarClientServiceImpl implements CarClientService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CarClientServiceImpl.class);
 
@@ -23,12 +25,12 @@ public class CarClientServiceImpl implements CarClientService {
 	private final String apiCarUrl;
 	private final RestTemplate restTemplate;
 	
-    @Autowired
-	public CarClientServiceImpl(@Value("${url.base}${url.cars}") String apiCarsUrl,
-			@Value("${url.base}${url.car}") String apiCarUrl, RestTemplate restTemplate) {
+    @Inject
+	public CarClientServiceImpl(@Value("${app.url.base}${app.url.cars}") String apiCarsUrl,
+			@Value("${app.url.base}${app.url.car}") String apiCarUrl, RestTemplateBuilder restTemplateBuilder) {
 		this.apiCarsUrl = apiCarsUrl;
 		this.apiCarUrl = apiCarUrl;
-		this.restTemplate = restTemplate;
+		this.restTemplate = restTemplateBuilder.build();
 	}
 
 	

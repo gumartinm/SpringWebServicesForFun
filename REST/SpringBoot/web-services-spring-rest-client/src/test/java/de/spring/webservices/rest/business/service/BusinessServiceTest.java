@@ -1,9 +1,9 @@
 package de.spring.webservices.rest.business.service;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class BusinessServiceTest {
 		List<Car> expected = new ArrayList<>();
 		expected.add(expectedOne);
 		expected.add(expectedTwo);
-		when(carClientService.doGetCars()).thenReturn(expected);
+		given(carClientService.doGetCars()).willReturn(expected);
 		
 		businessService.doSomethingWithCars();
 		
@@ -46,7 +46,7 @@ public class BusinessServiceTest {
 		Long id = 66L;
 		Car expected = new Car(66L, "test");
 		
-		when(carClientService.doGetCar(id)).thenReturn(expected);
+		given(carClientService.doGetCar(id)).willReturn(expected);
 		
 		businessService.doSomethingWithCar(id);
 		
@@ -58,7 +58,7 @@ public class BusinessServiceTest {
 		Car expected = new Car(66L, "test");
 		ArgumentCaptor<Car> argCar = ArgumentCaptor.forClass(Car.class);
 		
-		when(carClientService.doNewCar(argCar.capture())).thenReturn(expected);
+		given(carClientService.doNewCar(argCar.capture())).willReturn(expected);
 		
 		businessService.createsNewCar();
 		

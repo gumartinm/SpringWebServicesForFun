@@ -1,15 +1,12 @@
 # Spring Boot configuration properties
 spring:
   application:
-    name: web-services-spring-rest-server
+    name: web-services-spring-rest-client
   main:
     banner-mode: "LOG"
-
-server:
-  port: 8080
+    # We do not need Tomcat running (this application runs from console)
+    web-environment: false
   
-springfox.documentation.swagger.v2.path: /schema
-
 # By default Spring Boot uses logback.
 # logging:
 #   level:
@@ -21,3 +18,11 @@ springfox.documentation.swagger.v2.path: /schema
 # Spring Boot will pick up the logback dependency :/
 logging:
   config: classpath:log4j2.xml
+  
+
+# Application properties
+app:
+  url:
+    base: http://localhost:8080/
+    cars: api/cars/
+    car: api/cars/:id

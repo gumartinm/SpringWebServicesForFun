@@ -1,4 +1,4 @@
-package de.spring.webservices.configuration;
+package de.spring.webservices.rest.configuration;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.builders.RequestHandlerSelectors.basePackage;

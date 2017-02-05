@@ -2,22 +2,23 @@ package de.spring.webservices.rest.business.service.impl;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.rest.business.service.BusinessService;
 import de.spring.webservices.rest.client.service.CarClientService;
 
-@Service("businessService")
+@Named("businessService")
 public class BusinessServiceImpl implements BusinessService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
 	private final CarClientService carClientService;
 
-	@Autowired
+    @Inject
 	public BusinessServiceImpl(CarClientService carClientService) {
 		this.carClientService = carClientService;
 	}

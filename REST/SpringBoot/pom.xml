@@ -21,6 +21,7 @@
         <module>web-services-spring-rest-bom</module>
         <module>web-services-spring-rest-global</module>
         <module>web-services-spring-rest-server</module>
+        <module>web-services-spring-rest-client</module>
     </modules>
 
 </project>

@@ -1,9 +1,11 @@
-package de.spring.webservices;
+package de.spring.webservices.rest;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import de.spring.webservices.rest.business.service.BusinessService;
 
 @SpringBootApplication
 public class Application {
@@ -14,9 +16,13 @@ public class Application {
 
 
   @Bean
-  CommandLineRunner lookup() {
+  CommandLineRunner lookup(BusinessService businessService) {
     return args -> {
-
+    	businessService.doSomethingWithCars();
+        
+    	businessService.doSomethingWithCar(66L);
+        
+    	businessService.createsNewCar();
     };
   }
 
