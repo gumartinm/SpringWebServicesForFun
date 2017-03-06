@@ -7,7 +7,27 @@ spring:
 
 server:
   port: 8080
-  
+
+management:
+  security:
+    enabled: true
+    roles: SUPERUSER
+  health:
+    # In this way we can enable just the health checks that we want.
+    defaults:
+      enabled: false
+    custom:
+      enable: true
+endpoints:
+  sensitive: true
+  health:
+    sensitive: false
+    time-to-live: 2000
+security:
+  user:
+    name: admin
+    password: admin
+
 springfox.documentation.swagger.v2.path: /schema
 
 # By default Spring Boot uses logback.
