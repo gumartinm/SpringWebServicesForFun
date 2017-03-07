@@ -16,14 +16,20 @@ management:
     # In this way we can enable just the health checks that we want.
     defaults:
       enabled: false
+    # Just enable my custom health check
     custom:
-      enable: true
+      enabled: true
   info:
+    # In this way we can enable just the information that we want.
     defaults:
       enabled: false
+    # Enabling git information
     git:
       enabled: true
       mode: FULL
+    # Enabling my custom information
+    custom:
+      enabled: true
 endpoints:
   sensitive: true
   health:
