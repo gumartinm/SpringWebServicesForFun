@@ -18,6 +18,12 @@ management:
       enabled: false
     custom:
       enable: true
+  info:
+    defaults:
+      enabled: false
+    git:
+      enabled: true
+      mode: FULL
 endpoints:
   sensitive: true
   health:
