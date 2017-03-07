@@ -27,6 +27,9 @@ management:
     git:
       enabled: true
       mode: FULL
+    # Enabling build information
+    build:
+      enabled: true
     # Enabling my custom information
     custom:
       enabled: true
