@@ -33,6 +33,9 @@ management:
     # Enabling my custom information
     custom:
       enabled: true
+  # Removing usless X-Application-Context HTTP header.
+  # It contains the application's name (I do not need it right now)
+  add-application-context-header: false
 endpoints:
   sensitive: true
   health:
