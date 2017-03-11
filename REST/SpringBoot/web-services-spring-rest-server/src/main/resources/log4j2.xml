@@ -18,18 +18,32 @@
         ERROR by default.
     -->
 
+    <Properties>
+        <Property name="REMOTE_HOST">172.30.4.102</Property>
+    </Properties>
+
+
     <Appenders>
-        <Appender type="Console" name="STDOUT">
+        <Console name="STDOUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
-        </Appender>
+        </Console>
+
+	    <Syslog name="REMOTE" host="${REMOTE_HOST}" port="514" protocol="TCP" includeMDC="true" facility="USER" >
+	    </Syslog>
+
+		<Async name="Async">
+            <AppenderRef ref="REMOTE" />
+        </Async>
     </Appenders>
+
     <Loggers>
 
         <!-- 
             Specific log level for Spring WEBMVC.
          -->
         <Logger name="org.springframework.web" level="INFO" additivity="false">
-            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Async" />
         </Logger>
 
 
@@ -37,7 +51,8 @@
             General logging Spring.
          -->
         <Logger name="org.springframework" level="INFO" additivity="false">
-            <AppenderRef ref="STDOUT" />
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Async" />
         </Logger>
 
 
@@ -46,6 +61,7 @@
          -->
         <Root level="INFO">
             <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Async"/>
         </Root>
 
     </Loggers>
