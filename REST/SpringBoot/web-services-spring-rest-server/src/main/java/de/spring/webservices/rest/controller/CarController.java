@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -68,6 +69,8 @@ public class CarController {
     		@ApiParam(name = "id", value = "Car id", required = true) @PathVariable("id") long id,
     		@RequestParam Map<String, String> params,
     		@RequestParam(value = "wheel", required = false) String[] wheelParams) {
+		
+		MDC.put("UUID", "some-random-uuid");
     	    	
     	if (specialHeader != null) {
     		LOGGER.info("SPECIAL HEADER: " + specialHeader);

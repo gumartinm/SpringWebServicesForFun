@@ -64,8 +64,8 @@
             Instead of Syslog I am going to use the Socket Appender
         -->
         <Socket name="REMOTE" host="${REMOTE_HOST}" port="514" protocol="TCP">
-    
-            <!--
+   
+           <!--
                  %class and %L do not work here because I am using Async! 
 
                  see: https://github.com/rsyslog/rsyslog/blob/master/runtime/rsyslog.h
@@ -100,7 +100,10 @@
          -->
         <Logger name="org.springframework.web" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT"/>
+            <!--
+                DISABLE REMOTE LOG WHEN RUNNING TESTS
             <AppenderRef ref="Async" />
+            -->
         </Logger>
 
 
@@ -109,7 +112,11 @@
          -->
         <Logger name="org.springframework" level="INFO" additivity="false">
             <AppenderRef ref="STDOUT"/>
+
+            <!--
+                DISABLE REMOTE LOG WHEN RUNNING TESTS
             <AppenderRef ref="Async" />
+            -->
         </Logger>
 
 
@@ -118,7 +125,11 @@
          -->
         <Root level="INFO">
             <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="Async"/>
+
+            <!--
+                DISABLE REMOTE LOG WHEN RUNNING TESTS
+            <AppenderRef ref="Async" />
+            -->
         </Root>
 
     </Loggers>
