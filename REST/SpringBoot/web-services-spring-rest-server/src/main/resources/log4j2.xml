@@ -82,7 +82,9 @@
                                                     $programname (rsyslog property, see http://www.rsyslog.com/doc/master/configuration/properties.html)
                                                     and we will be able to use it in our rsyslog filters. The same for 128, it will become log_local0.
             -->
-            <PatternLayout pattern="&lt;128&gt;${hostName} ${APP_NAME}[${sys:PID}]: %-5level [%X{UUID}] %c  %M - %msg%xEx%n" />
+
+            <!-- Using traditional forwarding format: https://github.com/rsyslog/rsyslog/blob/master/tools/smtradfwd.c#L5 -->
+            <PatternLayout pattern="&lt;128&gt;%d{MMM dd HH:mm:ss} ${hostName} ${APP_NAME}[${sys:PID}]: %-5level [%X{UUID}] %c  %M - %msg%xEx%n" />
 
         </Socket>
 
