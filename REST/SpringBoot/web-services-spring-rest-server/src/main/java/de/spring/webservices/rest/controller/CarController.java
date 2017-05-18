@@ -26,15 +26,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.spring.webservices.domain.Car;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ResponseHeader;
+import de.spring.webservices.rest.controller.apidocs.CarControllerDocumentation;
 
 @RestController
 @RequestMapping("/api/cars/")
-public class CarController {
+public class CarController implements CarControllerDocumentation {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CarController.class);
     private static final String TEMPLATE = "Car: %s";
@@ -42,13 +38,9 @@ public class CarController {
     @NotNull
     private final AtomicLong counter = new AtomicLong();
 
-	@ApiOperation(value = "Get all available cars", nickname = "getAllCars", responseContainer="List", response = Car.class)
-    @ApiResponses({
-        @ApiResponse(code =  404, message ="Specific getCars not found"),
-        @ApiResponse(code =  400, message ="Specific getCars invalid input")
-    })
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
+	@Override
     public List<Car> cars() {
         final List<Car> cars = new ArrayList<>();
         cars.add(new Car(counter.incrementAndGet(), String.format(TEMPLATE, 1)));
@@ -58,15 +50,11 @@ public class CarController {
         return cars;
     }
 
-	@ApiOperation(value = "Get one car", nickname = "getOneCar", response = Car.class)
-    @ApiResponses({
-        @ApiResponse(code =  404, message ="Specific getCar not found"),
-        @ApiResponse(code =  400, message ="Specific getCar invalid input")
-    })
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
+	@Override
     public Car car(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
-    		@ApiParam(name = "id", value = "Car id", required = true) @PathVariable("id") long id,
+    		@PathVariable("id") long id,
     		@RequestParam Map<String, String> params,
     		@RequestParam(value = "wheel", required = false) String[] wheelParams) {
 		
@@ -100,15 +88,9 @@ public class CarController {
         return new Car(counter.incrementAndGet(), String.format(TEMPLATE, id));
     }
     
-	@ApiOperation(code =  201, value = "Create one new car", nickname = "createNewCar")
-    @ApiResponses({
-    	@ApiResponse(code =  201, message ="Specific createCar with header",
-    			responseHeaders = { @ResponseHeader(name = HttpHeaders.LOCATION) }, response = Car.class),
-        @ApiResponse(code =  404, message ="Specific createCar not found"),
-        @ApiResponse(code =  400, message ="Specific createCar invalid input")
-    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
+	@Override
     public ResponseEntity<Car> create(@RequestBody @Valid Car car) {
     	long count = counter.incrementAndGet();
     	HttpHeaders headers = new HttpHeaders();
