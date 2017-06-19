@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    status: The level of internal Log4j events that should be logged to the console.
+    Valid values for this attribute are "trace", "debug", "info", "warn", "error" and "fatal".
+    
+    monitorInterval: The minimum amount of time, in seconds, that must elapse before the file configuration is checked for changes.
+    
+    
+    see https://logging.apache.org/log4j/2.x/manual/configuration.html
+ -->
+<Configuration status="error" strict="true" monitorInterval="30"
+                name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+
+    <!--
+        ALL > TRACE > DEBUG > INFO > WARN > ERROR > OFF
+        
+        ERROR by default.
+    -->
+
+
+    <Properties>
+        <Property name="REMOTE_HOST">graylogserver.example.com</Property>
+        <Property name="APP_NAME">rest-server</Property>
+    </Properties>
+
+
+    <Appenders>
+    
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level [%X{UUID}] %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+
+
+		<!--
+			UDP Socket is not throwing exceptions even when having ICMP unreachable :O
+			Because of that, I am using TCP :(
+		-->
+	    <Socket name="Graylog" protocol="tcp" host="${REMOTE_HOST}" port="12202">
+	    	<!-- When using TCP we need null byte :(  See: http://docs.graylog.org/en/2.2/pages/gelf.html#gelf-via-tcp
+	    		 So, when using TCP I do not think this layout is going to work :/
+	    		 You'd better use: https://github.com/mp911de/logstash-gelf
+	    	 -->
+	        <GelfLayout compressionType="OFF" compressionThreshold="1024">
+	        </GelfLayout>
+	    </Socket>
+	    
+	    
+	    <!--
+	    	It is not throwing errors to Failover :(
+	    	So, Failover does not know when Async failed :(
+	    	No way of using Async + Failover :(
+	    <Async name="Async" ignoreExceptions="false">
+            <AppenderRef ref="Graylog" />
+        </Async>
+        -->
+	    
+	    <Failover name="Failover" primary="Graylog">
+	      <Failovers>
+	        <AppenderRef ref="STDOUT"/>
+	      </Failovers>
+	    </Failover>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!-- 
+            Specific log level for Spring WEBMVC.
+         -->
+        <Logger name="org.springframework.web" level="INFO" additivity="false">
+            <AppenderRef ref="Failover" />
+        </Logger>
+
+
+        <!-- 
+            General logging Spring.
+         -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="Failover"/>
+        </Logger>
+
+
+        <!-- 
+            Anything else will be using TRACE logging level.
+         -->
+        <Root level="INFO">
+            <AppenderRef ref="Failover"/>
+        </Root>
+
+    </Loggers>
+</Configuration>
