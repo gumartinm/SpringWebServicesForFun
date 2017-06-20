@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+    status: The level of internal Log4j events that should be logged to the console.
+    Valid values for this attribute are "trace", "debug", "info", "warn", "error" and "fatal".
+    
+    monitorInterval: The minimum amount of time, in seconds, that must elapse before the file configuration is checked for changes.
+    
+    
+    see https://logging.apache.org/log4j/2.x/manual/configuration.html
+ -->
+<Configuration status="error" strict="true" monitorInterval="30"
+                name="XMLConfigTest" packages="org.apache.logging.log4j.test">
+
+    <!--
+        ALL > TRACE > DEBUG > INFO > WARN > ERROR > OFF
+        
+        ERROR by default.
+    -->
+
+
+    <Properties>
+        <Property name="REMOTE_HOST">graylogserver.example.com</Property>
+    </Properties>
+
+
+    <Appenders>
+    
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level [%X{UUID}] %class{36} %L %M - %msg%xEx%n"/>
+        </Console>
+
+
+	<Gelf name="Graylog" host="tcp:${REMOTE_HOST}?readTimeout=10s&amp;connectionTimeout=1000ms&amp;deliveryAttempts=1" port="12202" version="1.1" extractStackTrace="true"
+              filterStackTrace="false" includeFullMdc="true" maximumMessageSize="8192" originHost="${hostName}" ignoreExceptions="false">
+        </Gelf>
+ 
+	
+        <!-- 
+	  1. Good thing: application thread will not be waiting for data being sent through the TCP channel.
+          2. Bad thing: Async appender does not work with Failover. The only way for having something like Failover is using errorRef but in this way
+                        every time Gelf appender fails, Async will switch to Console. In the next log Async AGAIN will try to use the Gelf appender waisting time
+		        because more likely the server side will keep down. Failover waits (by default) 60 secs for tring again with the main appender :(
+
+         SO: WHAT I LEARNED FROM ALL OF THIS.
+	     1- Logging to local and remote server at the same time (without using Failover) In this case we could be logging to Console/File and to Async and
+             Async would be referencing the Graylog appender. If some day the collector in charge of receiving logs (Graylog server) goes down you will have to go to the phisical
+             server and retrieve the logs written by means of the File/Console appender.
+             2- If you can afford to lose logs you can use FailOver + Graylog TCP + Console. Big problem, if your Graylog appender does not launch another thread your application thread
+               will have to wait until data are sent through the TCP channel :( So again the first option is better.
+
+             The only way for doing this stuff right is logging at the same time to File or Console (local log) and to remote server (Graylog, logstash, etc, etc) If something goes
+             wrong with you collector you will have to go to the phisical server to retrieve every log that was not sent to the remote server but was written in the local log. THIS IS THE
+             ONLY RIGHT WAY!!!! IT DOES NOT MATTER WHATEVER PEOPLE TELL YOU!!! PEOPLE SUCK!!
+	-->    
+	<Async name="Async" errorRef="STDOUT">
+            <AppenderRef ref="Graylog" />
+        </Async>
+
+    </Appenders>
+
+    <Loggers>
+
+        <!-- 
+            Specific log level for Spring WEBMVC.
+         -->
+        <Logger name="org.springframework.web" level="INFO" additivity="false">
+            <AppenderRef ref="Async" />
+        </Logger>
+
+
+        <!-- 
+            General logging Spring.
+         -->
+        <Logger name="org.springframework" level="INFO" additivity="false">
+            <AppenderRef ref="Async"/>
+        </Logger>
+
+
+        <!-- 
+            Anything else will be using TRACE logging level.
+         -->
+        <Root level="INFO">
+            <AppenderRef ref="Async"/>
+        </Root>
+
+    </Loggers>
+</Configuration>

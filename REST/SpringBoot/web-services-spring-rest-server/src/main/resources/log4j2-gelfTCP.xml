@@ -29,25 +29,11 @@
         <Console name="STDOUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level [%X{UUID}] %class{36} %L %M - %msg%xEx%n"/>
         </Console>
-
-
-		<!--
-			UDP Socket is not throwing exceptions even when having ICMP unreachable :(
-                        So Failover will never switch to STDOUT :(
-		-->
-	    <Socket name="Graylog" protocol="udp" host="${REMOTE_HOST}" port="12201" connectTimeoutMillis="5000" ignoreExceptions="false" immediateFail="true">
-	    	<!-- When using TCP we need null byte :(  See: http://docs.graylog.org/en/2.2/pages/gelf.html#gelf-via-tcp
-	    		 So, when using TCP this layout does not work :(
-	    		 You'd better use: https://github.com/mp911de/logstash-gelf
-		     To sum up:
-				Socket UDP + GelfLayout = OK
-				Socket UPD + GelfLayout + Failover = NOK
-				Socket TCP + GelfLayout = NOK (because when TCP GELF requires special character which is not provided by GelfLayout)
-				Socket TCP + GelfLayout + Failover = NOK (because when TCP GELF requires special character which is not provided by GelfLayout)
-	    	 -->
-	        <GelfLayout compressionType="GZIP" compressionThreshold="1024">
-	        </GelfLayout>
-	    </Socket>
+        
+        
+	    <Gelf name="Graylog" host="tcp:${REMOTE_HOST}?readTimeout=10s&amp;connectionTimeout=1000ms&amp;deliveryAttempts=1" port="12202" version="1.1" extractStackTrace="true"
+              filterStackTrace="false" includeFullMdc="true" maximumMessageSize="8192" originHost="${hostName}" ignoreExceptions="false">
+        </Gelf>
 	    
 	    <Failover name="Failover" primary="Graylog">
 	      <Failovers>
