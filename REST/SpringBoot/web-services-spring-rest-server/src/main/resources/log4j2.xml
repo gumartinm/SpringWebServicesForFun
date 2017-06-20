@@ -63,7 +63,7 @@
         <!--
             Instead of Syslog I am going to use the Socket Appender
         -->
-        <Socket name="REMOTE" host="${REMOTE_HOST}" port="514" protocol="TCP">
+        <Socket name="REMOTE" host="${REMOTE_HOST}" port="514" protocol="TCP" connectTimeoutMillis="5000" ignoreExceptions="true" immediateFail="true">
     
             <!--
                  %class and %L do not work here because I am using Async! 
@@ -99,8 +99,13 @@
 
         <!-- 
             Specific log level for Spring WEBMVC.
+	    
+	    OFF because I will be using the spring boot actuator endpoint /loggers for
+            enabling this log in run time like a boss by means of this command:
+
+	    curl -i -u admin:admin -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INFO"}' http://localhost:8080/loggers/org.springframework.web
          -->
-        <Logger name="org.springframework.web" level="INFO" additivity="false">
+        <Logger name="org.springframework.web" level="OFF" additivity="false">
             <AppenderRef ref="STDOUT"/>
             <AppenderRef ref="Async" />
         </Logger>
