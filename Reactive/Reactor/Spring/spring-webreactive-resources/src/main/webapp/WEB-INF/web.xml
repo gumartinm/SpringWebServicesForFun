@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         metadata-complete="false"
+         version="4.0">
+
+    <display-name>Spring Reactive: example webflux</display-name>
+
+    <!--
+        Spring Web Flux does not implment something like org.springframework.web.servlet.DispatcherServlet :(
+        We must load servlet using some class extending AbstractReactiveWebInitializer, which is loaded by SpringServletContainerInitializer.
+        SpringServletContainerInitializer is annotated with @HandlesTypes, Tomcat searches for classes implementing @HandlesTypes and run them.
+
+  
+        For doing this stuff metadata-complete must be false. In this way Tomcat searches for classess implementing or using annotations related to Servlet 3.1+
+        Be careful because this scan could take a lot of time if you application has a lot of jar files. In this case, I guess, you should try to narrow the scope somehow. Do not know how :(
+
+
+        Spring Web Flux developers did not care about using web.xml. It seems to me like this way of loading web apps is deprecated :(  I guess, they want me to use Spring Boot with all its goodies :(
+    -->
+
+</web-app>
