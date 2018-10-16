@@ -31,13 +31,27 @@ public class AdClientServiceImpl implements AdClientService {
 
 	@Override
 	public Flux<Ad> findAll() {
-		Tags customTags = Tags.of("account", "test");
-		registry.counter("some.metric.about.user", customTags).increment();
+		Tags accountTag = Tags.of("account", "test");
+		Tags nameOneTag = Tags.of("name", "one");
+		Tags nameTwoTag = Tags.of("name", "two");
+		registry.counter("some.metric.about.user", accountTag).increment();
 
 		LOGGER.info("Sending info by means of webClient");
+
+		// micrometer after 30seconds will be sending {"metric":"some.metric.about.user","points":[[1539654599, 2.0]],"tags":["account:test","statistic:count"]}
+		// 2.0 because there is 2 incrementes
+		// if we stop incrementing (we stop calling the findAll method)
+		// micrometer will keep sending {"metric":"some.metric.about.user","points":[[1539654599, 0.0]],"tags":["account:test","statistic:count"]}
+		// 0.0 value because we stopped calling the findAll method and there are no more increments
+		// registry.counter("some.metric.about.user", customTags).increment();
+
+		registry.counter("some.metric.about.user", nameOneTag).increment();
+		registry.counter("some.metric.about.user", nameTwoTag).increment();
+
 		return webClient.get()
 				.uri(this.uriFindAll).accept(MediaType.APPLICATION_JSON_UTF8)
 				.exchange()
 				.flatMapMany(clientResponse -> clientResponse.bodyToFlux(Ad.class));
+
 	}
 }
