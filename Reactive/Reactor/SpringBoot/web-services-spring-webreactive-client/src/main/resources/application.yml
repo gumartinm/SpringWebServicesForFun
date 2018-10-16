@@ -1,0 +1,58 @@
+# Spring Boot configuration properties
+spring:
+  application:
+    name: web-services-spring-webreactive-client
+  main:
+    banner-mode: "LOG"
+    # We do not need Tomcat running (this application runs from console)
+    web-environment: false
+  
+# By default Spring Boot uses logback.
+# logging:
+#   level:
+#     org:
+#       springframework: info
+#     ROOT: info
+   
+# Using log4j2 (just for fun) It requires exclusions in spring-boot-starter because by default
+# Spring Boot will pick up the logback dependency :/
+logging:
+  config: classpath:log4j2.xml
+
+
+# METRICS
+## When using micrometer-registry-datadog :)
+## It sends directly to datadoghq
+management:
+  metrics:
+    binders:
+      jvm:
+        enabled: false
+      uptime:
+        enabled: false
+      processor:
+        enabled: false
+    export:
+      datadog:
+        api-key:
+        enabled: true
+        step: 30s
+## When using micrometer-registry-statsd
+## It sends to the dogstatsd daemon
+#      statsd:
+#        enabled: true
+#        flavor: datadog
+#        host: ${STATSD_HOST:localhost}
+#        port: ${STATSD_PORT:8125}
+
+
+  
+
+# Application properties
+app:
+  uri:
+    host:
+      url: http://localhost:8080/spring-webreactive-resources-1.0-SNAPSHOT
+      read-timeout: 10000
+      write-timeout: 10000
+      connection-timeout: 10000
