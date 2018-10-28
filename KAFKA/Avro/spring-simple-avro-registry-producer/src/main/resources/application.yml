@@ -5,7 +5,7 @@ spring:
     web-environment: false
 
 kafka:
-  broker: localhost:9092
+  broker: localhost:29092
   topic: avro.topic.example
 schema:
   registry:
