@@ -10,5 +10,5 @@ kafka:
 schema:
   registry:
     url: http://localhost:8081
-
-
+    connection-timeout: 10000
+    read-timeout: 10000

@@ -35,6 +35,7 @@ public class ConsumerServiceImpl implements ConsumerService {
 					LOGGER.info("Surname: {}", record.value().getSurname());
 					LOGGER.info("Age: {}", record.value().getAge());
 					LOGGER.info("Schema: {}", record.value().getSchema());
+					LOGGER.info("To String value: {}", record.value().toString());
 				});
 
 				kafkaConsumer.commitSync();

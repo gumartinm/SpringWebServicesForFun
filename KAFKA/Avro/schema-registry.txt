@@ -1,0 +1,124 @@
+https://docs.confluent.io/current/schema-registry/docs/api.html
+
+* None: Don’t check for schema compatibility.
+* Forward: Check to make sure the last schema version is forward-compatible with new schemas.
+* Backward (default): Make sure the new schema is backward-compatible with the latest.
+* Full: Make sure the new schema is forward- and backward-compatible from the latest to newest and from the newest to latest.
+
+###############################################################################################################################
+
+PRODUCER:
+
+Antes de enviar por primera vez Joe :)
+Se supone que el producer lo cachea y no vuelve a enviar más veces la misma versión :)
+
+POST /subjects/avro.topic.example-value/versions HTTP/1.1
+Content-Type: application/vnd.schemaregistry.v1+json
+Cache-Control: no-cache
+Pragma: no-cache
+User-Agent: Java/1.8.0_77
+Host: localhost:8081
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+Content-Length: 432
+
+{"schema":"{\"type\":\"record\",\"name\":\"Joe\",\"namespace\":\"de.spring.simple.avro.registry\",\"fields\":[{\"name\":\"name\",\"type\":\"string\",\"doc\":\"Joe's name\"},{\"name\":\"surname\",\"type\":\"string\",\"doc\":\"Joe's surname\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"Joe's age\"},{\"name\":\"classified\",\"type\":\"boolean\",\"doc\":\"Classified joe. Only special ones.\",\"default\":true}],\"version\":\"1\"}"}
+
+
+HTTP/1.1 200 OK <----- es BACKWARD (configuración por defecto) compatible :)
+Date: Sun, 28 Oct 2018 19:23:38 GMT
+Content-Type: application/vnd.schemaregistry.v1+json
+Content-Length: 8
+Server: Jetty(9.4.10.v20180503)
+
+{"id":1}  <----- retorna el identificador único del esquema AVRO (no tiene por qué coincidir con la versión del archivo joe.avsc)
+
+
+Responde que OK, luego es backward compatible :)
+
+
+
+
+Joe con una nueva version y añade el campo region. Debería se backward compatible.
+
+POST /subjects/avro.topic.example-value/versions HTTP/1.1
+Content-Type: application/vnd.schemaregistry.v1+json
+Cache-Control: no-cache
+Pragma: no-cache
+User-Agent: Java/1.8.0_77
+Host: localhost:8081
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+Content-Length: 534
+
+{"schema":"{\"type\":\"record\",\"name\":\"Joe\",\"namespace\":\"de.spring.simple.avro.registry\",\"fields\":[{\"name\":\"name\",\"type\":\"string\",\"doc\":\"Joe's name\"},{\"name\":\"surname\",\"type\":\"string\",\"doc\":\"Joe's surname\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"Joe's age\"},{\"name\":\"classified\",\"type\":\"boolean\",\"doc\":\"Classified joe. Only special ones.\",\"default\":true},{\"name\":\"region\",\"type\":\"string\",\"doc\":\"Region where Joe lives.\",\"default\":\"Unknown\"}],\"version\":\"2\"}"}
+
+HTTP/1.1 200 OK  <---- schema registry dice que ok así que sí es backward compatible :)
+Date: Sun, 28 Oct 2018 20:04:05 GMT
+Content-Type: application/vnd.schemaregistry.v1+json
+Content-Length: 8
+Server: Jetty(9.4.10.v20180503)
+
+{"id":2}
+
+###############################################################################################################################
+
+CONSUMER:
+
+Extrae del topic, calcula el identificador único AVRO y consulta al Schema Registry cuál es su esquema :)
+
+
+GET /schemas/ids/1 HTTP/1.1
+Content-Type: application/vnd.schemaregistry.v1+json
+Cache-Control: no-cache
+Pragma: no-cache
+User-Agent: Java/1.8.0_77
+Host: localhost:8081
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Date: Sun, 28 Oct 2018 19:30:38 GMT
+Content-Type: application/vnd.schemaregistry.v1+json
+Content-Length: 432
+Server: Jetty(9.4.10.v20180503)
+
+{"schema":"{\"type\":\"record\",\"name\":\"Joe\",\"namespace\":\"de.spring.simple.avro.registry\",\"fields\":[{\"name\":\"name\",\"type\":\"string\",\"doc\":\"Joe's name\"},{\"name\":\"surname\",\"type\":\"string\",\"doc\":\"Joe's surname\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"Joe's age\"},{\"name\":\"classified\",\"type\":\"boolean\",\"doc\":\"Classified joe. Only special ones.\",\"default\":true}],\"version\":\"1\"}"}
+
+Este esquema es el que usará para deserializar el objeto :)
+
+
+
+
+Extrae del topic el objeto Joe AVRO, calcula su número único (que no versión) En este caso el número único es 2. Pregunta al schema registry cuál es su schema AVRO tal que así:
+
+GET /schemas/ids/2 HTTP/1.1
+Content-Type: application/vnd.schemaregistry.v1+json
+Cache-Control: no-cache
+Pragma: no-cache
+User-Agent: Java/1.8.0_77
+Host: localhost:8081
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Date: Sun, 28 Oct 2018 20:07:13 GMT
+Content-Type: application/vnd.schemaregistry.v1+json
+Content-Length: 534
+Server: Jetty(9.4.10.v20180503)
+
+{"schema":"{\"type\":\"record\",\"name\":\"Joe\",\"namespace\":\"de.spring.simple.avro.registry\",\"fields\":[{\"name\":\"name\",\"type\":\"string\",\"doc\":\"Joe's name\"},{\"name\":\"surname\",\"type\":\"string\",\"doc\":\"Joe's surname\"},{\"name\":\"age\",\"type\":\"int\",\"doc\":\"Joe's age\"},{\"name\":\"classified\",\"type\":\"boolean\",\"doc\":\"Classified joe. Only special ones.\",\"default\":true},{\"name\":\"region\",\"type\":\"string\",\"doc\":\"Region where Joe lives.\",\"default\":\"Unknown\"}],\"version\":\"2\"}"}
+
+Obtiene el esquema. Pero NO ES EL ESQUEMA QUE EL CONSUMIDOR USARÁ PARA DESERIALIZAR. El consumidor tiene su propio esquema que puede que no sea igual que este.
+En mi caso el consumidor no tiene region. Pero Schema Registry aseguró al productor que era BACKWARD compatible así que sabemos que aunque este esquema no sea igual que el esquema
+que tiene el consumidor no habrá ningún problema para los consumidores :)
+
+Aquí AVRO tendrá que aplicar una EVOLUTION pero es muy sencilla. Simplemente, ese campo no existe en el esquema antiguo y nada malo pasará (pero perderemos un campo)
+
+Esto es lo que ve la lógica de negocio del consumidor: To String value: {"name": "Snake", "surname": "Eyes", "age": 33, "classified": true}
+NO VE EL CAMPO region PORQUE LA LÓGICA DE NEGOCIO DEL CONSUMIDOR NO NECESITA EL CAMPO region y por eso no hay problemas :)
+
+
+
+
+

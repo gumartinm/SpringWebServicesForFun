@@ -1,0 +1,13 @@
+{
+     "type": "record",
+     "namespace": "de.spring.simple.avro.registry",
+     "name": "Joe",
+     "version": "2",
+     "fields": [
+       { "name": "name", "type": "string", "doc": "Joe's name" },
+       { "name": "surname", "type": "string", "doc": "Joe's surname" },
+       { "name": "age", "type": "int", "doc": "Joe's age" },
+       { "name": "classified", "type": "boolean", "default": true, "doc": "Classified joe. Only special ones." },
+       { "name": "region", "type": "string", "default": "Unknown", "doc": "Region where Joe lives." }
+     ]
+}

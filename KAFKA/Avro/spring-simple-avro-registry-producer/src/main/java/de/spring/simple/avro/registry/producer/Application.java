@@ -24,6 +24,7 @@ public class Application {
 					.setSurname("Eyes")
 					.setAge(33)
 					.setClassified(true)
+			        // V2 .setRegion("New York")
 					.build();
 			producerService.sendJoe(joe);
 		};
