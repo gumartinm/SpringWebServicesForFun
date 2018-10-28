@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.spring.simple.avro.registry</groupId>
+    <artifactId>spring-simple-avro-registry</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>spring-simple-avro-registry</name>
+    <url>https://gumartinm.name/</url>
+    <description>Spring AVRO Registry Example</description>
+    <organization>
+        <name>gumartinm</name>
+        <url>https://gumartinm.name/</url>
+    </organization>
+    <scm>
+        <developerConnection>scm:git:https://git.gumartinm.name/SpringWebServicesForFun</developerConnection>
+        <url>https://git.gumartinm.name/SpringWebServicesForFun</url>
+    </scm>
+
+    <modules>
+        <module>spring-simple-avro-registry-bom</module>
+        <module>spring-simple-avro-registry-producer</module>
+        <module>spring-simple-avro-registry-consumer</module>
+    </modules>
+
+</project>
+

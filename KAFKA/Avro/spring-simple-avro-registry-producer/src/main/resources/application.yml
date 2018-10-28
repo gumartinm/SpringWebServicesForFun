@@ -1,0 +1,14 @@
+spring:
+  main:
+    banner-mode: "off"
+    # We do not need Tomcat running (this application runs from console)
+    web-environment: false
+
+kafka:
+  broker: localhost:9092
+  topic: avro.topic.example
+schema:
+  registry:
+    url: http://localhost:8081
+
+
