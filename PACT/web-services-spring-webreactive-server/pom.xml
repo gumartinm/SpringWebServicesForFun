@@ -54,6 +54,24 @@
           <artifactId>rest-assured</artifactId>
           <scope>test</scope>
         </dependency>
+		<dependency>
+		  <groupId>au.com.dius</groupId>
+		  <artifactId>pact-jvm-provider_2.12</artifactId>
+		  <version>3.6.1</version>
+          <scope>test</scope>
+		</dependency>
+		<dependency>
+		  <groupId>com.reagroup</groupId>
+		  <artifactId>pact-jvm-provider-spring-mvc_2.11</artifactId>
+		  <version>0.4.0</version>
+          <scope>test</scope>
+		</dependency>
+		<dependency>
+		  <groupId>au.com.dius</groupId>
+		  <artifactId>pact-jvm-pact-broker</artifactId>
+		  <version>3.6.1</version>
+          <scope>test</scope>
+		</dependency>
 
 	</dependencies>
 

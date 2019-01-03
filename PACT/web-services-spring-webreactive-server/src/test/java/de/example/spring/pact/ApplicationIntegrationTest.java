@@ -17,7 +17,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { Application.class},
+@SpringBootTest(classes = { Application.class },
                 webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ApplicationIntegrationTest {
 

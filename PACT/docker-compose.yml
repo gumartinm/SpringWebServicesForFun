@@ -1,0 +1,13 @@
+version: '2'
+services:
+
+  pactbroker:
+    privileged: true
+    image: dius/pact-broker
+    hostname: pactbroker
+    container_name: pactbroker
+    ports:
+      - "80:80"
+    environment:
+      PACT_BROKER_DATABASE_ADAPTER: 'sqlite'
+      PACT_BROKER_DATABASE_NAME: 'pact_broker.sqlite'
