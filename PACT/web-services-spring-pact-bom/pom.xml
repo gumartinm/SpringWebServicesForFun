@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>de.example.spring.pact</groupId>
-	<artifactId>web-services-spring-webreactive-bom</artifactId>
+	<artifactId>web-services-spring-pact-bom</artifactId>
 	<version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>web-services-spring-webreactive-bom</name>
+    <name>web-services-spring-pact-bom</name>
 	
 	<url>https://gumartinm.name</url>
 	<description>Web Services Spring REACTIVE Framework BOM.</description>
