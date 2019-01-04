@@ -10,17 +10,6 @@
 	<name>web-services-spring-pact-server</name>
 	<url>http://gumartinm.name</url>
 	<dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
         <!--
              Jackson dependency required for serializing and deserializing LocalDateTime,
              LocalDate, etc, etc objects.
@@ -55,22 +44,22 @@
           <scope>test</scope>
         </dependency>
 		<dependency>
-		  <groupId>au.com.dius</groupId>
-		  <artifactId>pact-jvm-provider_2.12</artifactId>
-		  <version>3.6.1</version>
-          <scope>test</scope>
+		  	<groupId>au.com.dius</groupId>
+  			<artifactId>pact-jvm-provider-junit_2.12</artifactId>
+		  	<version>${pact.version}</version>
+          	<scope>test</scope>
 		</dependency>
 		<dependency>
-		  <groupId>com.reagroup</groupId>
-		  <artifactId>pact-jvm-provider-spring-mvc_2.11</artifactId>
-		  <version>0.4.0</version>
-          <scope>test</scope>
+		  	<groupId>au.com.dius</groupId>
+		  	<artifactId>pact-jvm-provider-spring_2.12</artifactId>
+		  	<version>${pact.version}</version>
+		  	<scope>test</scope>
 		</dependency>
 		<dependency>
-		  <groupId>au.com.dius</groupId>
-		  <artifactId>pact-jvm-pact-broker</artifactId>
-		  <version>3.6.1</version>
-          <scope>test</scope>
+		  	<groupId>au.com.dius</groupId>
+		  	<artifactId>pact-jvm-pact-broker</artifactId>
+		  	<version>${pact.version}</version>
+          	<scope>test</scope>
 		</dependency>
 
 	</dependencies>
