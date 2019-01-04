@@ -23,11 +23,9 @@ public class Application {
   CommandLineRunner lookup(CarServiceImpl carService) {
     return args ->
     	carService.findAll()
-    		.stream()
-    		.map(car -> {
+    		.forEach(car -> {
     			logger.info(String.format("CAR BRAND: %s", car.getBrand()));
     			logger.info(String.format("CAR ENGINE: %s", car.getEngine()));
-                return car;
-            });
+    		});
   }
 }
