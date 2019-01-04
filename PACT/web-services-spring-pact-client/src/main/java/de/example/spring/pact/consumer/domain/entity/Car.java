@@ -4,7 +4,7 @@ public class Car {
 	private final String brand;
 	private final String engine;
 	
-	private Car(String brand, String engine) {
+	protected Car(String brand, String engine) {
 		this.brand = brand;
 		this.engine = engine;
 	}
@@ -17,16 +17,16 @@ public class Car {
 		return engine;
 	}
 
-	public static class CarBuilder {
+	public static class Builder {
 		private String brand;
 		private String engine;
 		
-		public CarBuilder withBrand(String brand) {
+		public Builder withBrand(String brand) {
 			this.brand = brand;
 			return this;
 		}
 		
-		public CarBuilder withEngine(String engine) {
+		public Builder withEngine(String engine) {
 			this.engine = engine;
 			return this;
 		}
@@ -35,5 +35,4 @@ public class Car {
 			return new Car(this.brand, this.engine);
 		}
 	}
-
 }

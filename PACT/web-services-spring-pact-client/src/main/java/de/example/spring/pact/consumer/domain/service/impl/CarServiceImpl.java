@@ -1,4 +1,4 @@
-package de.example.spring.pact.consumer.domain.service;
+package de.example.spring.pact.consumer.domain.service.impl;
 
 import java.util.List;
 

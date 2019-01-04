@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import de.example.spring.pact.consumer.domain.entity.Car;
+import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 
 @FeignClient("web-services-spring-pact-server")
 public interface CarFeignClient {
 
-    @GetMapping("/cars/")
-	List<Car> findAll();
+    @GetMapping(path = "/cars/", produces = "application/json")
+	List<CarDto> findAll();
 }

@@ -28,7 +28,7 @@ public class ApplicationIntegrationTest {
 	
 	@ClassRule
 	public static WireMockClassRule wireMockRule = new WireMockClassRule(	
-		options().port(56564).fileSource(new ClasspathFileSource("wiremock")));
+		options().dynamicPort().fileSource(new ClasspathFileSource("wiremock")));
 
 	@Test
 	public void shouldFindAllCars() {
