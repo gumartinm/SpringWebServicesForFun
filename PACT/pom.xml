@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.example.spring.pact</groupId>
-    <artifactId>web-services-spring-rest</artifactId>
+    <artifactId>web-services-spring-pact</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>web-services-spring-pact</name>
@@ -20,6 +20,8 @@
     <modules>
         <module>web-services-spring-pact-bom</module>
         <module>web-services-spring-pact-server</module>
+        <module>web-services-spring-pact-client</module>
+        <module>web-services-spring-pact-server-spring</module>
     </modules>
 
 </project>
