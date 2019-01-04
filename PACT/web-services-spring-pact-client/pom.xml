@@ -33,11 +33,6 @@
         </dependency>
 
         <!-- Unitary and integration tests -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
 		<dependency>
 		  	<groupId>au.com.dius</groupId>
 			<artifactId>pact-jvm-consumer-junit_2.12</artifactId>
