@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.cloud.netflix.ribbon.StaticServerList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.github.tomakehurst.wiremock.common.ClasspathFileSource;
@@ -23,7 +22,6 @@ import com.netflix.loadbalancer.ServerList;
 @SpringBootTest(classes = { Application.class,
 						    ApplicationIntegrationTest.RibbonTestConfiguration.class },
                 webEnvironment = WebEnvironment.NONE)
-@ActiveProfiles("test")
 public class ApplicationIntegrationTest {
 	
 	@ClassRule
@@ -32,7 +30,8 @@ public class ApplicationIntegrationTest {
 
 	@Test
 	public void shouldFindAllCars() {
-		
+		// When running this test you should some message in the STDOUT :)
+		// Not the best test... I am just trying out this stuff so...
 	}
 
 	@Configuration
