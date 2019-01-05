@@ -67,18 +67,33 @@
             	<groupId>pl.project13.maven</groupId>
             	<artifactId>git-commit-id-plugin</artifactId>
         	</plugin>
+
+        	<!-- https://github.com/DiUS/pact-jvm/tree/master/pact-jvm-provider-maven#publishing-pact-files-to-a-pact-broker -->
         	<plugin>
 			    <groupId>au.com.dius</groupId>
 			    <artifactId>pact-jvm-provider-maven_2.12</artifactId>
 			    <version>3.6.1</version>
+			    <executions>
+			    	<execution>
+			    		<phase>install</phase>
+			    		<goals>
+			    			<goal>publish</goal>
+			    		</goals>
+			    	</execution>
+			    </executions>
 			    <configuration>
-			      <pactDirectory>targer/pacts/)</pactDirectory>
-			      <pactBrokerUrl>http://localhost:80</pactBrokerUrl>
+			      <pactDirectory>${project.build.directory}/pacts</pactDirectory>
+			      <pactBrokerUrl>http://localhost</pactBrokerUrl>
 			      <!-- Defaults to ${project.version}
 			      <projectVersion>1.0.0</projectVersion>
 			      -->
 			      <!-- PACT Broker has issues when SNAPSHOT :/ -->
 			      <trimSnapshot>true</trimSnapshot>
+			      <!--
+      			  <pactBrokerUrl>http://pactbroker:1234</pactBrokerUrl>
+      			  <pactBrokerUsername>USERNAME</pactBrokerUsername>
+      			  <pactBrokerPassword>PASSWORD</pactBrokerPassword>
+      			  -->
 			    </configuration>
 			</plugin>
         </plugins>
