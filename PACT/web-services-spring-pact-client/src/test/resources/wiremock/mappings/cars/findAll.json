@@ -6,8 +6,7 @@
   "response" : {
     "status" : 200,
     "headers" : {
-      "Content-Type" : "application/json",
-      "Cache-Control": "no-cache, no-store, max-age=0, must-revalidate"
+      "Content-Type" : "application/json"
     },
     "body" : "[{\"brand\":\"Ford\", \"engine\": \"Diesel\"}]"
   }

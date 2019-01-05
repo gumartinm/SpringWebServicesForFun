@@ -3,7 +3,9 @@ package de.example.spring.pact.consumer.infrastructure.feign.client;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -43,7 +45,7 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 public class CarFeignClientPACIntegrationTest {
 
     @Inject
-    CarFeignClient carFeignClient;
+    private CarFeignClient carFeignClient;
 
     @Rule
     public PactProviderRuleMk2 mockProvider =
@@ -52,6 +54,8 @@ public class CarFeignClientPACIntegrationTest {
 
     @Pact(provider = "cars_pact_provider", consumer = "cars_pact_consumer")
     public RequestResponsePact createFragment(PactDslWithProvider builder) {
+    	Map<String, String> headers = new HashMap<>();
+    	headers.put("Content-Type","application/json");
         return builder
             .given("test state")
             .uponReceiving("CarFeignClient test findAll")
@@ -59,7 +63,7 @@ public class CarFeignClientPACIntegrationTest {
                 .method("GET")
             .willRespondWith()
                 .status(200)
-                .matchHeader("Content-Type", "application/json")
+                .headers(headers)
                 .body("[{\"brand\":\"Ford\", \"engine\": \"Diesel\"}]")
             .toPact();
     }

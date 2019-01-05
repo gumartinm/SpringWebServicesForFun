@@ -144,6 +144,11 @@
                                 <include>**/*IT.java</include>
                                 <include>**/*IntegrationTest.java</include>
                             </includes>
+                            <systemPropertyVariables>
+                            	<pact.provider.version>${project.version}</pact.provider.version>
+                            	<pact.verifier.publishResults>true</pact.verifier.publishResults>
+                            	<pact.verification.reports>json</pact.verification.reports>
+                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                 </executions>

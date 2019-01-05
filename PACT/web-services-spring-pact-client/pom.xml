@@ -87,8 +87,10 @@
 			      <!-- Defaults to ${project.version}
 			      <projectVersion>1.0.0</projectVersion>
 			      -->
-			      <!-- PACT Broker has issues when SNAPSHOT :/ -->
-			      <trimSnapshot>true</trimSnapshot>
+			      <!-- PACT Broker has issues when SNAPSHOT :/ 
+			      	   It seems to work so I do not trim it :)
+			      -->
+			      <trimSnapshot>false</trimSnapshot>
 			      <!--
       			  <pactBrokerUrl>http://pactbroker:1234</pactBrokerUrl>
       			  <pactBrokerUsername>USERNAME</pactBrokerUsername>

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,10 +20,11 @@ import au.com.dius.pact.provider.spring.target.MockMvcTarget;
 import de.example.spring.pact.provider.domain.entity.Car;
 import de.example.spring.pact.provider.domain.service.CarServiceImpl;
 
+@Ignore
 @RunWith(RestPactRunner.class)
-@Provider("cars_pact_provider")
+@Provider("cars_wiremockpact_provider")
 @PactBroker(host = "${pactbroker.host:localhost}", port = "${pactbroker.port:80}")
-public class CarControllerPACIntegrationTest {
+public class CarControllerWireMockPACIntegrationTest {
 
 	private CarController carController;
 

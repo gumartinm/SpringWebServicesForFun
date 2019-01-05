@@ -30,7 +30,7 @@ public class ApplicationIntegrationTest {
 
 	@Test
 	public void shouldFindAllCars() {
-		// When running this test you should some message in the STDOUT :)
+		// When running this test you should see some message in the STDOUT :)
 		// Not the best test... I am just trying out this stuff so...
 	}
 

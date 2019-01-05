@@ -41,7 +41,7 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 public class CarFeignClientWireMocPACGeneratorIntegrationTest {
 
     @Inject
-    CarFeignClient carFeignClient;
+    private CarFeignClient carFeignClient;
 
 	@ClassRule
 	public static WireMockClassRule wireMockRule = new WireMockClassRule(	
