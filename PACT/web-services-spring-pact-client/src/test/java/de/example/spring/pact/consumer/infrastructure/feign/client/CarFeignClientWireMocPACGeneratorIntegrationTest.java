@@ -1,5 +1,6 @@
 package de.example.spring.pact.consumer.infrastructure.feign.client;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -22,50 +23,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.atlassian.ta.wiremockpactgenerator.WireMockPactGenerator;
+import com.github.tomakehurst.wiremock.common.ClasspathFileSource;
+import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;
 
-import au.com.dius.pact.consumer.Pact;
-import au.com.dius.pact.consumer.PactProviderRuleMk2;
-import au.com.dius.pact.consumer.PactVerification;
-import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
-import au.com.dius.pact.model.MockProviderConfig;
-import au.com.dius.pact.model.RequestResponsePact;
 import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { CarFeignClientPACIntegrationTest.RibbonTestConfiguration.class })
+@SpringBootTest(classes = { CarFeignClientWireMocPACGeneratorIntegrationTest.RibbonTestConfiguration.class })
 @EnableFeignClients("de.example.spring.pact.consumer.infrastructure.feign.client")
 @ImportAutoConfiguration({ RibbonAutoConfiguration.class,
 						   FeignRibbonClientAutoConfiguration.class,
 						   FeignAutoConfiguration.class,
 						   HttpMessageConvertersAutoConfiguration.class })
-public class CarFeignClientPACIntegrationTest {
+public class CarFeignClientWireMocPACGeneratorIntegrationTest {
 
     @Inject
     CarFeignClient carFeignClient;
 
-    @Rule
-    public PactProviderRuleMk2 mockProvider =
-    	new PactProviderRuleMk2("cars_pact_provider", MockProviderConfig.LOCALHOST, 8080, this);
-
-
-    @Pact(provider = "cars_pact_provider", consumer = "cars_pact_consumer")
-    public RequestResponsePact createFragment(PactDslWithProvider builder) {
-        return builder
-            .given("test state")
-            .uponReceiving("CarFeignClient test findAll")
-                .path("/cars/")
-                .method("GET")
-            .willRespondWith()
-                .status(200)
-                .matchHeader("Content-Type", "application/json")
-                .body("[{\"brand\":\"Ford\", \"engine\": \"Diesel\"}]")
-            .toPact();
-    }
-
+	@ClassRule
+	public static WireMockClassRule wireMockRule = new WireMockClassRule(	
+		options().dynamicPort().fileSource(new ClasspathFileSource("wiremock")));
+	
     @Test
-    @PactVerification("cars_pact_provider")
     public void shouldFindAll() {
         List<CarDto> carDtos = carFeignClient.findAll();
 
@@ -77,10 +59,15 @@ public class CarFeignClientPACIntegrationTest {
 
 	@Configuration
 	public static class RibbonTestConfiguration {
-
+		
 		@Bean
 	    public ServerList<Server> serverList() {
-			return new StaticServerList<>(new Server(MockProviderConfig.LOCALHOST, 8080));
+			wireMockRule.addMockServiceRequestListener(WireMockPactGenerator
+			        .builder("cars_wiremockpact_consumer", "cars_wiremockpact_provider")
+			        .withRequestPathWhitelist("/cars/")
+			        .build());
+			
+			return new StaticServerList<>(new Server("localhost", wireMockRule.port()));
 	    }
 
 	}

@@ -48,6 +48,13 @@
 		  	<version>2.20.0</version>
           	<scope>test</scope>
 		</dependency>
+		<!-- Using WireMock for generating pack files :) -->
+		<dependency>
+		    <groupId>com.atlassian.ta</groupId>
+		    <artifactId>wiremock-pact-generator</artifactId>
+		    <version>2.2.0</version>
+		    <scope>test</scope>
+		</dependency>
 	</dependencies>
 
     <build>
@@ -65,7 +72,7 @@
 			    <artifactId>pact-jvm-provider-maven_2.12</artifactId>
 			    <version>3.6.1</version>
 			    <configuration>
-			      <pactDirectory>targer/generated-pact/files/)</pactDirectory>
+			      <pactDirectory>targer/pacts/)</pactDirectory>
 			      <pactBrokerUrl>http://localhost:80</pactBrokerUrl>
 			      <!-- Defaults to ${project.version}
 			      <projectVersion>1.0.0</projectVersion>
