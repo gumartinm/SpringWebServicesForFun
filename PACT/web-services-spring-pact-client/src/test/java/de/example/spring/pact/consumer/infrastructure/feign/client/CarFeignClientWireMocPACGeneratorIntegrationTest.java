@@ -39,8 +39,8 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 						   FeignAutoConfiguration.class,
 						   HttpMessageConvertersAutoConfiguration.class })
 public class CarFeignClientWireMocPACGeneratorIntegrationTest {
-	private static final String PROVIDER = "cars_wiremockpact_provider";
-	private static final String CONSUMER = "cars_wiremockpact_consumer";
+	private static final String PROVIDER = "web-services-spring-pact-server-wiremock";
+	private static final String CONSUMER = "web-services-spring-pact-client-wiremock";
 
     @Inject
     private CarFeignClient carFeignClient;

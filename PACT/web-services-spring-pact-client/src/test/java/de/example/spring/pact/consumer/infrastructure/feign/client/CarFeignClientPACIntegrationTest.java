@@ -43,8 +43,9 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 						   FeignAutoConfiguration.class,
 						   HttpMessageConvertersAutoConfiguration.class })
 public class CarFeignClientPACIntegrationTest {
-	private static final String PROVIDER = "cars_pact_provider";
-	private static final String CONSUMER = "cars_pact_consumer";
+	private static final String PROVIDER = "web-services-spring-pact-server";
+	private static final String CONSUMER = "web-services-spring-pact-client";
+	private static final String STATE = "test state";
 
     @Inject
     private CarFeignClient carFeignClient;
@@ -59,7 +60,7 @@ public class CarFeignClientPACIntegrationTest {
     	Map<String, String> headers = new HashMap<>();
     	headers.put("Content-Type","application/json");
         return builder
-            .given("test state")
+            .given(STATE)
             .uponReceiving("CarFeignClient test findAll")
                 .path("/cars/")
                 .method("GET")

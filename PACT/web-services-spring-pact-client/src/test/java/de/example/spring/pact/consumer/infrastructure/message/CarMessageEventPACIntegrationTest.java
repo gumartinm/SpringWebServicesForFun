@@ -19,8 +19,8 @@ import au.com.dius.pact.model.v3.messaging.MessagePact;
 import de.example.spring.pact.provider.domain.entity.CarMessageEvent;
 
 public class CarMessageEventPACIntegrationTest {
-	private static final String PROVIDER = "carmessageevent_pact_provider";
-	private static final String CONSUMER = "carmessageevent_pact_consumer";
+	private static final String PROVIDER = "web-services-spring-pact-server.message.topic";
+	private static final String CONSUMER = "web-services-spring-pact-client.message";
 	private static final String STATE = "test carmessageevent state";
     
     private final ObjectMapper mapper = new ObjectMapper();
@@ -44,7 +44,7 @@ public class CarMessageEventPACIntegrationTest {
 
     @Test
     @PactVerification({PROVIDER, STATE})
-    public void test() throws Exception {
+    public void shouldVerifyCarMessageEvent() throws Exception {
     	CarMessageEvent carMessageEvent = mapToCarMessageEvent(new String(currentMessage));
         assertThat(carMessageEvent.getBrand(), is("Ford"));
         assertThat(carMessageEvent.getEngine(), is("Diesel"));
