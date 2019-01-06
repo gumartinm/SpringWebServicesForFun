@@ -1,0 +1,13 @@
+{
+  "title" : "CarMessageEvent",
+  "description" : "This is a schema of a Car. Version: 1",
+  "type":"object",
+  "properties": {
+    "brand": {
+      "type": "string"
+    },
+    "engine": {
+      "type": "string"
+    }
+  }
+}

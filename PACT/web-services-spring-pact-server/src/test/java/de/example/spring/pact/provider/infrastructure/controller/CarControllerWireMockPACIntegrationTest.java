@@ -20,9 +20,11 @@ import de.example.spring.pact.provider.domain.entity.Car;
 import de.example.spring.pact.provider.domain.service.CarServiceImpl;
 
 @RunWith(RestPactRunner.class)
-@Provider("cars_wiremockpact_provider")
+@Provider(CarControllerWireMockPACIntegrationTest.PROVIDER)
 @PactBroker(host = "${pactbroker.host:localhost}", port = "${pactbroker.port:80}")
 public class CarControllerWireMockPACIntegrationTest {
+	protected static final String PROVIDER = "web-services-spring-pact-server-wiremock";
+	private static final String STATE = "test state";
 
 	private CarController carController;
 
@@ -38,8 +40,7 @@ public class CarControllerWireMockPACIntegrationTest {
 		mockMvc.setControllers(carController);
 
 		// WireMock Pact Generator does not generate providerStates :(
-		// Because of that this test does not run and carServiceImpl must be mocked
-		// in the setUp method :/
+		// Because of that carServiceImpl must be mocked in the setUp method :/
 		// This makes me really sad because WireMock Pact Generator was great :(
 		Car car = new Car.Builder().withBrand("Ford").withEngine("Diesel").build();
 		List<Car> cars = Collections.singletonList(car);
@@ -49,7 +50,7 @@ public class CarControllerWireMockPACIntegrationTest {
 	// WireMock Pact Generator does not generate providerStates :(
 	// Because of that this test does not run and carServiceImpl must be mocked
 	// in the setUp method :/
-    @State("test state wiremock")
+    @State(STATE)
 	@Test
 	public void shouldFindAll() throws Exception {
     	// This code is never executed because the pact created by WireMock Pact Generator

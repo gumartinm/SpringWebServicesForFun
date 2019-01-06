@@ -20,9 +20,11 @@ import de.example.spring.pact.provider.domain.entity.Car;
 import de.example.spring.pact.provider.domain.service.CarServiceImpl;
 
 @RunWith(RestPactRunner.class)
-@Provider("cars_pact_provider")
+@Provider(CarControllerPACIntegrationTest.PROVIDER)
 @PactBroker(host = "${pactbroker.host:localhost}", port = "${pactbroker.port:80}")
 public class CarControllerPACIntegrationTest {
+	protected static final String PROVIDER = "web-services-spring-pact-server";
+	private static final String STATE = "test state";
 
 	private CarController carController;
 
@@ -38,7 +40,7 @@ public class CarControllerPACIntegrationTest {
 		mockMvc.setControllers(carController);
 	}
 
-    @State("test state")
+    @State(STATE)
 	@Test
 	public void shouldFindAll() throws Exception {
 		Car car = new Car.Builder().withBrand("Ford").withEngine("Diesel").build();
