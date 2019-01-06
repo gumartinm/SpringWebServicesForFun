@@ -19,8 +19,8 @@
 
     <modules>
         <module>web-services-spring-pact-bom</module>
-        <module>web-services-spring-pact-server</module>
         <module>web-services-spring-pact-client</module>
+        <module>web-services-spring-pact-server</module>
     </modules>
 
 </project>
