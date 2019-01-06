@@ -98,6 +98,31 @@
       			  -->
 			    </configuration>
 			</plugin>
+			<plugin>
+			    <groupId>org.jsonschema2pojo</groupId>
+			    <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+			    <configuration>
+			    	<!-- IT ALSO WORKS WITH URLS
+			    	<sourceDirectory>http://remote_server/with/json_schemas/events</sourceDirectory>
+			        <sourceDirectory>${basedir}/src/main/resources/schema/events</sourceDirectory>
+			    	-->
+			        <sourcePaths>${basedir}/src/main/resources/schema/events/CarMessage-Event.json</sourcePaths>
+			        <targetPackage>de.example.spring.pact.provider.domain.entity</targetPackage>
+			        <includeToString>false</includeToString>
+			        <includeHashcodeAndEquals>false</includeHashcodeAndEquals>
+			        <useTitleAsClassname>true</useTitleAsClassname>
+			        <includeAdditionalProperties>false</includeAdditionalProperties>
+			        <annotationStyle>none</annotationStyle>
+			    </configuration>
+			    <executions>
+			        <execution>
+			        	<phase>generate-sources</phase>
+			            <goals>
+			                <goal>generate</goal>
+			            </goals>
+			        </execution>
+			    </executions>
+			</plugin>
         </plugins>
     </build>
 

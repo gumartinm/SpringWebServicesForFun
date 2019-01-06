@@ -43,16 +43,18 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 						   FeignAutoConfiguration.class,
 						   HttpMessageConvertersAutoConfiguration.class })
 public class CarFeignClientPACIntegrationTest {
+	private static final String PROVIDER = "cars_pact_provider";
+	private static final String CONSUMER = "cars_pact_consumer";
 
     @Inject
     private CarFeignClient carFeignClient;
 
     @Rule
     public PactProviderRuleMk2 mockProvider =
-    	new PactProviderRuleMk2("cars_pact_provider", MockProviderConfig.LOCALHOST, 8080, this);
+    	new PactProviderRuleMk2(PROVIDER, MockProviderConfig.LOCALHOST, 8080, this);
 
 
-    @Pact(provider = "cars_pact_provider", consumer = "cars_pact_consumer")
+    @Pact(provider = PROVIDER, consumer = CONSUMER)
     public RequestResponsePact createFragment(PactDslWithProvider builder) {
     	Map<String, String> headers = new HashMap<>();
     	headers.put("Content-Type","application/json");
@@ -69,7 +71,7 @@ public class CarFeignClientPACIntegrationTest {
     }
 
     @Test
-    @PactVerification("cars_pact_provider")
+    @PactVerification(PROVIDER)
     public void shouldFindAll() {
         List<CarDto> carDtos = carFeignClient.findAll();
 

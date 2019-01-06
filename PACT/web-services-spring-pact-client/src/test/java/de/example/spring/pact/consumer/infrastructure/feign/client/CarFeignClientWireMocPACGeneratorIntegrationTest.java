@@ -39,6 +39,8 @@ import de.example.spring.pact.consumer.infrastructure.repository.dto.CarDto;
 						   FeignAutoConfiguration.class,
 						   HttpMessageConvertersAutoConfiguration.class })
 public class CarFeignClientWireMocPACGeneratorIntegrationTest {
+	private static final String PROVIDER = "cars_wiremockpact_provider";
+	private static final String CONSUMER = "cars_wiremockpact_consumer";
 
     @Inject
     private CarFeignClient carFeignClient;
@@ -63,7 +65,7 @@ public class CarFeignClientWireMocPACGeneratorIntegrationTest {
 		@Bean
 	    public ServerList<Server> serverList() {
 			wireMockRule.addMockServiceRequestListener(WireMockPactGenerator
-			        .builder("cars_wiremockpact_consumer", "cars_wiremockpact_provider")
+			        .builder(CONSUMER, PROVIDER)
 			        .withRequestPathWhitelist("/cars/")
 			        .build());
 			
