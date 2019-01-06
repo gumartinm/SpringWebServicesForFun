@@ -17,16 +17,16 @@ public class Car {
 		return engine;
 	}
 
-	public static class CarBuilder {
+	public static class Builder {
 		private String brand;
 		private String engine;
 		
-		public CarBuilder withBrand(String brand) {
+		public Builder withBrand(String brand) {
 			this.brand = brand;
 			return this;
 		}
 		
-		public CarBuilder withEngine(String engine) {
+		public Builder withEngine(String engine) {
 			this.engine = engine;
 			return this;
 		}

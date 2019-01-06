@@ -1,0 +1,2 @@
+1. docker-compose up
+2. ./mvnw clean install

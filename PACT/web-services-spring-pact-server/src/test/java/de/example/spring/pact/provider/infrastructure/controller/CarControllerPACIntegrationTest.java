@@ -32,7 +32,7 @@ public class CarControllerPACIntegrationTest {
 	public final MockMvcTarget mockMvc = new MockMvcTarget();
 
 	@Before
-	public void setUpClass() {
+	public void setUp() {
 		carServiceImpl = mock(CarServiceImpl.class);
 		carController = new CarController(carServiceImpl);
 		mockMvc.setControllers(carController);
@@ -41,7 +41,7 @@ public class CarControllerPACIntegrationTest {
     @State("test state")
 	@Test
 	public void shouldFindAll() throws Exception {
-		Car car = new Car.CarBuilder().withBrand("Ford").withEngine("Diesel").build();
+		Car car = new Car.Builder().withBrand("Ford").withEngine("Diesel").build();
 		List<Car> cars = Collections.singletonList(car);
 
 		mockMvc.setRunTimes(1);

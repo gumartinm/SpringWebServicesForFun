@@ -38,7 +38,7 @@ public class CarControllerIntegrationTest {
 
 	@Test
 	public void shouldFindAll() throws Exception {
-		Car car = new Car.CarBuilder().withBrand("Ford").withEngine("Diesel").build();
+		Car car = new Car.Builder().withBrand("Ford").withEngine("Diesel").build();
 		List<Car> cars = Collections.singletonList(car);
 		given(carServiceImpl.findAll()).willReturn(cars);
 
