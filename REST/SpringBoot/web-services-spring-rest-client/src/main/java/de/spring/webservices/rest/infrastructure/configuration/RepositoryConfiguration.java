@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.configuration;
+package de.spring.webservices.rest.infrastructure.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.repository.CarRepository;
-import de.spring.webservices.rest.repository.impl.CarRestTemplateRepository;
+import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.infrastructure.repository.impl.CarRestTemplateRepository;
 
 @Configuration
 public class RepositoryConfiguration {

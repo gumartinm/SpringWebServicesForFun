@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.business.service;
+package de.spring.webservices.rest.domain.service;
 
 
 public interface BusinessService {

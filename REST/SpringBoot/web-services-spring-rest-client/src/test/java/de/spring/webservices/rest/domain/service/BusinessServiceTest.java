@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.business.service;
+package de.spring.webservices.rest.domain.service;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -13,8 +13,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import de.spring.webservices.domain.Car;
-import de.spring.webservices.rest.business.service.impl.BusinessServiceImpl;
-import de.spring.webservices.rest.repository.CarRepository;
+import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.domain.service.impl.BusinessServiceImpl;
 
 public class BusinessServiceTest {
 

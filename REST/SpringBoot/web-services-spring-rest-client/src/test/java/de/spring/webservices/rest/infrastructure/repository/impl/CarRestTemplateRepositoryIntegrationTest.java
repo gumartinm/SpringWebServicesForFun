@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.repository.impl;
+package de.spring.webservices.rest.infrastructure.repository.impl;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.junit.Assert.assertEquals;
@@ -19,7 +19,7 @@ import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.repository.CarRepository;
+import de.spring.webservices.rest.domain.repository.CarRepository;
 
 public class CarRestTemplateRepositoryIntegrationTest {
 	

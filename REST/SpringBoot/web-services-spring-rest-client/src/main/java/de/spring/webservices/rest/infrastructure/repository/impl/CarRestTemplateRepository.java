@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.repository.impl;
+package de.spring.webservices.rest.infrastructure.repository.impl;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.repository.CarRepository;
+import de.spring.webservices.rest.domain.repository.CarRepository;
 
 public class CarRestTemplateRepository implements CarRepository {
 	private static final String ALL_CARS = "/api/cars/";

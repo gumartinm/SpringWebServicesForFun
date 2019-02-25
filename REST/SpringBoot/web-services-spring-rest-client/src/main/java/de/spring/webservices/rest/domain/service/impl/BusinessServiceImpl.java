@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.business.service.impl;
+package de.spring.webservices.rest.domain.service.impl;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.spring.webservices.domain.Car;
-import de.spring.webservices.rest.business.service.BusinessService;
-import de.spring.webservices.rest.repository.CarRepository;
+import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.domain.service.BusinessService;
 
 public class BusinessServiceImpl implements BusinessService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);

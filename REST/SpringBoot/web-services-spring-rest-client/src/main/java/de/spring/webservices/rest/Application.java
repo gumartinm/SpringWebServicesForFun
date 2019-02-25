@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import de.spring.webservices.rest.business.service.BusinessService;
+import de.spring.webservices.rest.domain.service.BusinessService;
 
 @SpringBootApplication
 public class Application {

@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.repository;
+package de.spring.webservices.rest.domain.repository;
 
 import java.util.List;
 
