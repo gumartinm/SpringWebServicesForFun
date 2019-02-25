@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.configuration;
+package de.spring.webservices.rest.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

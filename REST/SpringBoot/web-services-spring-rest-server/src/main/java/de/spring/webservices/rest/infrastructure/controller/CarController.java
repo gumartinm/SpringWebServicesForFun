@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.controller;
+package de.spring.webservices.rest.infrastructure.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.spring.webservices.infrastructure.dto.CarDto;
-import de.spring.webservices.rest.controller.apidocs.CarControllerDocumentation;
+import de.spring.webservices.rest.infrastructure.controller.apidocs.CarControllerDocumentation;
 
 @RestController
 @RequestMapping("/api/cars/")

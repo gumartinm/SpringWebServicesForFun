@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.controller.health;
+package de.spring.webservices.rest.infrastructure.controller.health;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

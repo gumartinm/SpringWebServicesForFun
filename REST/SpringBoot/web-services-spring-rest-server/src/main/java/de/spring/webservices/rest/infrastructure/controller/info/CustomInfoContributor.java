@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.controller.info;
+package de.spring.webservices.rest.infrastructure.controller.info;
 
 import org.springframework.boot.actuate.info.Info.Builder;
 import org.springframework.boot.actuate.info.InfoContributor;

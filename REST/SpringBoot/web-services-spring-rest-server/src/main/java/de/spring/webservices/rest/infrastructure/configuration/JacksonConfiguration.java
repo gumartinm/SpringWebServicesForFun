@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.configuration;
+package de.spring.webservices.rest.infrastructure.configuration;
 
 import javax.inject.Inject;
 

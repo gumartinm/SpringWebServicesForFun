@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.controller.apidocs;
+package de.spring.webservices.rest.infrastructure.controller.apidocs;
 
 import java.util.List;
 import java.util.Map;

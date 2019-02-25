@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.configuration;
+package de.spring.webservices.rest.infrastructure.configuration;
 
 // import org.springframework.boot.actuate.autoconfigure.web.server.ManagementServerProperties;
 // import org.springframework.core.annotation.Order;
