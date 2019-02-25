@@ -2,28 +2,14 @@ package de.spring.webservices.domain;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 public class Car {
-
-    @NotNull
     private Long id;
-    
-    @NotNull
-    @Size(max = 1024)
     private String content;
-
-    // Required by Jackson :/
-    protected Car() {
-
-    }
     
-    public Car(Long id, String content) {
+	private Car(Long id, String content) {
         this.id = id;
         this.content = content;
     }
-
     
 	public Long getId() {
         return id;
@@ -33,6 +19,10 @@ public class Car {
         return content;
     }
     
+	public static Car.Builder builder() {
+		return new Car.Builder();
+	}
+
     @Override
     public int hashCode() {
       return Objects.hash(getId(), getContent());
@@ -48,5 +38,24 @@ public class Car {
       return Objects.equals(getId(), other.getId())
     		  && Objects.equals(getContent(), other.getContent());
     }
+
+	public static class Builder {
+		private Long id;
+		private String content;
+
+		public Builder id(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder content(String content) {
+			this.content = content;
+			return this;
+		}
+
+		public Car build() {
+			return new Car(id, content);
+		}
+	}
 
 }

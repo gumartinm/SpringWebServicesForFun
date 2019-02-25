@@ -1,6 +1,6 @@
 package de.spring.webservices.rest.configuration;
 
-import org.springframework.boot.actuate.autoconfigure.ConditionalOnEnabledInfoContributor;
+import org.springframework.boot.actuate.autoconfigure.info.ConditionalOnEnabledInfoContributor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

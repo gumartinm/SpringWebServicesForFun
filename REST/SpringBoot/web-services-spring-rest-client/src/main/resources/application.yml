@@ -23,6 +23,4 @@ logging:
 # Application properties
 app:
   url:
-    base: http://localhost:8080/
-    cars: api/cars/
-    car: api/cars/:id
+    base: http://localhost:8080

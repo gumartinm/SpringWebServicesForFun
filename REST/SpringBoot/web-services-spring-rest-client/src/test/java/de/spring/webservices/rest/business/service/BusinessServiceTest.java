@@ -29,8 +29,8 @@ public class BusinessServiceTest {
     
 	@Test
 	public void whenDoSomethingWithCarsThenInvokeDoGetCars() {
-		Car expectedOne = new Car(66L, "test");
-		Car expectedTwo = new Car(99L, "example");
+		Car expectedOne = Car.builder().id(66L).content("test").build();
+		Car expectedTwo = Car.builder().id(99L).content("example").build();
 		List<Car> expected = new ArrayList<>();
 		expected.add(expectedOne);
 		expected.add(expectedTwo);
@@ -44,7 +44,7 @@ public class BusinessServiceTest {
 	@Test
 	public void whenDoSomethingWithOneCarhenInvokeDoGetCar() {
 		Long id = 66L;
-		Car expected = new Car(66L, "test");
+		Car expected = Car.builder().id(66L).content("test").build();
 		
 		given(carClientService.doGetCar(id)).willReturn(expected);
 		
@@ -55,7 +55,7 @@ public class BusinessServiceTest {
 	
 	@Test
 	public void whenCreateNewCarThenCreateNewOne() {
-		Car expected = new Car(66L, "test");
+		Car expected = Car.builder().id(66L).content("test").build();
 		ArgumentCaptor<Car> argCar = ArgumentCaptor.forClass(Car.class);
 		
 		given(carClientService.doNewCar(argCar.capture())).willReturn(expected);

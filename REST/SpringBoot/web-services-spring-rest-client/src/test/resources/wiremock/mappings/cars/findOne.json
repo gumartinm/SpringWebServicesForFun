@@ -1,0 +1,14 @@
+{
+  "name" : "findOne",
+  "request" : {
+    "url" : "/api/cars/66",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "body" : "{\"id\":66, \"content\": \"test\"}"
+  }
+}

@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.spring.webservices.domain.Car;
+import de.spring.webservices.infrastructure.dto.CarDto;
 import de.spring.webservices.rest.controller.apidocs.CarControllerDocumentation;
 
 @RestController
@@ -41,19 +41,19 @@ public class CarController implements CarControllerDocumentation {
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
 	@Override
-    public List<Car> cars() {
-        final List<Car> cars = new ArrayList<>();
-        cars.add(new Car(counter.incrementAndGet(), String.format(TEMPLATE, 1)));
-        cars.add(new Car(counter.incrementAndGet(), String.format(TEMPLATE, 2)));
-        cars.add(new Car(counter.incrementAndGet(), String.format(TEMPLATE, 3)));
+	public List<CarDto> cars() {
+		final List<CarDto> carDtos = new ArrayList<>();
+		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 1)).build());
+		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 2)).build());
+		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 3)).build());
 
-        return cars;
+		return carDtos;
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
 	@Override
-    public Car car(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
+	public CarDto car(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
     		@PathVariable("id") long id,
     		@RequestParam Map<String, String> params,
     		@RequestParam(value = "wheel", required = false) String[] wheelParams) {
@@ -85,18 +85,20 @@ public class CarController implements CarControllerDocumentation {
         }
 
 
-        return new Car(counter.incrementAndGet(), String.format(TEMPLATE, id));
+		return CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, id)).build();
     }
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	@Override
-    public ResponseEntity<Car> create(@RequestBody @Valid Car car) {
+	public ResponseEntity<CarDto> create(@RequestBody @Valid CarDto carDto) {
     	long count = counter.incrementAndGet();
     	HttpHeaders headers = new HttpHeaders();
     	headers.add(HttpHeaders.LOCATION, "/api/cars/" + count);
     	
-        return new ResponseEntity<>(new Car(count, String.format(TEMPLATE, count)), headers, HttpStatus.CREATED);
+		return new ResponseEntity<>(
+		        CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, count)).build(), headers,
+		        HttpStatus.CREATED);
     }
 
 }

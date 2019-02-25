@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-import de.spring.webservices.domain.Car;
+import de.spring.webservices.infrastructure.dto.CarDto;
 
 
 /** WHEN USING @RunWith SPRING SEARCHES FOR YOUR main Aplication AND RUNS IT!!!!! **/
@@ -92,10 +92,10 @@ public class CarControllerIntegrationTest {
 	
 	@Test
 	public void testWhenCreateNewCarThenRetrieveJsonValue() throws Exception {
-		Car car = new Car(2L, "nothing");
+		CarDto carDto = CarDto.builder().id(2L).content(String.format("nothing")).build();
 		mockMvc.perform(post("/api/cars/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-				.content(objectMapper.writeValueAsString(car))
+		        .content(objectMapper.writeValueAsString(carDto))
 				.accept(MediaType.APPLICATION_JSON_UTF8))
 		
 		.andExpect(status().isCreated())

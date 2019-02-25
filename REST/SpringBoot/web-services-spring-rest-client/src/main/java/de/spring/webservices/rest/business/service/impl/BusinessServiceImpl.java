@@ -44,7 +44,10 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	@Override
 	public void createsNewCar() {
-		Car newCar = new Car(666L, "just_a_test");
+		Car newCar = Car.builder()
+				.id(666L)
+				.content("just_a_test")
+				.build();
 		
 		Car car = carClientService.doNewCar(newCar);
 		LOGGER.info("New car");

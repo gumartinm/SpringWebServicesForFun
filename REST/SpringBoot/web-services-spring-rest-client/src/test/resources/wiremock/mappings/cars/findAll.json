@@ -1,0 +1,14 @@
+{
+  "name" : "findAll",
+  "request" : {
+    "url" : "/api/cars/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "body" : "[{\"id\":66, \"content\": \"test\"}]"
+  }
+}

@@ -1,121 +1,78 @@
 package de.spring.webservices.rest.client.service;
 
+import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
+import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.common.ClasspathFileSource;
+import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 
 import de.spring.webservices.domain.Car;
-import de.spring.webservices.rest.business.service.BusinessService;
+import de.spring.webservices.infrastructure.dto.CarDto;
+import de.spring.webservices.infrastructure.mapper.CarMapper;
+import de.spring.webservices.rest.client.service.impl.CarClientServiceImpl;
 
-/** WHEN USING @RunWith SPRING SEARCHES FOR YOUR main Aplication AND RUNS IT!!!!! **/
-@RunWith(SpringRunner.class)
-@RestClientTest({ CarClientService.class })
-@PropertySource("classpath:application.yml")
 public class CarClientServiceIntegrationTest {
 	
-	@Value("${app.url.base}${app.url.cars}")
-	private String apiCarsUrl;
-	
-	@Value("${app.url.base}${app.url.car}")
-	private String apiCarUrl;
-    
-		
-	// WARNING!!!! @RunWith runs searches for the main Application in class path and runs it!!!
-	// Because in my main Application I am injecting the BusinessSerivce I have to mock it in order to make
-	// this test work even when BusinessService is not related to CarclientService :O
-	@MockBean
-	private BusinessService businessService;
-	
-    @Inject
-	private CarClientService carClientService;
-    
-    @Inject
-    private ObjectMapper jsonObjectMapperFactory;
+	@ClassRule
+	public static WireMockClassRule wireMockRule = new WireMockClassRule(
+	        options().dynamicPort().fileSource(new ClasspathFileSource("wiremock")));
 
-    @Inject
-    private MockRestServiceServer mockServer;
+	private RestTemplate restTemplate;
+	
+	private CarClientService carClientService;
+	private CarMapper carMapper;
+
+	@Before
+	public void before() {
+		restTemplate = new RestTemplate();
+		carMapper = CarMapper.INSTANCE;
+		String uriHost = "http://localhost:" + wireMockRule.port();
+		carClientService = new CarClientServiceImpl(uriHost, restTemplate, carMapper);
+	}
 
 	@Test
 	public void whenGetAllCarsThenRetrieveRequestedCars() throws JsonProcessingException {
-		Car expectedOne = new Car(66L, "test");
-		List<Car> expected = new ArrayList<>();
+		CarDto expectedOne = CarDto.builder().id(66L).content("test").build();
+		List<CarDto> expected = new ArrayList<>();
 		expected.add(expectedOne);
-		
-		mockServer.expect(requestTo(apiCarsUrl))
-					.andExpect(method(HttpMethod.GET))
-					.andRespond(withSuccess(asJsonString(expected), MediaType.APPLICATION_JSON_UTF8));
 
 		List<Car> cars = carClientService.doGetCars();
-
-		//mockServer.verify();
 		
 		assertEquals(1, cars.size());
-		assertEquals(expectedOne, cars.get(0));
+		assertEquals(expectedOne.getContent(), cars.get(0).getContent());
+		assertEquals(expectedOne.getId(), cars.get(0).getId());
 	}
 	
 	@Test
 	public void whenGetCarByIdThenRetrieveRequestedCar() throws JsonProcessingException {
 		Long id = 66L;
-		Car expected = new Car(66L, "test");
-		
-		mockServer.expect(requestTo(apiCarUrl.replace(":id", String.valueOf(id))))
-					.andExpect(method(HttpMethod.GET))
-					.andRespond(withSuccess(asJsonString(expected), MediaType.APPLICATION_JSON_UTF8));
+		CarDto expected = CarDto.builder().id(id).content("test").build();
 
 		Car car = carClientService.doGetCar(id);
 
-		//mockServer.verify();
-		
 		assertNotNull(car);
-		assertEquals(expected, car);
+		assertEquals(expected.getContent(), car.getContent());
+		assertEquals(expected.getId(), car.getId());
 	}
-	
+
 	@Test
 	public void whenCreateNewCarThenRetrieveCreatedCar() throws JsonProcessingException {
-		Long expectedId = 66L;
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(HttpHeaders.LOCATION, "/api/cars/" + String.valueOf(expectedId));
-		Car expected = new Car(expectedId, "test");
-		
-		mockServer.expect(requestTo(apiCarsUrl))
-					.andExpect(method(HttpMethod.POST))
-					.andExpect(content()
-							.string(asJsonString(expected)))
-					.andRespond(withSuccess(asJsonString(expected), MediaType.APPLICATION_JSON_UTF8)
-							.headers(headers));
+		Car expected = Car.builder().id(66L).content("test").build();
 
 		Car car = carClientService.doNewCar(expected);
 
-		//mockServer.verify();
-		
 		assertNotNull(car);
-		assertEquals(expected, car);
-	}
-	
-	private String asJsonString(final Object obj) throws JsonProcessingException {
-		return jsonObjectMapperFactory.writeValueAsString(obj);
+		assertEquals(expected.getContent(), car.getContent());
+		assertEquals(expected.getId(), car.getId());
 	}
 }

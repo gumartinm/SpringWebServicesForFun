@@ -4,6 +4,10 @@ spring:
     name: web-services-spring-rest-server
   main:
     banner-mode: "LOG"
+  security:
+    user:
+      name: admin
+      password: admin
 
 server:
   port: 8080
@@ -41,10 +45,6 @@ endpoints:
   health:
     sensitive: false
     time-to-live: 2000
-security:
-  user:
-    name: admin
-    password: admin
 
 springfox.documentation.swagger.v2.path: /schema
 

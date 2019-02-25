@@ -14,8 +14,20 @@ capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
+
+
+# Generated files
 bin/
+gen/
+
+
+#Eclipse
 .classpath
 .project
 .settings
+# mapstruct
+# <m2e.apt.activation>jdt_apt</m2e.apt.activation>
+.factorypath
+
+# Maven
 target

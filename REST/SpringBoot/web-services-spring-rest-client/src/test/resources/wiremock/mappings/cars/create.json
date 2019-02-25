@@ -1,0 +1,19 @@
+{
+  "name" : "create",
+  "request" : {
+    "url" : "/api/cars/",
+    "method" : "POST",
+    "bodyPatterns" : [{
+      "equalToJson" : "{\"id\": 66,  \"content\": \"test\"}"
+    }]
+
+  },
+  "response" : {
+    "status" : 200,
+    "headers" : {
+      "Content-Type" : "application/json",
+      "Location": "/api/cars/66"
+    },
+    "body" : "{\"id\":66, \"content\": \"test\"}"
+  }
+}
