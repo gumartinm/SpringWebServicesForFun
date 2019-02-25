@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
-import de.spring.webservices.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;

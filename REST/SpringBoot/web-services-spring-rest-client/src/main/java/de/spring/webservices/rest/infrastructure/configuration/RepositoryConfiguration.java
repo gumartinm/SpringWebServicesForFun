@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
-import de.spring.webservices.infrastructure.mapper.CarMapper;
 import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.infrastructure.mapper.CarMapper;
 import de.spring.webservices.rest.infrastructure.repository.impl.CarRestTemplateRepository;
 
 @Configuration

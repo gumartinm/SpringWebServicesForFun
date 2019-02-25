@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.spring.webservices.domain.Car;
-import de.spring.webservices.infrastructure.dto.CarDto;
-import de.spring.webservices.infrastructure.mapper.CarMapper;
+import de.spring.webservices.rest.domain.Car;
 import de.spring.webservices.rest.infrastructure.controller.apidocs.CarControllerDocumentation;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.infrastructure.mapper.CarMapper;
 
 @RestController
 @RequestMapping("/api/cars/")

@@ -16,10 +16,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.tomakehurst.wiremock.common.ClasspathFileSource;
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 
-import de.spring.webservices.domain.Car;
-import de.spring.webservices.infrastructure.dto.CarDto;
-import de.spring.webservices.infrastructure.mapper.CarMapper;
+import de.spring.webservices.rest.domain.Car;
 import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.infrastructure.mapper.CarMapper;
 
 public class CarRestTemplateRepositoryIntegrationTest {
 	

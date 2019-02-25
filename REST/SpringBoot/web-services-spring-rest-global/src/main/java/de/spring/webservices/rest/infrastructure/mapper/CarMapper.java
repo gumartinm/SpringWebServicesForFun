@@ -1,4 +1,4 @@
-package de.spring.webservices.infrastructure.mapper;
+package de.spring.webservices.rest.infrastructure.mapper;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import de.spring.webservices.domain.Car;
-import de.spring.webservices.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.domain.Car;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface CarMapper {

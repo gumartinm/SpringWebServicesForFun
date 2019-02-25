@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import de.spring.webservices.domain.Car;
+import de.spring.webservices.rest.domain.Car;
 import de.spring.webservices.rest.domain.repository.CarRepository;
 import de.spring.webservices.rest.domain.service.impl.BusinessServiceImpl;
 

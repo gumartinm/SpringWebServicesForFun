@@ -2,7 +2,7 @@ package de.spring.webservices.rest.domain.repository;
 
 import java.util.List;
 
-import de.spring.webservices.domain.Car;
+import de.spring.webservices.rest.domain.Car;
 
 public interface CarRepository {
 

@@ -1,4 +1,4 @@
-package de.spring.webservices.infrastructure.dto;
+package de.spring.webservices.rest.infrastructure.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

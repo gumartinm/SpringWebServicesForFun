@@ -24,9 +24,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import de.spring.webservices.domain.Car;
-import de.spring.webservices.infrastructure.dto.CarDto;
-import de.spring.webservices.infrastructure.mapper.CarMapper;
+import de.spring.webservices.rest.domain.Car;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.infrastructure.mapper.CarMapper;
 
 public class CarControllerIntegrationTest {
 	private static final String TEMPLATE = "Car: %s";

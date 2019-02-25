@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import de.spring.webservices.domain.Car;
-import de.spring.webservices.infrastructure.dto.CarDto;
-import de.spring.webservices.infrastructure.mapper.CarMapper;
+import de.spring.webservices.rest.domain.Car;
 import de.spring.webservices.rest.domain.repository.CarRepository;
+import de.spring.webservices.rest.infrastructure.dto.CarDto;
+import de.spring.webservices.rest.infrastructure.mapper.CarMapper;
 
 public class CarRestTemplateRepository implements CarRepository {
 	private static final String ALL_CARS = "/api/cars/";

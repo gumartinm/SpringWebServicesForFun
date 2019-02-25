@@ -1,4 +1,4 @@
-package de.spring.webservices.domain;
+package de.spring.webservices.rest.domain;
 
 import java.util.Objects;
 

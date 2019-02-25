@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.spring.webservices.domain.Car;
+import de.spring.webservices.rest.domain.Car;
 import de.spring.webservices.rest.domain.repository.CarRepository;
 import de.spring.webservices.rest.domain.service.BusinessService;
 
