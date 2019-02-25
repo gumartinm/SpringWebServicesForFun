@@ -20,14 +20,14 @@ public interface CarControllerDocumentation {
         @ApiResponse(code =  404, message ="Specific getCars not found"),
         @ApiResponse(code =  400, message ="Specific getCars invalid input")
     })
-	List<CarDto> cars();
+	List<CarDto> findAll();
 
 	@ApiOperation(value = "Get one car", nickname = "getOneCar", response = CarDto.class)
     @ApiResponses({
         @ApiResponse(code =  404, message ="Specific getCar not found"),
         @ApiResponse(code =  400, message ="Specific getCar invalid input")
     })
-	CarDto car(String specialHeader,
+	CarDto findOne(String specialHeader,
     		@ApiParam(name = "id", value = "Car id", required = true) long id,
     		Map<String, String> params,
     		String[] wheelParams);

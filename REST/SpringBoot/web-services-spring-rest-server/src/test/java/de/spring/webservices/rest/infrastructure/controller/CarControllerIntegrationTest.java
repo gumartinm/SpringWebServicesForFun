@@ -2,6 +2,10 @@ package de.spring.webservices.rest.infrastructure.controller;
 
 import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -9,63 +13,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.ArgumentCaptor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
+import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
+import de.spring.webservices.infrastructure.mapper.CarMapper;
 
-
-/** WHEN USING @RunWith SPRING SEARCHES FOR YOUR main Aplication AND RUNS IT!!!!! **/
-@RunWith(SpringRunner.class)
-@WebMvcTest(CarController.class)
 public class CarControllerIntegrationTest {
-	
-	// For injecting and mocking services which could be used in the Controller under test just use @MockBean and
-	// then you can work with it using the traditional given willReturn statements from Mockito.
-	//@MockBean
-	//private CarService carService;
-	
-	@Inject
-	private WebApplicationContext context;
-	
-	@Inject
-	private ObjectMapper objectMapper;
-	
+	private static final String TEMPLATE = "Car: %s";
+
+	private CarController carController;
 	private MockMvc mockMvc;
+	private CarMapper carMapper;
 	
     @Before
-    public void setup() {        
+	public void setup() {
+		carMapper = mock(CarMapper.class);
+		carController = new CarController(carMapper);
         mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
+		        .standaloneSetup(carController)
                 .build();
-
-            objectMapper
-            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .disable(MapperFeature.DEFAULT_VIEW_INCLUSION)
-            .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
-            .enable(SerializationFeature.INDENT_OUTPUT)
-            .registerModule(new JavaTimeModule());
     }
 
 	@Test
-	public void testWhenGetAllCarsThenRetrieveJsonValues() throws Exception {
+	public void whenFindAllThenRetrieveListOfJsons() throws Exception {
+		ArgumentCaptor<List<Car>> carsArg = ArgumentCaptor.forClass(List.class);
+		List<CarDto> carDtos = new ArrayList<>();
+		carDtos.add(CarDto.builder().id(1L).content(String.format(TEMPLATE, 1)).build());
+		carDtos.add(CarDto.builder().id(2L).content(String.format(TEMPLATE, 2)).build());
+		carDtos.add(CarDto.builder().id(3L).content(String.format(TEMPLATE, 3)).build());
+		given(carMapper.mapToCarDtos(carsArg.capture())).willReturn(carDtos);
+		
 		mockMvc.perform(get("/api/cars/")
 				.accept(MediaType.APPLICATION_JSON_UTF8))
 		
@@ -77,10 +64,17 @@ public class CarControllerIntegrationTest {
 		.andExpect(jsonPath("$[2].content", is("Car: 3")))
 		.andExpect(jsonPath("$[2].id", any(Integer.class)))
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+		
+		List<Car> cars = carsArg.getValue();
+		verify(carMapper, times(1)).mapToCarDtos(cars);
 	}
 	
 	@Test
-	public void testWhenGetOneCarThenRetrieveJsonValue() throws Exception {
+	public void whenFindOneThenRetrieveJson() throws Exception {
+		ArgumentCaptor<Car> carArg = ArgumentCaptor.forClass(Car.class);
+		CarDto carDto = CarDto.builder().id(1L).content(String.format(TEMPLATE, 1)).build();
+		given(carMapper.mapToCarDto(carArg.capture())).willReturn(carDto);
+
 		mockMvc.perform(get("/api/cars/{id}", 1L)
 				.accept(MediaType.APPLICATION_JSON_UTF8))
 	
@@ -88,20 +82,33 @@ public class CarControllerIntegrationTest {
 		.andExpect(jsonPath("id", any(Integer.class)))
 		.andExpect(jsonPath("content", is("Car: 1")))
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+		Car car = carArg.getValue();
+		verify(carMapper, times(1)).mapToCarDto(car);
 	}
 	
 	@Test
-	public void testWhenCreateNewCarThenRetrieveJsonValue() throws Exception {
-		CarDto carDto = CarDto.builder().id(2L).content(String.format("nothing")).build();
+	public void whenCreateThenRetrieveJson() throws Exception {
+		ArgumentCaptor<Car> carArg = ArgumentCaptor.forClass(Car.class);
+		CarDto carDto = CarDto.builder().id(1L).content(String.format(TEMPLATE, 1)).build();
+		given(carMapper.mapToCarDto(carArg.capture())).willReturn(carDto);
+
 		mockMvc.perform(post("/api/cars/")
 				.contentType(MediaType.APPLICATION_JSON_UTF8)
-		        .content(objectMapper.writeValueAsString(carDto))
+		        .content(carDtoAsJson())
 				.accept(MediaType.APPLICATION_JSON_UTF8))
 		
 		.andExpect(status().isCreated())
 		.andExpect(jsonPath("id", any(Integer.class)))
-		.andExpect(jsonPath("content", is("Car: 2")))
-		.andExpect(header().string(HttpHeaders.LOCATION, "/api/cars/2"))
+		        .andExpect(jsonPath("content", is("Car: 1")))
+		        .andExpect(header().string(HttpHeaders.LOCATION, "/api/cars/1"))
 		.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
+		Car car = carArg.getValue();
+		verify(carMapper, times(1)).mapToCarDto(car);
+	}
+
+	private String carDtoAsJson() {
+		return "{\"id\":2, \"content\": \"nothing\"}";
 	}
 }

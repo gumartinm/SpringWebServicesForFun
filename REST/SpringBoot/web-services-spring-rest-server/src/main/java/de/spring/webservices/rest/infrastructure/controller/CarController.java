@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.inject.Inject;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
+import de.spring.webservices.infrastructure.mapper.CarMapper;
 import de.spring.webservices.rest.infrastructure.controller.apidocs.CarControllerDocumentation;
 
 @RestController
@@ -35,25 +37,30 @@ public class CarController implements CarControllerDocumentation {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CarController.class);
     private static final String TEMPLATE = "Car: %s";
     
-    @NotNull
     private final AtomicLong counter = new AtomicLong();
+	private final CarMapper carMapper;
+
+	@Inject
+	public CarController(CarMapper carMapper) {
+		this.carMapper = carMapper;
+	}
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_UTF8_VALUE })
     @ResponseStatus(HttpStatus.OK)
 	@Override
-	public List<CarDto> cars() {
-		final List<CarDto> carDtos = new ArrayList<>();
-		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 1)).build());
-		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 2)).build());
-		carDtos.add(CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 3)).build());
+	public List<CarDto> findAll() {
+		List<Car> cars = new ArrayList<>();
+		cars.add(Car.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 1)).build());
+		cars.add(Car.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 2)).build());
+		cars.add(Car.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, 3)).build());
 
-		return carDtos;
+		return carMapper.mapToCarDtos(cars);
     }
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseStatus(HttpStatus.OK)
 	@Override
-	public CarDto car(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
+	public CarDto findOne(@RequestHeader(value = "MY_HEADER", required = false) String specialHeader,
     		@PathVariable("id") long id,
     		@RequestParam Map<String, String> params,
     		@RequestParam(value = "wheel", required = false) String[] wheelParams) {
@@ -79,13 +86,14 @@ public class CarController implements CarControllerDocumentation {
     	}
     	
         try {
-            Thread.sleep(10000);                 //1000 milliseconds is one second.
+			Thread.sleep(10000);
         } catch(InterruptedException ex) {
             Thread.currentThread().interrupt();
         }
 
 
-		return CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, id)).build();
+		Car car = Car.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, id)).build();
+		return carMapper.mapToCarDto(car);
     }
     
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -96,9 +104,9 @@ public class CarController implements CarControllerDocumentation {
     	HttpHeaders headers = new HttpHeaders();
     	headers.add(HttpHeaders.LOCATION, "/api/cars/" + count);
     	
-		return new ResponseEntity<>(
-		        CarDto.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, count)).build(), headers,
-		        HttpStatus.CREATED);
+		Car newCar = Car.builder().id(counter.incrementAndGet()).content(String.format(TEMPLATE, count)).build();
+		CarDto newCarDto = carMapper.mapToCarDto(newCar);
+		return new ResponseEntity<>(newCarDto, headers, HttpStatus.CREATED);
     }
 
 }
