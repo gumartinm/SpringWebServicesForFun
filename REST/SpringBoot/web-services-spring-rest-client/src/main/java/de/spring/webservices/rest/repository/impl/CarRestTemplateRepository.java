@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.client.service.impl;
+package de.spring.webservices.rest.repository.impl;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -12,19 +12,19 @@ import org.springframework.web.client.RestTemplate;
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.client.service.CarClientService;
+import de.spring.webservices.rest.repository.CarRepository;
 
-public class CarClientServiceImpl implements CarClientService {
+public class CarRestTemplateRepository implements CarRepository {
 	private static final String ALL_CARS = "/api/cars/";
 	private static final String ONE_CAR = "/api/cars/:id";
-	private static final Logger LOGGER = LoggerFactory.getLogger(CarClientServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CarRestTemplateRepository.class);
 
 	private final String apiCarsUrl;
 	private final String apiCarUrl;
 	private final RestTemplate restTemplate;
 	private final CarMapper carMapper;
 	
-	public CarClientServiceImpl(String uriHost, RestTemplate restTemplate, CarMapper carMapper) {
+	public CarRestTemplateRepository(String uriHost, RestTemplate restTemplate, CarMapper carMapper) {
 		this.apiCarsUrl = uriHost.concat(ALL_CARS);
 		this.apiCarUrl = uriHost.concat(ONE_CAR);
 		this.restTemplate = restTemplate;
@@ -33,7 +33,7 @@ public class CarClientServiceImpl implements CarClientService {
 
 	
     @Override
-	public List<Car> doGetCars() {				
+	public List<Car> findAll() {				
 		ResponseEntity<CarDto[]> responseEntity = restTemplate.getForEntity(apiCarsUrl, CarDto[].class);
 		
 		List<CarDto> carDtos = Arrays.asList(responseEntity.getBody());
@@ -41,7 +41,7 @@ public class CarClientServiceImpl implements CarClientService {
 	}
 	
     @Override
-	public Car doGetCar(long id) {				
+	public Car findOne(long id) {				
 		ResponseEntity<CarDto> responseEntity = restTemplate.getForEntity(
 		        apiCarUrl.replace(":id", String.valueOf(id)), CarDto.class);
 		
@@ -49,7 +49,7 @@ public class CarClientServiceImpl implements CarClientService {
 	}
 	
     @Override
-	public Car doNewCar(Car car) {
+	public Car create(Car car) {
 		CarDto carDto = CarDto.builder()
 				.id(car.getId())
 				.content(car.getContent())

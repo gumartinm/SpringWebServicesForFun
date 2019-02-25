@@ -14,17 +14,17 @@ import org.mockito.ArgumentCaptor;
 
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.rest.business.service.impl.BusinessServiceImpl;
-import de.spring.webservices.rest.client.service.CarClientService;
+import de.spring.webservices.rest.repository.CarRepository;
 
 public class BusinessServiceTest {
 
-	private CarClientService carClientService;
+	private CarRepository carRepository;
 	private BusinessService businessService;
 	
     @Before
     public void createTest() {
-    	carClientService = mock(CarClientService.class);
-    	businessService = new BusinessServiceImpl(carClientService);	
+		carRepository = mock(CarRepository.class);
+		businessService = new BusinessServiceImpl(carRepository);
     }
     
 	@Test
@@ -34,11 +34,11 @@ public class BusinessServiceTest {
 		List<Car> expected = new ArrayList<>();
 		expected.add(expectedOne);
 		expected.add(expectedTwo);
-		given(carClientService.doGetCars()).willReturn(expected);
+		given(carRepository.findAll()).willReturn(expected);
 		
 		businessService.doSomethingWithCars();
 		
-		verify(carClientService, times(1)).doGetCars();
+		verify(carRepository, times(1)).findAll();
 	}
     
 	@Test
@@ -46,11 +46,11 @@ public class BusinessServiceTest {
 		Long id = 66L;
 		Car expected = Car.builder().id(66L).content("test").build();
 		
-		given(carClientService.doGetCar(id)).willReturn(expected);
+		given(carRepository.findOne(id)).willReturn(expected);
 		
 		businessService.doSomethingWithCar(id);
 		
-		verify(carClientService, times(1)).doGetCar(id);
+		verify(carRepository, times(1)).findOne(id);
 	}
 	
 	@Test
@@ -58,10 +58,10 @@ public class BusinessServiceTest {
 		Car expected = Car.builder().id(66L).content("test").build();
 		ArgumentCaptor<Car> argCar = ArgumentCaptor.forClass(Car.class);
 		
-		given(carClientService.doNewCar(argCar.capture())).willReturn(expected);
+		given(carRepository.create(argCar.capture())).willReturn(expected);
 		
 		businessService.createsNewCar();
 		
-		verify(carClientService, times(1)).doNewCar(argCar.getValue());
+		verify(carRepository, times(1)).create(argCar.getValue());
 	}
 }

@@ -2,31 +2,26 @@ package de.spring.webservices.rest.business.service.impl;
 
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.rest.business.service.BusinessService;
-import de.spring.webservices.rest.client.service.CarClientService;
+import de.spring.webservices.rest.repository.CarRepository;
 
-@Named("businessService")
 public class BusinessServiceImpl implements BusinessService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessServiceImpl.class);
 
-	private final CarClientService carClientService;
+	private final CarRepository carRepository;
 
-    @Inject
-	public BusinessServiceImpl(CarClientService carClientService) {
-		this.carClientService = carClientService;
+	public BusinessServiceImpl(CarRepository carClientService) {
+		this.carRepository = carClientService;
 	}
 	
 	
 	@Override
 	public void doSomethingWithCars() {
-		List<Car> cars = carClientService.doGetCars();
+		List<Car> cars = carRepository.findAll();
 		LOGGER.info("Retrieved cars");
 		for (Car car : cars) {
 			LOGGER.info("car: " + car.getId());
@@ -36,7 +31,7 @@ public class BusinessServiceImpl implements BusinessService {
 	
 	@Override
 	public void doSomethingWithCar(long id) {		
-		Car car = carClientService.doGetCar(id);
+		Car car = carRepository.findOne(id);
 		LOGGER.info("Retrieved car");
 		LOGGER.info("car: " + car.getId());
 		LOGGER.info(car.getContent());
@@ -49,7 +44,7 @@ public class BusinessServiceImpl implements BusinessService {
 				.content("just_a_test")
 				.build();
 		
-		Car car = carClientService.doNewCar(newCar);
+		Car car = carRepository.create(newCar);
 		LOGGER.info("New car");
 		LOGGER.info("car: " + car.getId());
 		LOGGER.info(car.getContent());

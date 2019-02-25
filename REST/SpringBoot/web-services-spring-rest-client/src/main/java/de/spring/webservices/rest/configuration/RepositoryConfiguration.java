@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.client.service.CarClientService;
-import de.spring.webservices.rest.client.service.impl.CarClientServiceImpl;
+import de.spring.webservices.rest.repository.CarRepository;
+import de.spring.webservices.rest.repository.impl.CarRestTemplateRepository;
 
 @Configuration
 public class RepositoryConfiguration {
@@ -16,8 +16,8 @@ public class RepositoryConfiguration {
 	private String uriHost;
 
 	@Bean
-	public CarClientService carClientService(RestTemplate restTemplate, CarMapper carMapper) {
-		return new CarClientServiceImpl(uriHost, restTemplate, carMapper);
+	public CarRepository carRepository(RestTemplate restTemplate, CarMapper carMapper) {
+		return new CarRestTemplateRepository(uriHost, restTemplate, carMapper);
 	}
 
 	@Bean

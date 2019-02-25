@@ -1,4 +1,4 @@
-package de.spring.webservices.rest.client.service;
+package de.spring.webservices.rest.repository.impl;
 
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.junit.Assert.assertEquals;
@@ -19,9 +19,9 @@ import com.github.tomakehurst.wiremock.junit.WireMockClassRule;
 import de.spring.webservices.domain.Car;
 import de.spring.webservices.infrastructure.dto.CarDto;
 import de.spring.webservices.infrastructure.mapper.CarMapper;
-import de.spring.webservices.rest.client.service.impl.CarClientServiceImpl;
+import de.spring.webservices.rest.repository.CarRepository;
 
-public class CarClientServiceIntegrationTest {
+public class CarRestTemplateRepositoryIntegrationTest {
 	
 	@ClassRule
 	public static WireMockClassRule wireMockRule = new WireMockClassRule(
@@ -29,7 +29,7 @@ public class CarClientServiceIntegrationTest {
 
 	private RestTemplate restTemplate;
 	
-	private CarClientService carClientService;
+	private CarRepository carRepository;
 	private CarMapper carMapper;
 
 	@Before
@@ -37,16 +37,16 @@ public class CarClientServiceIntegrationTest {
 		restTemplate = new RestTemplate();
 		carMapper = CarMapper.INSTANCE;
 		String uriHost = "http://localhost:" + wireMockRule.port();
-		carClientService = new CarClientServiceImpl(uriHost, restTemplate, carMapper);
+		carRepository = new CarRestTemplateRepository(uriHost, restTemplate, carMapper);
 	}
 
 	@Test
-	public void whenGetAllCarsThenRetrieveRequestedCars() throws JsonProcessingException {
+	public void whenFindAllThenRetrieveRequestedCars() throws JsonProcessingException {
 		CarDto expectedOne = CarDto.builder().id(66L).content("test").build();
 		List<CarDto> expected = new ArrayList<>();
 		expected.add(expectedOne);
 
-		List<Car> cars = carClientService.doGetCars();
+		List<Car> cars = carRepository.findAll();
 		
 		assertEquals(1, cars.size());
 		assertEquals(expectedOne.getContent(), cars.get(0).getContent());
@@ -54,11 +54,11 @@ public class CarClientServiceIntegrationTest {
 	}
 	
 	@Test
-	public void whenGetCarByIdThenRetrieveRequestedCar() throws JsonProcessingException {
+	public void whenFindOneThenRetrieveRequestedCar() throws JsonProcessingException {
 		Long id = 66L;
 		CarDto expected = CarDto.builder().id(id).content("test").build();
 
-		Car car = carClientService.doGetCar(id);
+		Car car = carRepository.findOne(id);
 
 		assertNotNull(car);
 		assertEquals(expected.getContent(), car.getContent());
@@ -66,10 +66,10 @@ public class CarClientServiceIntegrationTest {
 	}
 
 	@Test
-	public void whenCreateNewCarThenRetrieveCreatedCar() throws JsonProcessingException {
+	public void whenCreateThenRetrieveCreatedCar() throws JsonProcessingException {
 		Car expected = Car.builder().id(66L).content("test").build();
 
-		Car car = carClientService.doNewCar(expected);
+		Car car = carRepository.create(expected);
 
 		assertNotNull(car);
 		assertEquals(expected.getContent(), car.getContent());
